@@ -4,10 +4,15 @@ import {
   Box,
   Button,
   Container,
+  Drawer,
   IconButton,
-  Menu,
-  MenuItem,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
   Stack,
+  MenuItem,
+  Menu,
   Toolbar,
   Tooltip,
   Typography,
@@ -23,36 +28,33 @@ const navLinks = ["HOME", "SHOP", "ABOUT", "BLOG", "CONTACT"];
 const settings = ["REGISTER", "LOGIN"];
 
 const Navbar = () => {
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
+  const toggleDrawer = (open: boolean) => () => {
+    setDrawerOpen(open);
   };
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
   return (
     <div>
       <AppBar position="static" sx={{ backgroundColor: "white" }}>
         <Container maxWidth="xl">
-          <Toolbar>
+          <Toolbar disableGutters>
             <Typography
               variant="h5"
               sx={{
                 color: "#252b42",
                 fontWeight: 800,
                 letterSpacing: "0.5px",
-                fontSize: "24px",
+                fontSize: { xs: "18px", sm: "24px" },
               }}
             >
               Swiftcart
@@ -63,7 +65,6 @@ const Navbar = () => {
               {navLinks.map((navLink) => (
                 <Button
                   key={navLink}
-                  onClick={handleCloseNavMenu}
                   sx={{
                     my: 2,
                     color: "#737373",
@@ -75,15 +76,19 @@ const Navbar = () => {
                 </Button>
               ))}
             </Box>
-            <Stack spacing={2} direction="row" sx={{ ml: "auto" }}>
+            <Stack spacing={1} direction="row" sx={{ ml: "auto" }}>
               <IconButton>
                 <SearchIcon sx={{ color: "#23a6f0" }} />
               </IconButton>
-              <IconButton sx={{ color: "#23a6f0" }}>
+              <IconButton
+                sx={{ color: "#23a6f0", display: { xs: "none", md: "flex" } }}
+              >
                 <ShoppingCartIcon />
                 <Typography variant="body1">1</Typography>
               </IconButton>
-              <IconButton sx={{ color: "#23a6f0" }}>
+              <IconButton
+                sx={{ color: "#23a6f0", display: { xs: "none", md: "flex" } }}
+              >
                 <FavoriteBorderIcon />
                 <Typography variant="body1">1</Typography>
               </IconButton>
@@ -121,47 +126,72 @@ const Navbar = () => {
                   </MenuItem>
                 ))}
               </Menu>
-              <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-                <IconButton
-                  size="large"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleOpenNavMenu}
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorElNav}
-                  anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  open={Boolean(anchorElNav)}
-                  onClose={handleCloseNavMenu}
-                  sx={{ display: { xs: "block", md: "none" } }}
-                >
-                  {navLinks.map((navLink) => (
-                    <MenuItem key={navLink} onClick={handleCloseNavMenu}>
-                      <Typography
-                        sx={{
-                          textAlign: "center",
-                          fontWeight: 700,
-                          color: "#737373",
-                        }}
-                      >
-                        {navLink}
-                      </Typography>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </Box>
+              <IconButton
+                size="large"
+                aria-label="menu"
+                onClick={toggleDrawer(true)}
+                sx={{ display: { xs: "flex", md: "none" } }}
+              >
+                <MenuIcon />
+              </IconButton>
             </Stack>
           </Toolbar>
         </Container>
       </AppBar>
+      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+        <Box
+          sx={{ width: 300, p: 2 }}
+          role="presentation"
+          onClick={toggleDrawer(false)}
+        >
+          <List>
+            {navLinks.map((navLink) => (
+              <ListItem key={navLink} disablePadding>
+                <ListItemButton>
+                  <ListItemText
+                    primary={navLink}
+                    sx={{
+                      textAlign: "center",
+                      fontWeight: "bold",
+                      color: "#737373",
+                    }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+            <ListItem disablePadding>
+              <ListItemButton
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={1}
+                  sx={{ color: "#23a6f0" }}
+                >
+                  <ShoppingCartIcon />
+                  <Typography variant="body1">1</Typography>
+                </Stack>
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={1}
+                  sx={{ color: "#23a6f0" }}
+                >
+                  <FavoriteBorderIcon />
+                  <Typography variant="body1">1</Typography>
+                </Stack>
+              </ListItemButton>
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
     </div>
   );
 };

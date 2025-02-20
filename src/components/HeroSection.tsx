@@ -1,83 +1,103 @@
-import {
-  Box,
-  Button,
-  Icon,
-  IconButton,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import HeroContent from "./HeroContent";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-
+import { Box, Button } from "@mui/material";
 const HeroSection = () => {
+  const data = [
+    {
+      id: 1,
+      imageUrl: "./src/assets/images/hero.jpeg",
+      season: "WINTER 2025",
+      collection: "NEW COLLECTIONS",
+      tagline:
+        "We know how large objects will act, but things on a small scale.",
+    },
+    {
+      id: 2,
+      imageUrl: "./src/assets/images/heroreborn2.png",
+      season: "SPRING 2025",
+      collection: "ZARA COLLECTIONS",
+      tagline: "Embrace a new and classic look for your next party.",
+    },
+  ];
   return (
-    <Box
-      sx={{
-        width: "100%",
-        height: "100vh",
-        backgroundImage: "url(./src/assets/images/hero.jpeg)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      <Stack
-        sx={{ color: "#ffffff", position: "absolute", top: "40%", left: "15%" }}
-      >
-        <Typography
-          variant="body1"
-          sx={{ fontWeight: 700, fontSize: "16px", letterSpacing: "0.1px" }}
-        >
-          WINTER 2025
-        </Typography>
-        <Typography
-          variant="h3"
-          sx={{
-            fontWeight: 700,
-            fontSize: "58px",
-            letterSpacing: "0.2px",
-            paddingY: "35px",
-          }}
-        >
-          NEW COLLECTION
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{ fontWeight: 500, width: "300px", fontSize: "18px" }}
-        >
-          We know how large objects will act, but things on a small scale.
-        </Typography>
-        <Stack width={150} sx={{ paddingY: "35px" }}>
+    <Carousel
+      autoPlay
+      infiniteLoop
+      showThumbs={false}
+      showStatus={false}
+      renderArrowPrev={(clickHandler, hasPrev) =>
+        hasPrev && (
           <Button
+            onClick={clickHandler}
             sx={{
-              backgroundColor: "#2dc071",
-              borderRadius: 0,
-              fontWeight: 700,
-              fontSize: "17px",
-              boxShadow: "none",
+              position: "absolute",
+              top: "50%",
+              left: { xs: "10px", md: "20px" },
+              zIndex: 2,
+              color: "white",
+              minWidth: "50px",
+              height: "50px",
+              borderRadius: "50%",
             }}
-            size="large"
-            variant="contained"
           >
-            SHOP NOW
+            <ArrowBackIosIcon sx={{ fontSize: "30px" }} />
           </Button>
-        </Stack>
-      </Stack>
-      <Stack direction={"row"} color="white" sx={{ cursor: "pointer" }}>
-        <Typography
+        )
+      }
+      renderArrowNext={(clickHandler, hasNext) =>
+        hasNext && (
+          <Button
+            onClick={clickHandler}
+            sx={{
+              position: "absolute",
+              top: "50%",
+              right: { xs: "10px", md: "20px" },
+              zIndex: 2,
+              color: "white",
+              minWidth: "50px",
+              height: "50px",
+              borderRadius: "50%",
+            }}
+          >
+            <ArrowForwardIosIcon sx={{ fontSize: "30px" }} />
+          </Button>
+        )
+      }
+      renderIndicator={(clickHandler, isSelected, index) => (
+        <Box
+          component="button"
+          key={index}
+          onClick={clickHandler}
           sx={{
-            position: "absolute",
-            top: "58%",
-            left: "20px",
+            width: "50px",
+            height: "10px",
+            margin: "0 3px",
+            backgroundColor: isSelected
+              ? "rgba(255, 255, 255, 1)"
+              : "rgba(255, 255, 255, 0.7)",
+            border: "none",
+            cursor: "pointer",
+            transition: "all 0.3s",
+            position: "relative",
+            bottom: "20px",
+            display: "inline-block",
           }}
-        >
-          <ArrowBackIosIcon sx={{ fontSize: "30px" }} />
-        </Typography>
-        <Typography sx={{ position: "absolute", top: "58%", right: "20px" }}>
-          <ArrowForwardIosIcon sx={{ fontSize: "30px" }} />
-        </Typography>
-      </Stack>
-    </Box>
+        />
+      )}
+    >
+      {data.map((item) => (
+        <HeroContent
+          key={item.id}
+          bgImg={item.imageUrl}
+          season={item.season}
+          collection={item.collection}
+          tagline={item.tagline}
+        />
+      ))}
+    </Carousel>
   );
 };
 

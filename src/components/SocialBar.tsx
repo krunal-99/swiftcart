@@ -15,6 +15,7 @@ const SocialBar = () => {
         color: "#fff",
         boxShadow: 1,
         display: { xs: "none", md: "flex", lg: "flex" },
+        fontFamily: "Montserrat !important",
       }}
     >
       <Toolbar

@@ -1,17 +1,21 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  Container,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
+import CardComponent from "../UI/CardComponent";
+
+const images = [
+  "./src/assets/images/product1.jpeg",
+  "./src/assets/images/product2.jpeg",
+  "./src/assets/images/product3.png",
+  "./src/assets/images/product4.png",
+  "./src/assets/images/product5.png",
+  "./src/assets/images/product6.png",
+  "./src/assets/images/product7.png",
+  "./src/assets/images/product8.png",
+];
 
 const Products = () => {
   return (
-    <Container>
-      <Box sx={{ mt: "100px", textAlign: "center" }}>
+    <Container sx={{ fontFamily: "Montserrat", mt: 10 }}>
+      <Box sx={{ textAlign: "center", mb: 4 }}>
         <Typography variant="h6" color="#737373">
           Featured Products
         </Typography>
@@ -19,7 +23,7 @@ const Products = () => {
           variant="h6"
           color="#252b42"
           sx={{
-            py: "10px",
+            py: 1,
             fontWeight: 700,
             fontSize: "24px",
             letterSpacing: "0.1px",
@@ -28,33 +32,26 @@ const Products = () => {
           BESTSELLER PRODUCTS
         </Typography>
         <Typography variant="body2" color="#737373" sx={{ fontWeight: 700 }}>
-          Here are some of the top quality clothes recommeded for you.
+          Here are some of the top quality clothes recommended for you.
         </Typography>
       </Box>
-      <Card sx={{ maxWidth: "240px" }}>
-        <CardMedia
-          sx={{ height: "430px" }}
-          image="./src/assets/images/product1.jpeg"
-        ></CardMedia>
-        <CardContent sx={{ textAlign: "center", mt: "25px" }}>
-          <Typography
-            variant="h5"
-            color="#252b42"
-            sx={{ fontWeight: 700, lineHeight: "24px" }}
+
+      <Grid container spacing={3} justifyContent="center" alignItems="center">
+        {images.map((image, index) => (
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            key={index}
+            display="flex"
+            justifyContent="center"
           >
-            Graphic Design
-          </Typography>
-          <Typography my="10px">English Department</Typography>
-          <Stack
-            direction="row"
-            sx={{ display: "flex", justifyContent: "center" }}
-          >
-            <Typography>$16.48</Typography>
-            <Typography>$6.48</Typography>
-          </Stack>
-          <Stack></Stack>
-        </CardContent>
-      </Card>
+            <CardComponent key={index} imageUrl={image} />
+          </Grid>
+        ))}
+      </Grid>
     </Container>
   );
 };

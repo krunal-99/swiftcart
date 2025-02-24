@@ -15,14 +15,14 @@ const colors = ["#23a6f0", "#23856d", "#e77c40", "#252b42"];
 
 const CardComponent: React.FC<CardProps> = (props) => {
   return (
-    <Card sx={{ width: "300px", my: "50px" }}>
+    <Card sx={{ width: "300px", my: "50px", cursor: "pointer" }}>
       <CardMedia
         sx={{ height: "430px", objectFit: "cover" }}
         image={props.imageUrl}
       ></CardMedia>
       <CardContent sx={{ textAlign: "center", mt: "25px" }}>
         <Typography
-          variant="h6"
+          variant="body1"
           color="#252b42"
           sx={{ fontWeight: 700, lineHeight: "24px" }}
         >
@@ -36,19 +36,19 @@ const CardComponent: React.FC<CardProps> = (props) => {
             lineHeight: "24px",
             letterSpacing: "0.2px",
           }}
-          variant="h6"
+          variant="body1"
         >
           English Department
         </Typography>
         <Stack
           direction="row"
           spacing={1}
-          sx={{ display: "flex", justifyContent: "center", fontWeight: 700 }}
+          sx={{ display: "flex", justifyContent: "center" }}
         >
-          <Typography color="#bdbdbd" variant="h6">
+          <Typography color="#bdbdbd" variant="h6" fontWeight={700}>
             $16.48
           </Typography>
-          <Typography variant="h6" color="#23856d">
+          <Typography variant="h6" color="#23856d" fontWeight={700}>
             $6.48
           </Typography>
         </Stack>

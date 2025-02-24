@@ -12,6 +12,7 @@ import {
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
+import { NavLink } from "react-router-dom";
 
 const footerLinks = [
   {
@@ -39,10 +40,7 @@ const footerLinks = [
 
 const Footer = () => {
   return (
-    <Container
-      maxWidth="xl"
-      sx={{ backgroundColor: "#fafafa", fontFamily: "Montserrat" }}
-    >
+    <Container maxWidth="xl" sx={{ backgroundColor: "#fafafa" }}>
       <Box
         py="60px"
         maxWidth="80%"
@@ -53,13 +51,41 @@ const Footer = () => {
         flexDirection={{ xs: "column", sm: "row" }}
         gap={{ xs: 3 }}
       >
-        <Typography color="#252b42" fontWeight={700} fontSize="24px">
+        <Typography
+          color="#252b42"
+          fontWeight={700}
+          fontSize="24px"
+          sx={{ cursor: "pointer" }}
+        >
           Swiftcart
         </Typography>
-        <Stack color="#23a6f0" spacing={2} direction="row">
-          <FacebookIcon />
-          <InstagramIcon />
-          <XIcon />
+        <Stack
+          color="#23a6f0"
+          spacing={2}
+          direction="row"
+          sx={{ cursor: "pointer" }}
+        >
+          <NavLink
+            to="https://www.facebook.com/"
+            target="_blank"
+            style={{ listStyle: "none", color: "white" }}
+          >
+            <FacebookIcon />
+          </NavLink>
+          <NavLink
+            to="https://www.instagram.com/"
+            target="_blank"
+            style={{ listStyle: "none", color: "white" }}
+          >
+            <InstagramIcon />
+          </NavLink>
+          <NavLink
+            to="https://www.x.com/"
+            target="_blank"
+            style={{ listStyle: "none", color: "white" }}
+          >
+            <XIcon />
+          </NavLink>
         </Stack>
       </Box>
       <Box>
@@ -74,7 +100,7 @@ const Footer = () => {
               <Grid item xs={12} sm={6} md={3} lg={2} key={index}>
                 <Typography
                   variant="h6"
-                  sx={{ fontWeight: 700, color: "#252b42" }}
+                  sx={{ fontWeight: 700, color: "#252b42", cursor: "pointer" }}
                 >
                   {section.title}
                 </Typography>
@@ -88,6 +114,7 @@ const Footer = () => {
                         fontSize: 14,
                         p: 0,
                         py: 0.5,
+                        cursor: "pointer",
                       }}
                     >
                       {link}

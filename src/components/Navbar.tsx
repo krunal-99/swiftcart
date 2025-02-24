@@ -22,6 +22,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Person2Icon from "@mui/icons-material/Person2";
+import { NavLink } from "react-router-dom";
 import { useState } from "react";
 
 const navLinks = ["HOME", "SHOP", "ABOUT", "BLOG", "CONTACT"];
@@ -45,10 +46,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <AppBar
-        position="static"
-        sx={{ backgroundColor: "white", fontFamily: "Montserrat !important" }}
-      >
+      <AppBar position="static" sx={{ backgroundColor: "white" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -58,6 +56,7 @@ const Navbar = () => {
                 fontWeight: 800,
                 letterSpacing: "0.5px",
                 fontSize: { xs: "18px", sm: "24px" },
+                cursor: "pointer",
               }}
             >
               Swiftcart
@@ -66,17 +65,22 @@ const Navbar = () => {
               sx={{ ml: 10, flexGrow: 1, display: { xs: "none", md: "flex" } }}
             >
               {navLinks.map((navLink) => (
-                <Button
+                <NavLink
                   key={navLink}
-                  sx={{
-                    my: 2,
-                    color: "#737373",
-                    display: "block",
-                    fontWeight: 700,
-                  }}
+                  style={{ textDecoration: "none" }}
+                  to={navLink === "HOME" ? "/" : `${navLink.toLowerCase()}`}
                 >
-                  {navLink}
-                </Button>
+                  <Button
+                    sx={{
+                      my: 2,
+                      color: "#737373",
+                      display: "block",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {navLink}
+                  </Button>
+                </NavLink>
               ))}
             </Box>
             <Stack spacing={1} direction="row" sx={{ ml: "auto" }}>

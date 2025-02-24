@@ -49,7 +49,7 @@ const posts = [
 
 const FeaturedPosts: React.FC = () => {
   return (
-    <Container sx={{ py: 5, textAlign: "center", fontFamily: "Montserrat" }}>
+    <Container sx={{ py: 5, textAlign: "center" }}>
       <Typography variant="body2" color="#23a6f0" fontWeight={700}>
         Practice Advice
       </Typography>
@@ -73,16 +73,10 @@ const FeaturedPosts: React.FC = () => {
         Classic physics: Newton mechanics
       </Typography>
 
-      <Grid
-        container
-        fontFamily="Montserrat"
-        spacing={3}
-        justifyContent="center"
-        sx={{ mt: 4 }}
-      >
+      <Grid container spacing={3} justifyContent="center" sx={{ mt: 4 }}>
         {posts.map((post) => (
           <Grid item xs={12} sm={6} md={4} key={post.id}>
-            <Card sx={{ boxShadow: 3, textAlign: "left" }}>
+            <Card sx={{ boxShadow: 3, textAlign: "left", cursor: "pointer" }}>
               <Box sx={{ position: "relative" }}>
                 <CardMedia
                   component="img"

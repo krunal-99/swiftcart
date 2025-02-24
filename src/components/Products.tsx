@@ -14,7 +14,7 @@ const images = [
 
 const Products = () => {
   return (
-    <Container sx={{ fontFamily: "Montserrat", mt: 10 }}>
+    <Container sx={{ mt: 10 }}>
       <Box sx={{ textAlign: "center", mb: 4 }}>
         <Typography variant="h6" color="#737373">
           Featured Products

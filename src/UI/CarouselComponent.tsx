@@ -105,8 +105,8 @@ const CarouselComponent: React.FC<CarouselComponentProps> = (props) => {
           >
             <Typography
               variant="body1"
+              fontWeight={700}
               sx={{
-                fontWeight: 700,
                 fontSize: { xs: "14px", sm: "16px", md: "18px" },
                 letterSpacing: "0.1px",
               }}

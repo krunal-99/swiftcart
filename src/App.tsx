@@ -6,6 +6,8 @@ import { RouterProvider } from "react-router-dom";
 import Contact from "./pages/Contact";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import Register from "./components/Register";
+import Cart from "./pages/Cart";
 
 const theme = createTheme({
   typography: {
@@ -26,6 +28,14 @@ function App() {
         {
           path: "/contact",
           element: <Contact />,
+        },
+        {
+          path: "/register",
+          element: <Register />,
+        },
+        {
+          path: "/cart",
+          element: <Cart />,
         },
       ],
     },

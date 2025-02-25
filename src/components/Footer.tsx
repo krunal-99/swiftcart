@@ -51,38 +51,35 @@ const Footer = () => {
         flexDirection={{ xs: "column", sm: "row" }}
         gap={{ xs: 3 }}
       >
-        <Typography
-          color="#252b42"
-          fontWeight={700}
-          fontSize="24px"
-          sx={{ cursor: "pointer" }}
-        >
-          Swiftcart
-        </Typography>
-        <Stack
-          color="#23a6f0"
-          spacing={2}
-          direction="row"
-          sx={{ cursor: "pointer" }}
-        >
+        <NavLink to="/" style={{ listStyle: "none", color: "white" }}>
+          <Typography
+            color="#252b42"
+            fontWeight={700}
+            fontSize="24px"
+            sx={{ cursor: "pointer" }}
+          >
+            Swiftcart
+          </Typography>
+        </NavLink>
+        <Stack spacing={2} direction="row" sx={{ cursor: "pointer" }}>
           <NavLink
             to="https://www.facebook.com/"
             target="_blank"
-            style={{ listStyle: "none", color: "white" }}
+            style={{ listStyle: "none", color: "#23a6f0" }}
           >
             <FacebookIcon />
           </NavLink>
           <NavLink
             to="https://www.instagram.com/"
             target="_blank"
-            style={{ listStyle: "none", color: "white" }}
+            style={{ listStyle: "none", color: "#23a6f0" }}
           >
             <InstagramIcon />
           </NavLink>
           <NavLink
             to="https://www.x.com/"
             target="_blank"
-            style={{ listStyle: "none", color: "white" }}
+            style={{ listStyle: "none", color: "#23a6f0" }}
           >
             <XIcon />
           </NavLink>

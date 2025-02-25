@@ -17,6 +17,8 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -27,6 +29,14 @@ import { useState } from "react";
 
 const navLinks = ["HOME", "SHOP", "ABOUT", "BLOG", "CONTACT"];
 const settings = ["REGISTER", "LOGIN"];
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "flex-end",
+  padding: theme.spacing(0, 1),
+  ...theme.mixins.toolbar,
+}));
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -40,6 +50,10 @@ const Navbar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -49,18 +63,21 @@ const Navbar = () => {
       <AppBar position="static" sx={{ backgroundColor: "white" }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <Typography
-              variant="h5"
-              sx={{
-                color: "#252b42",
-                fontWeight: 800,
-                letterSpacing: "0.5px",
-                fontSize: { xs: "18px", sm: "24px" },
-                cursor: "pointer",
-              }}
-            >
-              Swiftcart
-            </Typography>
+            <NavLink to="/" style={{ listStyle: "none", color: "white" }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  color: "#252b42",
+                  fontWeight: 800,
+                  letterSpacing: "0.5px",
+                  fontSize: { xs: "18px", sm: "24px" },
+                  cursor: "pointer",
+                }}
+              >
+                Swiftcart
+              </Typography>
+            </NavLink>
+
             <Box
               sx={{ ml: 10, flexGrow: 1, display: { xs: "none", md: "flex" } }}
             >
@@ -87,12 +104,14 @@ const Navbar = () => {
               <IconButton>
                 <SearchIcon sx={{ color: "#23a6f0" }} />
               </IconButton>
-              <IconButton
-                sx={{ color: "#23a6f0", display: { xs: "none", md: "flex" } }}
-              >
-                <ShoppingCartIcon />
-                <Typography variant="body1">1</Typography>
-              </IconButton>
+              <NavLink to="/cart" style={{ textDecoration: "none" }}>
+                <IconButton
+                  sx={{ color: "#23a6f0", display: { xs: "none", md: "flex" } }}
+                >
+                  <ShoppingCartIcon />
+                  <Typography variant="body1">1</Typography>
+                </IconButton>
+              </NavLink>
               <IconButton
                 sx={{ color: "#23a6f0", display: { xs: "none", md: "flex" } }}
               >
@@ -121,15 +140,21 @@ const Navbar = () => {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography
-                      sx={{
-                        textAlign: "center",
-                        color: "#737373",
-                        fontWeight: 700,
-                      }}
+                    <NavLink
+                      key={setting}
+                      style={{ textDecoration: "none", textAlign: "center" }}
+                      to={`${setting.toLowerCase()}`}
                     >
-                      {setting}
-                    </Typography>
+                      <Typography
+                        sx={{
+                          textAlign: "center",
+                          color: "#737373",
+                          fontWeight: 700,
+                        }}
+                      >
+                        {setting}
+                      </Typography>
+                    </NavLink>
                   </MenuItem>
                 ))}
               </Menu>
@@ -146,6 +171,19 @@ const Navbar = () => {
         </Container>
       </AppBar>
       <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose} sx={{ position: "relative" }}>
+            <ChevronRightIcon
+              sx={{
+                width: "40px",
+                height: "40px",
+                position: "absolute",
+                right: "230px",
+              }}
+            />
+          </IconButton>
+        </DrawerHeader>
+
         <Box
           sx={{ width: 300, p: 2 }}
           role="presentation"
@@ -154,31 +192,43 @@ const Navbar = () => {
           <List>
             {navLinks.map((navLink) => (
               <ListItem key={navLink} disablePadding>
-                <ListItemButton>
-                  <ListItemText
-                    primary={navLink}
-                    sx={{
-                      textAlign: "center",
-                      fontWeight: "bold",
-                      color: "#737373",
-                    }}
-                  />
-                </ListItemButton>
+                <NavLink
+                  key={navLink}
+                  style={{
+                    textDecoration: "none",
+                    width: "90%",
+                    margin: "auto",
+                  }}
+                  to={navLink === "HOME" ? "/" : `${navLink.toLowerCase()}`}
+                >
+                  <ListItemButton>
+                    <ListItemText
+                      primary={navLink}
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: "bold",
+                        color: "#737373",
+                      }}
+                    />
+                  </ListItemButton>
+                </NavLink>
               </ListItem>
             ))}
             <ListItem disablePadding>
               <ListItemButton
                 sx={{ display: "flex", justifyContent: "center" }}
               >
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  spacing={1}
-                  sx={{ color: "#23a6f0" }}
-                >
-                  <ShoppingCartIcon />
-                  <Typography variant="body1">1</Typography>
-                </Stack>
+                <NavLink to="/cart" style={{ textDecoration: "none" }}>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={1}
+                    sx={{ color: "#23a6f0" }}
+                  >
+                    <ShoppingCartIcon />
+                    <Typography variant="body1">1</Typography>
+                  </Stack>
+                </NavLink>
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>

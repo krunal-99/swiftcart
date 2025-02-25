@@ -137,7 +137,7 @@ const CarouselComponent: React.FC<CarouselComponentProps> = (props) => {
               {item.tagline}
             </Typography>
             <Stack
-              direction="row"
+              direction={{ xs: "column", sm: "row" }}
               spacing={3}
               sx={{
                 py: "25px",

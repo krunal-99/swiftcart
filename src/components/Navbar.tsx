@@ -20,12 +20,12 @@ import {
 import { styled } from "@mui/material/styles";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Person2Icon from "@mui/icons-material/Person2";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
+import SearchBar from "./SearchBar";
 
 const navLinks = ["HOME", "SHOP", "ABOUT", "BLOG", "CONTACT"];
 const settings = ["REGISTER", "LOGIN"];
@@ -128,9 +128,7 @@ const Navbar = () => {
               ))}
             </Box>
             <Stack spacing={1} direction="row" sx={{ ml: "auto" }}>
-              <IconButton>
-                <SearchIcon sx={{ color: "#23a6f0" }} />
-              </IconButton>
+              <SearchBar />
               <NavLink to="/cart" style={{ textDecoration: "none" }}>
                 <IconButton
                   sx={{ color: "#23a6f0", display: { xs: "none", md: "flex" } }}

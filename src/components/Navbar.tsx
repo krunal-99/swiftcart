@@ -25,7 +25,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Person2Icon from "@mui/icons-material/Person2";
 import { NavLink } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const navLinks = ["HOME", "SHOP", "ABOUT", "BLOG", "CONTACT"];
 const settings = ["REGISTER", "LOGIN"];
@@ -41,10 +41,28 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [isFixed, setIsFixed] = useState(false);
 
   const toggleDrawer = (open: boolean) => () => {
     setDrawerOpen(open);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+      setScrollPosition(currentScroll);
+
+      if (currentScroll > 65) {
+        setIsFixed(true);
+      } else {
+        setIsFixed(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -60,7 +78,16 @@ const Navbar = () => {
 
   return (
     <div>
-      <AppBar position="static" sx={{ backgroundColor: "white" }}>
+      <AppBar
+        sx={{
+          backgroundColor: "white",
+          top: { xs: 0, md: isFixed ? "0px" : "65px" },
+          position: isFixed ? "fixed" : "absolute",
+          width: "100%",
+          boxShadow: isFixed ? "0px 2px 10px rgba(0,0,0,0.1)" : "none",
+          zIndex: 1000,
+        }}
+      >
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <NavLink to="/" style={{ listStyle: "none", color: "white" }}>
@@ -118,7 +145,7 @@ const Navbar = () => {
                 <FavoriteBorderIcon />
                 <Typography variant="body1">1</Typography>
               </IconButton>
-              <Tooltip title="Open Settings">
+              <Tooltip title="User Profile">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar sx={{ bgcolor: "#23a6f0" }}>
                     <Person2Icon />

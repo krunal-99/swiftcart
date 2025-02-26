@@ -18,6 +18,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import ReplyAllIcon from "@mui/icons-material/ReplyAll";
+import { useEffect } from "react";
 
 const createItem = (
   imageUrl: string,
@@ -42,8 +43,11 @@ const cartItems = [
 ];
 
 const Cart = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
-    <Box textAlign="center" my={5} px={2}>
+    <Box textAlign="center" mb={5} mt="100px" px={2}>
       <Typography
         variant="h4"
         fontWeight={700}
@@ -51,7 +55,6 @@ const Cart = () => {
       >
         Shopping Cart
       </Typography>
-
       <TableContainer
         component={Paper}
         sx={{

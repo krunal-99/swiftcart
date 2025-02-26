@@ -9,6 +9,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Register from "./components/Register";
 import Cart from "./pages/Cart";
 import About from "./pages/About";
+import ProductDetail from "./pages/ProductDetail";
 
 const theme = createTheme({
   typography: {
@@ -41,6 +42,10 @@ function App() {
         {
           path: "/about",
           element: <About />,
+        },
+        {
+          path: "/product",
+          element: <ProductDetail />,
         },
       ],
     },

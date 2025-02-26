@@ -6,6 +6,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { NavLink } from "react-router-dom";
 
 interface CardProps {
   imageUrl: string;
@@ -16,60 +17,65 @@ const colors = ["#23a6f0", "#23856d", "#e77c40", "#252b42"];
 const CardComponent: React.FC<CardProps> = (props) => {
   return (
     <Card sx={{ width: "300px", my: "50px", cursor: "pointer" }}>
-      <CardMedia
-        sx={{ height: "430px", objectFit: "cover" }}
-        image={props.imageUrl}
-      ></CardMedia>
-      <CardContent sx={{ textAlign: "center", mt: "25px" }}>
-        <Typography
-          variant="body1"
-          color="#252b42"
-          sx={{ fontWeight: 700, lineHeight: "24px" }}
-        >
-          Graphic Design
-        </Typography>
-        <Typography
-          my="10px"
-          color="#737373"
-          sx={{
-            fontWeight: 700,
-            lineHeight: "24px",
-            letterSpacing: "0.2px",
-          }}
-          variant="body1"
-        >
-          English Department
-        </Typography>
-        <Stack
-          direction="row"
-          spacing={1}
-          sx={{ display: "flex", justifyContent: "center" }}
-        >
-          <Typography color="#bdbdbd" variant="h6" fontWeight={700}>
-            $16.48
+      <NavLink
+        to="/product"
+        style={{ listStyle: "none", textDecoration: "none" }}
+      >
+        <CardMedia
+          sx={{ height: "430px", objectFit: "cover" }}
+          image={props.imageUrl}
+        ></CardMedia>
+        <CardContent sx={{ textAlign: "center", mt: "25px" }}>
+          <Typography
+            variant="body1"
+            color="#252b42"
+            sx={{ fontWeight: 700, lineHeight: "24px" }}
+          >
+            Graphic Design
           </Typography>
-          <Typography variant="h6" color="#23856d" fontWeight={700}>
-            $6.48
+          <Typography
+            my="10px"
+            color="#737373"
+            sx={{
+              fontWeight: 700,
+              lineHeight: "24px",
+              letterSpacing: "0.2px",
+            }}
+            variant="body1"
+          >
+            English Department
           </Typography>
-        </Stack>
-        <Stack
-          spacing={1}
-          direction="row"
-          pt="10px"
-          sx={{ display: "flex", justifyContent: "center" }}
-        >
-          {colors.map((color) => (
-            <Box
-              width={20}
-              alignSelf="center"
-              height={20}
-              borderRadius="50%"
-              key={color}
-              sx={{ backgroundColor: color }}
-            />
-          ))}
-        </Stack>
-      </CardContent>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Typography color="#bdbdbd" variant="h6" fontWeight={700}>
+              $16.48
+            </Typography>
+            <Typography variant="h6" color="#23856d" fontWeight={700}>
+              $6.48
+            </Typography>
+          </Stack>
+          <Stack
+            spacing={1}
+            direction="row"
+            pt="10px"
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            {colors.map((color) => (
+              <Box
+                width={20}
+                alignSelf="center"
+                height={20}
+                borderRadius="50%"
+                key={color}
+                sx={{ backgroundColor: color }}
+              />
+            ))}
+          </Stack>
+        </CardContent>
+      </NavLink>
     </Card>
   );
 };

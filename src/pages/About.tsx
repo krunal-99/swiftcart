@@ -14,19 +14,13 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { NavLink } from "react-router-dom";
 import Contact from "./Contact";
+import Companies from "../components/Companies";
+import { useEffect } from "react";
 const usersInfo = [
   { number: "15K", tag: "Happy Customers" },
   { number: "150K", tag: "Monthly Visitors" },
   { number: "15", tag: "Countries Worldwide" },
   { number: "100+", tag: "Top Partners" },
-];
-const companies = [
-  "./src/assets/images/company1.png",
-  "./src/assets/images/company2.png",
-  "./src/assets/images/company3.png",
-  "./src/assets/images/company4.png",
-  "./src/assets/images/company5.png",
-  "./src/assets/images/company6.png",
 ];
 const team = [
   {
@@ -46,8 +40,11 @@ const team = [
   },
 ];
 const About = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
-    <Box>
+    <Box mt={{ xs: "50px", md: 0 }}>
       <Box
         display="flex"
         flexDirection={{ xs: "column", md: "row" }}
@@ -105,8 +102,9 @@ const About = () => {
       </Box>
       <Box>
         <Container sx={{ display: "flex", mx: "auto", flexWrap: "wrap" }}>
-          {usersInfo.map((info) => (
+          {usersInfo.map((info, idx) => (
             <Stack
+              key={idx}
               width={{ xs: "600px", sm: "40%", md: "20%" }}
               marginLeft="30px"
               textAlign="center"
@@ -151,8 +149,8 @@ const About = () => {
           </Typography>
         </Stack>
         <Grid2 container my="75px" gap={3} justifyContent="center">
-          {team.map((member) => (
-            <Card sx={{ maxWidth: 325 }}>
+          {team.map((member, idx) => (
+            <Card sx={{ maxWidth: 325 }} key={idx}>
               <CardMedia
                 component="img"
                 height="230px"
@@ -202,45 +200,7 @@ const About = () => {
           ))}
         </Grid2>
       </Container>
-      <Container
-        maxWidth="xl"
-        sx={{ backgroundColor: "#fafafa", textAlign: "center", pt: "80px" }}
-      >
-        <Stack>
-          <Typography color="#252b42" fontWeight={700} variant="h4">
-            Big Companies Are Here
-          </Typography>
-          <Typography
-            variant="body1"
-            color="#737373"
-            fontWeight={500}
-            width={{ xs: "80%", md: "600px" }}
-            margin="auto"
-            py="30px"
-          >
-            Trusted by top companies across industries to create innovative
-            solutions. Transforming ideas into reality with expertise, passion,
-            and excellence.
-          </Typography>
-        </Stack>
-        <Stack
-          direction="row"
-          justifyContent="center"
-          pb="100px"
-          display="flex"
-          flexWrap="wrap"
-        >
-          {companies.map((company) => (
-            <Box
-              component="img"
-              src={company}
-              height={50}
-              width={150}
-              margin={{ xs: "30px", md: "20px" }}
-            />
-          ))}
-        </Stack>
-      </Container>
+      <Companies />
       <Contact />
     </Box>
   );

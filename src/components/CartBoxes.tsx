@@ -1,6 +1,7 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import ReplyAllIcon from "@mui/icons-material/ReplyAll";
+import { NavLink } from "react-router-dom";
 
 const CartBoxes = () => {
   return (
@@ -50,7 +51,12 @@ const CartBoxes = () => {
         my="20px"
       >
         <Button variant="outlined" startIcon={<ReplyAllIcon />}>
-          Continue Shopping
+          <NavLink
+            to="/shop"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            Continue Shopping
+          </NavLink>
         </Button>
         <Button
           variant="contained"

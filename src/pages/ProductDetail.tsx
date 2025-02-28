@@ -1,9 +1,9 @@
 import { Box } from "@mui/material";
-import Companies from "../components/Companies";
 import { useEffect } from "react";
 import ProductHero from "../components/ProductHero";
 import ProductDetails from "../components/ProductDetails";
 import BestProducts from "../components/BestProducts";
+import CompanyLogos from "../components/CompanyLogos";
 
 const ProductDetail = () => {
   useEffect(() => {
@@ -14,7 +14,7 @@ const ProductDetail = () => {
       <ProductHero />
       <ProductDetails />
       <BestProducts />
-      <Companies />
+      <CompanyLogos />
     </Box>
   );
 };

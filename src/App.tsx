@@ -6,10 +6,12 @@ import { RouterProvider } from "react-router-dom";
 import Contact from "./pages/Contact";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import Register from "./components/Register";
+import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import About from "./pages/About";
 import ProductDetail from "./pages/ProductDetail";
+import Login from "./pages/Login";
+import Shop from "./pages/Shop";
 
 const theme = createTheme({
   typography: {
@@ -36,6 +38,10 @@ function App() {
           element: <Register />,
         },
         {
+          path: "/login",
+          element: <Login />,
+        },
+        {
           path: "/cart",
           element: <Cart />,
         },
@@ -47,6 +53,7 @@ function App() {
           path: "/product",
           element: <ProductDetail />,
         },
+        { path: "/shop", element: <Shop /> },
       ],
     },
   ]);

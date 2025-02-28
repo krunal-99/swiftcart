@@ -8,22 +8,30 @@ import {
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
-interface CardProps {
+interface Product {
+  id: number;
+  title: string;
+  department: string;
+  originalPrice: number;
+  salePrice: number;
   imageUrl: string;
+  colors: string[];
 }
 
-const colors = ["#23a6f0", "#23856d", "#e77c40", "#252b42"];
+interface ProductCardProps {
+  product: Product;
+}
 
-const CardComponent: React.FC<CardProps> = (props) => {
+const CardComponent: React.FC<ProductCardProps> = (props) => {
   return (
-    <Card sx={{ width: "300px", my: "50px", cursor: "pointer" }}>
+    <Card sx={{ width: "300px", mt: "20px", mb: "40px", cursor: "pointer" }}>
       <NavLink
         to="/product"
         style={{ listStyle: "none", textDecoration: "none" }}
       >
         <CardMedia
           sx={{ height: "430px", objectFit: "cover" }}
-          image={props.imageUrl}
+          image={props.product?.imageUrl}
         ></CardMedia>
         <CardContent sx={{ textAlign: "center", mt: "25px" }}>
           <Typography
@@ -31,7 +39,7 @@ const CardComponent: React.FC<CardProps> = (props) => {
             color="#252b42"
             sx={{ fontWeight: 700, lineHeight: "24px" }}
           >
-            Graphic Design
+            {props.product?.title}
           </Typography>
           <Typography
             my="10px"
@@ -43,7 +51,7 @@ const CardComponent: React.FC<CardProps> = (props) => {
             }}
             variant="body1"
           >
-            English Department
+            {props.product?.department}
           </Typography>
           <Stack
             direction="row"
@@ -51,10 +59,10 @@ const CardComponent: React.FC<CardProps> = (props) => {
             sx={{ display: "flex", justifyContent: "center" }}
           >
             <Typography color="#bdbdbd" variant="h6" fontWeight={700}>
-              $16.48
+              ${props.product?.originalPrice}
             </Typography>
             <Typography variant="h6" color="#23856d" fontWeight={700}>
-              $6.48
+              ${props.product?.salePrice}
             </Typography>
           </Stack>
           <Stack
@@ -63,7 +71,7 @@ const CardComponent: React.FC<CardProps> = (props) => {
             pt="10px"
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            {colors.map((color) => (
+            {props.product?.colors.map((color) => (
               <Box
                 width={20}
                 alignSelf="center"

@@ -21,13 +21,12 @@ import { styled } from "@mui/material/styles";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Person2Icon from "@mui/icons-material/Person2";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 
-const navLinks = ["HOME", "SHOP", "ABOUT", "BLOG", "CONTACT"];
+const navLinks = ["HOME", "SHOP", "ABOUT", "CONTACT"];
 const settings = ["REGISTER", "LOGIN"];
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -137,12 +136,6 @@ const Navbar = () => {
                   <Typography variant="body1">1</Typography>
                 </IconButton>
               </NavLink>
-              <IconButton
-                sx={{ color: "#23a6f0", display: { xs: "none", md: "flex" } }}
-              >
-                <FavoriteBorderIcon />
-                <Typography variant="body1">1</Typography>
-              </IconButton>
               <Tooltip title="User Profile">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar sx={{ bgcolor: "#23a6f0" }}>
@@ -254,21 +247,6 @@ const Navbar = () => {
                     <Typography variant="body1">1</Typography>
                   </Stack>
                 </NavLink>
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  spacing={1}
-                  sx={{ color: "#23a6f0" }}
-                >
-                  <FavoriteBorderIcon />
-                  <Typography variant="body1">1</Typography>
-                </Stack>
               </ListItemButton>
             </ListItem>
           </List>

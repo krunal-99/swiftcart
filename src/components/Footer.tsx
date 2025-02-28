@@ -40,7 +40,7 @@ const footerLinks = [
 
 const Footer = () => {
   return (
-    <Container maxWidth="xl" sx={{ backgroundColor: "#fafafa" }}>
+    <Box sx={{ backgroundColor: "#fafafa" }}>
       <Box
         py="60px"
         maxWidth="80%"
@@ -177,7 +177,7 @@ const Footer = () => {
           </Typography>
         </Box>
       </Box>
-    </Container>
+    </Box>
   );
 };
 

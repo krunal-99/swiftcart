@@ -1,13 +1,5 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
-
-const companies = [
-  "./src/assets/images/company1.png",
-  "./src/assets/images/company2.png",
-  "./src/assets/images/company3.png",
-  "./src/assets/images/company4.png",
-  "./src/assets/images/company5.png",
-  "./src/assets/images/company6.png",
-];
+import { Container, Stack, Typography } from "@mui/material";
+import CompanyLogos from "./CompanyLogos";
 
 const Companies = () => {
   return (
@@ -33,24 +25,7 @@ const Companies = () => {
             and excellence.
           </Typography>
         </Stack>
-        <Stack
-          direction="row"
-          justifyContent="center"
-          pb="100px"
-          display="flex"
-          flexWrap="wrap"
-        >
-          {companies.map((company, idx) => (
-            <Box
-              component="img"
-              key={idx}
-              src={company}
-              height={50}
-              width={150}
-              margin={{ xs: "30px", md: "20px" }}
-            />
-          ))}
-        </Stack>
+        <CompanyLogos />
       </Container>
     </div>
   );

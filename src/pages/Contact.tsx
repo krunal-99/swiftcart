@@ -1,12 +1,11 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
 import { useEffect } from "react";
-import ContactComponent from "../components/ContactComponent";
+import ContactForm from "../components/ContactForm";
 
 const Contact = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  return <ContactComponent />;
+  return <ContactForm />;
 };
 
 export default Contact;

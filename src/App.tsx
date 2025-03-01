@@ -12,6 +12,7 @@ import About from "./pages/About";
 import ProductDetail from "./pages/ProductDetail";
 import Login from "./pages/Login";
 import Shop from "./pages/Shop";
+import ErrorPage from "./components/ErrorPage";
 
 const theme = createTheme({
   typography: {
@@ -24,6 +25,7 @@ function App() {
     {
       path: "/",
       element: <AppLayout />,
+      errorElement: <ErrorPage />,
       children: [
         {
           path: "/",

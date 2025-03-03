@@ -51,7 +51,6 @@ const ErrorPage: React.FC = () => {
         >
           404
         </Typography>
-
         <Typography
           variant={isMobile ? "h4" : "h3"}
           component="h2"

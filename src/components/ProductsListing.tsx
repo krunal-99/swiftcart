@@ -11,109 +11,9 @@ import {
 import FilterSidebar from "./FilterSideBar";
 import ShopHero from "./ShopHero";
 import CardComponent from "../UI/CardComponent";
-interface Product {
-  id: number;
-  title: string;
-  department: string;
-  originalPrice: number;
-  salePrice: number;
-  imageUrl: string;
-  colors: string[];
-}
-const products: Product[] = [
-  {
-    id: 1,
-    title: "Wool Blend Sweater",
-    department: "English Department",
-    originalPrice: 89.99,
-    salePrice: 59.99,
-    imageUrl:
-      "https://images.unsplash.com/photo-1580331451062-99ff652288d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-    colors: ["#33A0FF", "#2DD06F", "#F52B70", "#FFC107"],
-  },
-  {
-    id: 2,
-    title: "Casual Denim Jacket",
-    department: "English Department",
-    originalPrice: 129.99,
-    salePrice: 79.99,
-    imageUrl:
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-    colors: ["#33A0FF", "#2DD06F", "#F52B70", "#FFC107"],
-  },
-  {
-    id: 3,
-    title: "Slim Fit Chinos",
-    department: "English Department",
-    originalPrice: 69.99,
-    salePrice: 49.99,
-    imageUrl:
-      "https://images.unsplash.com/photo-1607345366928-199ea26cfe3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-    colors: ["#33A0FF", "#2DD06F", "#F52B70", "#FFC107"],
-  },
-  {
-    id: 4,
-    title: "Linen Button-Up Shirt",
-    department: "English Department",
-    originalPrice: 79.99,
-    salePrice: 59.99,
-    imageUrl:
-      "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-    colors: ["#33A0FF", "#2DD06F", "#F52B70", "#FFC107"],
-  },
-  {
-    id: 5,
-    title: "Casual Oxford Shirt",
-    department: "English Department",
-    originalPrice: 65.99,
-    salePrice: 45.99,
-    imageUrl:
-      "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-    colors: ["#33A0FF", "#2DD06F", "#F52B70", "#FFC107"],
-  },
-  {
-    id: 6,
-    title: "Printed Summer Shirt",
-    department: "English Department",
-    originalPrice: 59.99,
-    salePrice: 39.99,
-    imageUrl:
-      "https://images.unsplash.com/photo-1551163943-3f6a855d1153?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-    colors: ["#33A0FF", "#2DD06F", "#F52B70", "#FFC107"],
-  },
-  {
-    id: 7,
-    title: "Slim Fit Blazer",
-    department: "Formal Collection",
-    originalPrice: 199.99,
-    salePrice: 149.99,
-    imageUrl:
-      "https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-    colors: ["#33A0FF", "#2DD06F", "#F52B70", "#FFC107"],
-  },
-  {
-    id: 8,
-    title: "Lightweight Puffer Vest",
-    department: "Outdoor Collection",
-    originalPrice: 89.99,
-    salePrice: 69.99,
-    imageUrl:
-      "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-    colors: ["#33A0FF", "#2DD06F", "#F52B70", "#FFC107"],
-  },
-  {
-    id: 9,
-    title: "Classic Denim Jeans",
-    department: "Casual Collection",
-    originalPrice: 79.99,
-    salePrice: 59.99,
-    imageUrl:
-      "https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-    colors: ["#33A0FF", "#2DD06F", "#F52B70", "#FFC107"],
-  },
-];
+import { products } from "../data/productData";
 
-function ProductsListing() {
+const ProductsListing: React.FC = () => {
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const appTheme = useTheme();
   const isMobile = useMediaQuery(appTheme.breakpoints.down("md"));
@@ -244,6 +144,6 @@ function ProductsListing() {
       </Box>
     </Box>
   );
-}
+};
 
 export default ProductsListing;

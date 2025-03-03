@@ -10,6 +10,7 @@ const HeroSection = () => {
         "We know how large objects will act, but things on a small scale.",
       price: "",
       buttonText: "SHOP NOW",
+      page: "hero",
     },
     {
       id: 2,
@@ -19,6 +20,7 @@ const HeroSection = () => {
       tagline: "Fresh looks for a fresh season.",
       price: "",
       buttonText: "SHOP NOW",
+      page: "hero",
     },
   ];
   return <CarouselComponent carouselData={data} />;

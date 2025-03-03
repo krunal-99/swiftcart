@@ -1,4 +1,5 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
+import { NavLink } from "react-router-dom";
 const SingleProductComponent = () => {
   return (
     <Box
@@ -78,19 +79,21 @@ const SingleProductComponent = () => {
             justifyContent: { xs: "center", md: "flex-start" },
           }}
         >
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#2dc071",
-              fontSize: { xs: "14px", sm: "16px" },
-              fontWeight: 700,
-              px: 4,
-              py: 1.5,
-              "&:hover": { backgroundColor: "#28a961" },
-            }}
-          >
-            BUY NOW
-          </Button>
+          <NavLink to="/product">
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "#2dc071",
+                fontSize: { xs: "14px", sm: "16px" },
+                fontWeight: 700,
+                px: 4,
+                py: 1.5,
+                "&:hover": { backgroundColor: "#28a961" },
+              }}
+            >
+              BUY NOW
+            </Button>
+          </NavLink>
           <Button
             variant="outlined"
             sx={{

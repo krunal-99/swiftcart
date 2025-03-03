@@ -40,6 +40,7 @@ const SearchBar = () => {
         {isOpen && (
           <form onSubmit={handleSearch}>
             <TextField
+              autoComplete="false"
               placeholder="Search"
               value={searchTerm}
               autoFocus

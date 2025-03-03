@@ -15,6 +15,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { NavLink } from "react-router-dom";
 const images = ["./src/assets/images/pro1.svg", "./src/assets/images/pro2.svg"];
 const colors = ["#23a6f0", "#23856d", "#e77c40", "#252b42"];
 
@@ -197,9 +198,11 @@ const ProductHero = () => {
                 >
                   <FavoriteBorderIcon sx={{ color: "#252b42" }} />
                 </Avatar>
-                <Avatar sx={{ backgroundColor: "white" }}>
-                  <ShoppingCartIcon sx={{ color: "#252b42" }} />
-                </Avatar>
+                <NavLink to="/cart">
+                  <Avatar sx={{ backgroundColor: "white" }}>
+                    <ShoppingCartIcon sx={{ color: "#252b42" }} />
+                  </Avatar>
+                </NavLink>
                 <Avatar sx={{ backgroundColor: "white" }}>
                   <VisibilityIcon sx={{ color: "#252b42" }} />
                 </Avatar>

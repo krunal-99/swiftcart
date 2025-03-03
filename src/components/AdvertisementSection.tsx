@@ -10,6 +10,7 @@ const data = [
       "We know how large objects will act, We know how are objects will act, We know",
     price: "$16.48",
     buttonText: "ADD TO CART",
+    page: "ad",
   },
   {
     id: 2,
@@ -19,6 +20,7 @@ const data = [
     tagline: "Embrace a new and classic look for your next party.",
     price: "$16.48",
     buttonText: "ADD TO CART",
+    page: "ad",
   },
 ];
 

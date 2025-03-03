@@ -12,7 +12,7 @@ import About from "./pages/About";
 import ProductDetail from "./pages/ProductDetail";
 import Login from "./pages/Login";
 import Shop from "./pages/Shop";
-import ErrorPage from "./components/ErrorPage";
+import ErrorPage from "./pages/ErrorPage";
 
 const theme = createTheme({
   typography: {

@@ -19,19 +19,43 @@ const createItem = (
   imageUrl: string,
   description: string,
   color: string,
+  price: number,
   quantity: number,
-  price: number
+  total: number
 ) => {
-  return { id: Math.random(), imageUrl, description, color, quantity, price };
+  return {
+    id: Math.random(),
+    imageUrl,
+    description,
+    color,
+    price,
+    quantity,
+    total,
+  };
 };
 
 const cartItems = [
-  createItem("./src/assets/images/cart1.svg", "Mens Hoodie", "black", 1, 1000),
-  createItem("./src/assets/images/cart2.svg", "Mens Shirt", "blue", 1, 2000),
+  createItem(
+    "./src/assets/images/cart1.svg",
+    "Mens Hoodie",
+    "black",
+    1000,
+    1,
+    1000
+  ),
+  createItem(
+    "./src/assets/images/cart2.svg",
+    "Mens Shirt",
+    "blue",
+    2000,
+    1,
+    2000
+  ),
   createItem(
     "./src/assets/images/cart3.svg",
     "Womens Jacket",
     "orange",
+    1500,
     2,
     3000
   ),
@@ -70,13 +94,16 @@ const CartItems = () => {
                 Color
               </TableCell>
               <TableCell align="center" sx={{ fontWeight: 600 }}>
+                Price
+              </TableCell>
+              <TableCell align="center" sx={{ fontWeight: 600 }}>
                 Quantity
               </TableCell>
               <TableCell align="center" sx={{ fontWeight: 600 }}>
-                Remove
+                Total
               </TableCell>
-              <TableCell align="right" sx={{ fontWeight: 600 }}>
-                Price
+              <TableCell align="center" sx={{ fontWeight: 600 }}>
+                Remove
               </TableCell>
             </TableRow>
           </TableHead>
@@ -110,6 +137,9 @@ const CartItems = () => {
                     />
                   </Box>
                 </TableCell>
+                <TableCell align="center" sx={{ fontWeight: 600 }}>
+                  ₹ {item.price.toFixed(2)}
+                </TableCell>
                 <TableCell align="center">
                   <ButtonGroup
                     size="small"
@@ -137,15 +167,20 @@ const CartItems = () => {
                     </Button>
                   </ButtonGroup>
                 </TableCell>
-                <TableCell align="center">
-                  <IconButton
-                    sx={{ border: "2px solid #fafafa", borderRadius: 0 }}
-                  >
-                    <CloseIcon sx={{ width: "20px" }} />
-                  </IconButton>
+                <TableCell align="center" sx={{ fontWeight: 600 }}>
+                  ₹ {item.total.toFixed(2)}
                 </TableCell>
-                <TableCell align="right" sx={{ fontWeight: 600 }}>
-                  ₹ {item.price.toFixed(2)}
+                <TableCell>
+                  <Box display="flex" justifyContent="center">
+                    <IconButton
+                      sx={{
+                        border: "2px solid #fafafa",
+                        borderRadius: 0,
+                      }}
+                    >
+                      <CloseIcon sx={{ width: "20px" }} />
+                    </IconButton>
+                  </Box>
                 </TableCell>
               </TableRow>
             ))}

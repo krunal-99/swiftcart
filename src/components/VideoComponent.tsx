@@ -7,6 +7,7 @@ const VideoComponent = () => {
         src="./src/assets/video/ecommerce.mp4"
         width="100%"
         height="auto"
+        muted
         controls
         loop
         autoPlay

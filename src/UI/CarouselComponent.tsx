@@ -3,6 +3,8 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Box, Button, Stack, Typography } from "@mui/material";
+import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 interface CarouselComponentProps {
   carouselData: {
@@ -13,16 +15,34 @@ interface CarouselComponentProps {
     price: string;
     tagline: string;
     buttonText: string;
+    page: string;
   }[];
 }
 
 const CarouselComponent: React.FC<CarouselComponentProps> = (props) => {
+  const [isSwipeable, setIsSwipeable] = useState(true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSwipeable(window.innerWidth >= 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <Carousel
       autoPlay
       infiniteLoop
       showThumbs={false}
       showStatus={false}
+      swipeable={isSwipeable}
+      emulateTouch={isSwipeable}
       renderArrowPrev={(clickHandler, hasPrev) =>
         hasPrev && (
           <Button
@@ -154,23 +174,25 @@ const CarouselComponent: React.FC<CarouselComponentProps> = (props) => {
                   {item.price}
                 </Typography>
               )}
-              <Button
-                sx={{
-                  backgroundColor: "#2dc071",
-                  fontWeight: 700,
-                  fontSize: { xs: "14px", sm: "16px", md: "18px" },
-                  boxShadow: "none",
-                  width: { xs: "140px", sm: "170px", md: "200px" },
-                  height: { xs: "40px", sm: "45px", md: "50px" },
-                  "&:hover": {
-                    backgroundColor: "#28a961",
-                  },
-                }}
-                size="large"
-                variant="contained"
-              >
-                {item.buttonText}
-              </Button>
+              <NavLink to={item.page === "hero" ? "/shop" : "/cart"}>
+                <Button
+                  sx={{
+                    backgroundColor: "#2dc071",
+                    fontWeight: 700,
+                    fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                    boxShadow: "none",
+                    width: { xs: "150px", sm: "170px", md: "200px" },
+                    height: { xs: "40px", sm: "45px", md: "50px" },
+                    "&:hover": {
+                      backgroundColor: "#28a961",
+                    },
+                  }}
+                  size="large"
+                  variant="contained"
+                >
+                  {item.buttonText}
+                </Button>
+              </NavLink>
             </Stack>
           </Stack>
         </Box>

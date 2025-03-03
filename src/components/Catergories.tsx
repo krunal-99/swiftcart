@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Typography, Grid, Paper } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { NavLink } from "react-router-dom";
 
 const categories = [
   { label: "MEN", image: "./src/assets/images/category1.jpeg" },
@@ -57,30 +58,38 @@ const Categories: React.FC = () => {
         sx={{ width: "70%", margin: "auto", pt: 5 }}
       >
         <Grid item xs={12} sm={6} md={4} sx={{ height: 500 }}>
-          <CategoryItem>
-            <img src={categories[0].image} alt={categories[0].label} />
-            <span className="label">{categories[0].label}</span>
-          </CategoryItem>
+          <NavLink to="/shop">
+            <CategoryItem>
+              <img src={categories[0].image} alt={categories[0].label} />
+              <span className="label">{categories[0].label}</span>
+            </CategoryItem>
+          </NavLink>
         </Grid>
         <Grid item xs={12} sm={6} md={4} sx={{ height: 500 }}>
-          <CategoryItem>
-            <img src={categories[1].image} alt={categories[1].label} />
-            <span className="label">{categories[1].label}</span>
-          </CategoryItem>
+          <NavLink to="/shop">
+            <CategoryItem>
+              <img src={categories[1].image} alt={categories[1].label} />
+              <span className="label">{categories[1].label}</span>
+            </CategoryItem>
+          </NavLink>
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <Grid container direction="column" spacing={2}>
             <Grid item sx={{ height: 240 }}>
-              <CategoryItem>
-                <img src={categories[2].image} alt={categories[2].label} />
-                <span className="label">{categories[2].label}</span>
-              </CategoryItem>
+              <NavLink to="/shop">
+                <CategoryItem>
+                  <img src={categories[2].image} alt={categories[2].label} />
+                  <span className="label">{categories[2].label}</span>
+                </CategoryItem>
+              </NavLink>
             </Grid>
             <Grid item sx={{ height: 240 }}>
-              <CategoryItem>
-                <img src={categories[3].image} alt={categories[3].label} />
-                <span className="label">{categories[3].label}</span>
-              </CategoryItem>
+              <NavLink to="/shop">
+                <CategoryItem>
+                  <img src={categories[3].image} alt={categories[3].label} />
+                  <span className="label">{categories[3].label}</span>
+                </CategoryItem>
+              </NavLink>
             </Grid>
           </Grid>
         </Grid>

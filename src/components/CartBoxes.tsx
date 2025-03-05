@@ -2,8 +2,19 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import ReplyAllIcon from "@mui/icons-material/ReplyAll";
 import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getTotals } from "../features/cartSlice";
+import { RootState } from "../main";
+import { getListTotal } from "../features/wishListSlice";
 
 const CartBoxes = () => {
+  const dispatch = useDispatch();
+  const cart = useSelector((state: RootState) => state.cart);
+  useEffect(() => {
+    dispatch(getTotals({}));
+    dispatch(getListTotal());
+  }, [cart, dispatch]);
   return (
     <>
       <Box
@@ -16,9 +27,9 @@ const CartBoxes = () => {
         mt={4}
       >
         {[
-          { label: "Subtotal", value: "₹ 6000" },
+          { label: "Subtotal", value: `₹ ${cart.totalCartAmount}` },
           { label: "Shipping", value: "₹ 0" },
-          { label: "Total", value: "₹ 6000" },
+          { label: "Total", value: `₹ ${cart.totalCartAmount}` },
         ].map((item, index) => (
           <Stack
             key={index}

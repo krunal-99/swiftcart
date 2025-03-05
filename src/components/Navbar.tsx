@@ -16,15 +16,21 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  Badge,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Person2Icon from "@mui/icons-material/Person2";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../main";
+import { getTotals } from "../features/cartSlice";
+import { getListTotal } from "../features/wishListSlice";
 
 const navLinks = ["HOME", "SHOP", "ABOUT", "CONTACT"];
 const settings = ["REGISTER", "LOGIN"];
@@ -62,6 +68,14 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const cart = useSelector((state: RootState) => state.cart);
+  const wishlist = useSelector((state: RootState) => state.wishlist);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getTotals({}));
+    dispatch(getListTotal());
+  }, [cart, dispatch]);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -128,12 +142,20 @@ const Navbar = () => {
             </Box>
             <Stack spacing={1} direction="row" sx={{ ml: "auto" }}>
               <SearchBar />
+              <IconButton sx={{ display: { xs: "none", md: "flex" } }}>
+                <Badge badgeContent={wishlist.listQuantity} color="error">
+                  <NavLink style={{ color: "#23a6f0" }} to="/wishlist">
+                    <FavoriteBorderIcon />
+                  </NavLink>
+                </Badge>
+              </IconButton>
               <NavLink to="/cart" style={{ textDecoration: "none" }}>
                 <IconButton
                   sx={{ color: "#23a6f0", display: { xs: "none", md: "flex" } }}
                 >
-                  <ShoppingCartIcon />
-                  <Typography variant="body1">1</Typography>
+                  <Badge badgeContent={cart.totalCartQuantity} color="error">
+                    <ShoppingCartIcon />
+                  </Badge>
                 </IconButton>
               </NavLink>
               <Tooltip title="User Profile">
@@ -237,16 +259,34 @@ const Navbar = () => {
                 sx={{ display: "flex", justifyContent: "center" }}
               >
                 <NavLink to="/cart" style={{ textDecoration: "none" }}>
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    spacing={1}
-                    sx={{ color: "#23a6f0" }}
-                  >
-                    <ShoppingCartIcon />
-                    <Typography variant="body1">1</Typography>
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <Badge
+                      style={{ color: "#23a6f0" }}
+                      badgeContent={cart.totalCartQuantity}
+                      color="error"
+                    >
+                      <ShoppingCartIcon />
+                    </Badge>
                   </Stack>
                 </NavLink>
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={1}
+                  sx={{ color: "#23a6f0" }}
+                >
+                  <Badge badgeContent={wishlist.listQuantity} color="error">
+                    <NavLink to="/wishlist">
+                      <FavoriteBorderIcon />
+                    </NavLink>
+                  </Badge>
+                </Stack>
               </ListItemButton>
             </ListItem>
           </List>

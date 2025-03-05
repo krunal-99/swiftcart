@@ -13,6 +13,7 @@ import ProductDetail from "./pages/ProductDetail";
 import Login from "./pages/Login";
 import Shop from "./pages/Shop";
 import ErrorPage from "./pages/ErrorPage";
+import Wishlist from "./pages/Wishlist";
 
 const theme = createTheme({
   typography: {
@@ -52,10 +53,11 @@ function App() {
           element: <About />,
         },
         {
-          path: "/product",
+          path: "/product/:id",
           element: <ProductDetail />,
         },
         { path: "/shop", element: <Shop /> },
+        { path: "/wishlist", element: <Wishlist /> },
       ],
     },
   ]);
@@ -63,7 +65,7 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <RouterProvider router={router} />;
+        <RouterProvider router={router} />
       </ThemeProvider>
     </>
   );

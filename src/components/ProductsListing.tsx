@@ -11,7 +11,8 @@ import {
 import FilterSidebar from "./FilterSideBar";
 import ShopHero from "./ShopHero";
 import CardComponent from "../UI/CardComponent";
-import { products } from "../data/productData";
+import { useSelector } from "react-redux";
+import { RootState } from "../main";
 
 const ProductsListing: React.FC = () => {
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
@@ -26,6 +27,8 @@ const ProductsListing: React.FC = () => {
   const handleFilterToggle = () => {
     setMobileFilterOpen((prev) => !prev);
   };
+
+  const products = useSelector((state: RootState) => state.products.items);
 
   return (
     <Box width="80%" py="30px" margin="auto" sx={{ display: "flex" }}>

@@ -4,12 +4,8 @@ import Products from "../components/Products";
 import AdvertisementSection from "../components/AdvertisementSection";
 import SingleProductComponent from "../components/SingleProductComponent";
 import FeaturedPosts from "../components/FeaturedPosts";
-import { useEffect } from "react";
 
 const Home = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
   return (
     <>
       <HeroSection />

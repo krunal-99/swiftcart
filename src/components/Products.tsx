@@ -1,8 +1,10 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
 import CardComponent from "../UI/CardComponent";
-import { products } from "../data/productData";
+import { useSelector } from "react-redux";
+import { RootState } from "../main";
 
 const Products = () => {
+  const products = useSelector((state: RootState) => state.products.items);
   return (
     <Container sx={{ mt: 10 }}>
       <Box sx={{ textAlign: "center", mb: 4 }}>

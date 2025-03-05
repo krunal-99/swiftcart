@@ -7,38 +7,23 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { NavLink } from "react-router-dom";
-import { Product } from "../data/types";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useDispatch, useSelector } from "react-redux";
-import { addToList } from "../features/wishListSlice";
+import { NavLink } from "react-router-dom";
+import { Wishlist } from "../data/types";
+import { useSelector } from "react-redux";
 import { RootState } from "../main";
 
-interface ProductCardProps {
-  product: Product;
+interface ListCardProps {
+  product: Wishlist;
 }
 
-const CardComponent: React.FC<ProductCardProps> = (props) => {
+const WishListCard: React.FC<ListCardProps> = (props) => {
   const wishlist = useSelector((state: RootState) => state.wishlist.list);
   const listItem = wishlist.find(
     (item) => item.id === Number(props.product.id)
   );
   const isInWishList = Boolean(listItem);
-  const dispatch = useDispatch();
-  const handleAddToList = (product: Product) => {
-    const listData = {
-      id: product.id,
-      imageUrl: product.imageUrls?.[0],
-      title: product.title,
-      type: product.type,
-      originalPrice: product.originalPrice,
-      salePrice: product.salePrice,
-      colors: product.colors,
-      listQuantity: 1,
-    };
-    dispatch(addToList(listData));
-  };
   return (
     <Card
       sx={{
@@ -50,7 +35,6 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
       }}
     >
       <IconButton
-        onClick={() => handleAddToList(props.product)}
         sx={{
           position: "absolute",
           top: 8,
@@ -74,7 +58,7 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
       >
         <CardMedia
           sx={{ height: "430px", objectFit: "cover" }}
-          image={props.product?.imageUrls[0]}
+          image={props.product.imageUrl}
         />
         <CardContent sx={{ textAlign: "center", mt: "25px" }}>
           <Typography
@@ -140,4 +124,4 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
   );
 };
 
-export default CardComponent;
+export default WishListCard;

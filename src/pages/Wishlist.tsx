@@ -1,9 +1,10 @@
 import { Box, Grid2, Typography } from "@mui/material";
-import CardComponent from "../UI/CardComponent";
 import { useSelector } from "react-redux";
 import { RootState } from "../main";
-const BestProducts = () => {
-  const products = useSelector((state: RootState) => state.products.items);
+import WishListCard from "../UI/WishListCard";
+
+const Wishlist = () => {
+  const wishlist = useSelector((state: RootState) => state.wishlist.list);
   return (
     <Box width="88%" margin="auto" sx={{ mt: "100px" }}>
       <Box>
@@ -14,7 +15,7 @@ const BestProducts = () => {
           fontWeight={700}
           variant="h5"
         >
-          BEST PRODUCTS
+          YOUR WISHLIST
         </Typography>
         <Grid2
           container
@@ -22,14 +23,14 @@ const BestProducts = () => {
           justifyContent="center"
           alignItems="center"
         >
-          {products.slice(0, 8).map((product, index) => (
+          {wishlist.map((item, index) => (
             <Grid2
               columns={{ xs: 12, sm: 6, md: 4, lg: 3 }}
               key={index}
               display="flex"
               justifyContent="center"
             >
-              <CardComponent key={index} product={product} />
+              <WishListCard key={index} product={item} />
             </Grid2>
           ))}
         </Grid2>
@@ -38,4 +39,4 @@ const BestProducts = () => {
   );
 };
 
-export default BestProducts;
+export default Wishlist;

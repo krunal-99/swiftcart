@@ -20,22 +20,14 @@ const wishListSlice = createSlice({
     initialState,
     reducers: {
         addToList(state, action) {
-          const itemIndex = state.list.findIndex((item) => item.id === action.payload.id);
-    
-          if (itemIndex >= 0) {
-            toast.info(`${action.payload.title} is already in Wishlist.`);
-            return;
-          }
-    
           state.list.push(action.payload);
           state.listQuantity = state.list.length;
-    
           toast.success(`${action.payload.title} added to Wishlist successfully.`);
           localStorage.setItem("wishlist", JSON.stringify(state.list));
         },
         removeFromList(state,action) {
-          const nextListItems = state.list.filter((item) => item.id !== action.payload.id)
-          state.list = nextListItems
+          state.list = state.list.filter((item) => item.id !== action.payload.id)
+          state.listQuantity = state.list.length
           localStorage.setItem("wishlist", JSON.stringify(state.list))
           toast.error(`${action.payload.title} removed from Wishlist successfully.`)
         },
@@ -45,5 +37,5 @@ const wishListSlice = createSlice({
       },
 })
 
-export const {addToList, getListTotal} = wishListSlice.actions
+export const {addToList, getListTotal, removeFromList} = wishListSlice.actions
 export default wishListSlice.reducer

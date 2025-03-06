@@ -275,14 +275,9 @@ const Navbar = () => {
               <ListItemButton
                 sx={{ display: "flex", justifyContent: "center" }}
               >
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  spacing={1}
-                  sx={{ color: "#23a6f0" }}
-                >
+                <Stack direction="row" alignItems="center" spacing={1}>
                   <Badge badgeContent={wishlist.listQuantity} color="error">
-                    <NavLink to="/wishlist">
+                    <NavLink style={{ color: "#23a6f0" }} to="/wishlist">
                       <FavoriteBorderIcon />
                     </NavLink>
                   </Badge>

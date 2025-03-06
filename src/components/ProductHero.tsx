@@ -27,7 +27,7 @@ import {
   decreaseQuantity,
   removeFromCart,
 } from "../features/cartSlice";
-import { addToList } from "../features/wishListSlice";
+import { addToList, removeFromList } from "../features/wishListSlice";
 import image from "../assets/images/product12.svg";
 
 const ProductHero = () => {
@@ -65,10 +65,6 @@ const ProductHero = () => {
       listQuantity: 1,
     };
     dispatch(addToList(listData));
-  };
-
-  const handleRemoveFromList = (product: Product) => {
-    dispatch(removeFromCart(product));
   };
 
   if (!product) {
@@ -354,7 +350,7 @@ const ProductHero = () => {
                 <Button
                   onClick={() =>
                     isInWishList
-                      ? handleRemoveFromList(product)
+                      ? dispatch(removeFromList(product))
                       : handleAddToList(product)
                   }
                   sx={{ p: 0 }}
@@ -373,7 +369,6 @@ const ProductHero = () => {
                   </Avatar>
                 </Button>
               </Stack>
-              ;
             </Stack>
           </Stack>
         </Stack>

@@ -7,12 +7,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { NavLink } from "react-router-dom";
 import { Wishlist } from "../data/types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../main";
+import { removeFromList } from "../features/wishListSlice";
 
 interface ListCardProps {
   product: Wishlist;
@@ -23,7 +23,7 @@ const WishListCard: React.FC<ListCardProps> = (props) => {
   const listItem = wishlist.find(
     (item) => item.id === Number(props.product.id)
   );
-  const isInWishList = Boolean(listItem);
+  const dispatch = useDispatch();
   return (
     <Card
       sx={{
@@ -35,6 +35,7 @@ const WishListCard: React.FC<ListCardProps> = (props) => {
       }}
     >
       <IconButton
+        onClick={() => dispatch(removeFromList(listItem))}
         sx={{
           position: "absolute",
           top: 8,
@@ -46,11 +47,7 @@ const WishListCard: React.FC<ListCardProps> = (props) => {
           zIndex: 1,
         }}
       >
-        {isInWishList ? (
-          <FavoriteIcon sx={{ color: "#ff0000" }} />
-        ) : (
-          <FavoriteBorderIcon sx={{ color: "#252b42" }} />
-        )}
+        <FavoriteIcon sx={{ color: "#ff0000" }} />
       </IconButton>
       <NavLink
         to={`/product/${props.product.id}`}

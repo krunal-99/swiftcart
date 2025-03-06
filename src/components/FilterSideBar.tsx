@@ -19,11 +19,11 @@ interface FilterSidebarProps {
 
 const categories = [
   "All Categories",
-  "All Men's clothing",
+  "Men's clothing",
   "Women's clothing",
   "Footwear",
   "Watches",
-  "Beauty",
+  "Electronics",
   "Kids clothing",
   "Hand bags",
   "Jewellery",
@@ -40,9 +40,9 @@ const brands = [
 ];
 
 const FilterSidebar: React.FC<FilterSidebarProps> = ({ isMobile, onClose }) => {
-  const [priceRange, setPriceRange] = useState<number[]>([12, 435]);
+  const [priceRange, setPriceRange] = useState<number[]>([0, 50000]);
   const [selectedCategory, setSelectedCategory] =
-    useState<string>("All Men's clothing");
+    useState<string>("Men's clothing");
   const [checkedBrands, setCheckedBrands] = useState(brands);
 
   const handlePriceChange = (_event: Event, newValue: number | number[]) => {
@@ -124,7 +124,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ isMobile, onClose }) => {
         onChange={handlePriceChange}
         valueLabelDisplay="off"
         min={0}
-        max={500}
+        max={50000}
         sx={{
           width: "90%",
           mx: "auto",
@@ -146,8 +146,8 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ isMobile, onClose }) => {
       <Box
         sx={{ display: "flex", justifyContent: "space-between", mt: 1, mb: 2 }}
       >
-        <Typography variant="body2">${priceRange[0]}</Typography>
-        <Typography variant="body2">${priceRange[1]}</Typography>
+        <Typography variant="body2">₹ {priceRange[0]}</Typography>
+        <Typography variant="body2">₹ {priceRange[1]}</Typography>
       </Box>
 
       <Divider sx={{ my: 2 }} />

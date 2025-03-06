@@ -12,7 +12,7 @@ import { Product } from "../data/types";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useDispatch, useSelector } from "react-redux";
-import { addToList } from "../features/wishListSlice";
+import { addToList, removeFromList } from "../features/wishListSlice";
 import { RootState } from "../main";
 
 interface ProductCardProps {
@@ -50,7 +50,11 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
       }}
     >
       <IconButton
-        onClick={() => handleAddToList(props.product)}
+        onClick={() =>
+          isInWishList
+            ? dispatch(removeFromList(props.product))
+            : handleAddToList(props.product)
+        }
         sx={{
           position: "absolute",
           top: 8,

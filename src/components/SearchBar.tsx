@@ -2,10 +2,12 @@ import { Box, IconButton, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleSearchToggle = () => {
     setIsOpen((prev) => !prev);
@@ -14,7 +16,7 @@ const SearchBar = () => {
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchTerm.trim()) {
-      console.log("Search Term:", searchTerm);
+      navigate(`/shop?search=${encodeURIComponent(searchTerm.trim())}`);
     }
     setSearchTerm("");
     setIsOpen(false);
@@ -40,8 +42,7 @@ const SearchBar = () => {
         {isOpen && (
           <form onSubmit={handleSearch}>
             <TextField
-              autoComplete="false"
-              placeholder="Search"
+              placeholder="Search Products"
               value={searchTerm}
               autoFocus
               onChange={(e) => setSearchTerm(e.target.value)}

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Box,
   Typography,
@@ -12,24 +11,28 @@ import {
   Stack,
 } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import { SortOption } from "../data/types";
 
 interface ShopHeroProps {
   title: string;
   subtitle: string;
   onFilterClick?: () => void;
+  sortBy: string;
+  onSortChange: (value: SortOption) => void;
 }
 
 const ShopHero: React.FC<ShopHeroProps> = ({
   title,
   subtitle,
   onFilterClick,
+  sortBy,
+  onSortChange,
 }) => {
-  const [sortBy, setSortBy] = React.useState("popularity");
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSortBy(event.target.value);
+    onSortChange(event.target.value as SortOption);
   };
 
   return (
@@ -138,7 +141,8 @@ const ShopHero: React.FC<ShopHeroProps> = ({
             <MenuItem value="popularity">Popularity</MenuItem>
             <MenuItem value="price-low">Price: Low to High</MenuItem>
             <MenuItem value="price-high">Price: High to Low</MenuItem>
-            <MenuItem value="newest">Newest First</MenuItem>
+            <MenuItem value="name-asc">Name: A to Z</MenuItem>
+            <MenuItem value="name-desc">Name: Z to A</MenuItem>
           </Select>
         </FormControl>
       </Box>

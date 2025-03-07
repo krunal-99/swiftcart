@@ -1,17 +1,25 @@
 import { Box, Typography } from "@mui/material";
+import { useEffect } from "react";
 
 interface shopCardData {
   id: number;
   image: string;
-  heading: string;
-  items: number;
+  category: string;
 }
 
-const ShopCard: React.FC<{ data: shopCardData }> = ({ data }) => {
+interface ShopCardProps {
+  data: shopCardData;
+  onClick: () => void;
+}
+
+const ShopCard: React.FC<ShopCardProps> = ({ data, onClick }) => {
   return (
     <Box
+      component="button"
+      onClick={onClick}
       sx={{
         position: "relative",
+        cursor: "pointer",
         width: "210px",
         height: "220px",
         objectFit: "cover",
@@ -37,10 +45,7 @@ const ShopCard: React.FC<{ data: shopCardData }> = ({ data }) => {
     >
       <Box sx={{ position: "relative", zIndex: 1 }}>
         <Typography variant="h6" fontWeight="bold">
-          {data.heading}
-        </Typography>
-        <Typography variant="body2" py="10px">
-          {data.items} Items
+          {data.category}
         </Typography>
       </Box>
     </Box>

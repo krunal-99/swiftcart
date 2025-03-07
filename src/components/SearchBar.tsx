@@ -3,23 +3,40 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { selectSearchTerm, setSearchTerm } from "../features/productSlice";
 
 const SearchBar = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const dispatch = useDispatch();
+  const searchTermFormStore = useSelector(selectSearchTerm);
+  const [localSearchTerm, setLocalSearchTerm] = useState(searchTermFormStore);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleSearchToggle = () => {
     setIsOpen((prev) => !prev);
+    if (isOpen) {
+      setLocalSearchTerm("");
+      dispatch(setSearchTerm(""));
+    }
   };
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (searchTerm.trim()) {
-      navigate(`/shop?search=${encodeURIComponent(searchTerm.trim())}`);
+    if (localSearchTerm.trim()) {
+      dispatch(setSearchTerm(localSearchTerm.trim()));
+      navigate(`/shop?search=${encodeURIComponent(localSearchTerm.trim())}`);
     }
-    setSearchTerm("");
+    setLocalSearchTerm("");
     setIsOpen(false);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setLocalSearchTerm(value);
+    if (!value.trim()) {
+      dispatch(setSearchTerm(""));
+    }
   };
 
   return (
@@ -43,9 +60,9 @@ const SearchBar = () => {
           <form onSubmit={handleSearch}>
             <TextField
               placeholder="Search Products"
-              value={searchTerm}
+              value={localSearchTerm}
               autoFocus
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={handleInputChange}
               id="outlined-start-adornment"
               fullWidth
               sx={{

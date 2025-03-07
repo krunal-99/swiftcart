@@ -12,45 +12,34 @@ import {
 import FilterSidebar from "./FilterSideBar";
 import ShopHero from "./ShopHero";
 import CardComponent from "../UI/CardComponent";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../main";
 import { useLocation } from "react-router-dom";
+import { FilterState, SortOption } from "../data/types";
+import {
+  selectFilteredProducts,
+  selectFilters,
+  setCategory,
+  setBrands,
+  setPriceRange,
+  setSortBy,
+  selectAllProducts,
+} from "../features/productSlice";
 
 const ProductsListing: React.FC = () => {
+  const dispatch = useDispatch();
+  const filteredProducts = useSelector(selectFilteredProducts);
+  const filters = useSelector(selectFilters);
+  const products = useSelector(selectAllProducts);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const appTheme = useTheme();
   const isMobile = useMediaQuery(appTheme.breakpoints.down("md"));
   const [page, setPage] = useState<number>(1);
-  const [productsPerPage, setProductsPerPage] = useState<number>(9);
+  const [productsPerPage] = useState<number>(9);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const searchTerm = queryParams.get("search")?.toLowerCase() || "";
   const productSectionRef = useRef<HTMLDivElement>(null);
-
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
-  };
-
-  useEffect(() => {
-    if (searchTerm && productSectionRef.current) {
-      productSectionRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [searchTerm]);
-  const handleFilterToggle = () => {
-    setMobileFilterOpen((prev) => !prev);
-  };
-
-  useEffect(() => {
-    window.scrollTo({ top: 450, behavior: "smooth" });
-  }, [page]);
-
-  const products = useSelector((state: RootState) => state.products.items);
-
-  const filteredProducts = searchTerm
-    ? products.filter((product) =>
-        product.title.toLowerCase().includes(searchTerm)
-      )
-    : products;
 
   const totalProducts = filteredProducts.length;
   const lastProductIndex = page * productsPerPage;
@@ -59,6 +48,49 @@ const ProductsListing: React.FC = () => {
     firstProductIndex,
     lastProductIndex
   );
+  console.log("Products:", products);
+  console.log(filteredProducts);
+
+  const handleFilterToggle = () => {
+    setMobileFilterOpen((prev) => !prev);
+  };
+
+  const handlePageChange = (
+    _event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
+  };
+
+  const handleCategoryChange = (category: string) => {
+    dispatch(setCategory(category));
+    setPage(1);
+  };
+
+  const handleBrandChange = (brands: string[]) => {
+    dispatch(setBrands(brands));
+    setPage(1);
+  };
+
+  const handlePriceChange = (priceRange: [number, number]) => {
+    dispatch(setPriceRange(priceRange));
+    setPage(1);
+  };
+
+  const handleSortChange = (sortBy: SortOption) => {
+    dispatch(setSortBy(sortBy));
+    setPage(1);
+  };
+
+  useEffect(() => {
+    if (searchTerm && productSectionRef.current) {
+      productSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [searchTerm]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 450, behavior: "smooth" });
+  }, [page]);
 
   return (
     <Box width="80%" py="30px" margin="auto" sx={{ display: "flex" }}>
@@ -71,7 +103,16 @@ const ProductsListing: React.FC = () => {
             display: { xs: "none", md: "block" },
           }}
         >
-          <FilterSidebar isMobile={false} />
+          <FilterSidebar
+            isMobile={false}
+            products={products}
+            selectedCategory={filters.category}
+            selectedBrands={filters.brands}
+            priceRange={filters.priceRange}
+            onCategoryChange={handleCategoryChange}
+            onBrandChange={handleBrandChange}
+            onPriceChange={handlePriceChange}
+          />
         </Box>
       )}
       <Drawer
@@ -86,7 +127,17 @@ const ProductsListing: React.FC = () => {
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: "80%" },
         }}
       >
-        <FilterSidebar isMobile={true} onClose={handleFilterToggle} />
+        <FilterSidebar
+          isMobile={true}
+          onClose={handleFilterToggle}
+          products={products}
+          selectedCategory={filters.category}
+          selectedBrands={filters.brands}
+          priceRange={filters.priceRange}
+          onCategoryChange={handleCategoryChange}
+          onBrandChange={handleBrandChange}
+          onPriceChange={handlePriceChange}
+        />
       </Drawer>
       <Box
         component="main"
@@ -97,9 +148,11 @@ const ProductsListing: React.FC = () => {
         }}
       >
         <ShopHero
-          title="Men's clothing"
-          subtitle="Seo text will be here"
+          title={filters.category}
+          subtitle={`${totalProducts} products available`}
           onFilterClick={handleFilterToggle}
+          sortBy={filters.sortBy}
+          onSortChange={handleSortChange}
         />
         {currentProducts.length > 0 ? (
           <Grid2
@@ -108,14 +161,14 @@ const ProductsListing: React.FC = () => {
             justifyContent="center"
             alignItems="center"
           >
-            {currentProducts.map((product, index) => (
+            {currentProducts.map((product) => (
               <Grid2
                 columns={{ xs: 12, md: 6, sm: 4 }}
-                key={index}
+                key={product.id}
                 display="flex"
                 justifyContent="center"
               >
-                <CardComponent key={index} product={product} />
+                <CardComponent product={product} />
               </Grid2>
             ))}
           </Grid2>
@@ -131,7 +184,7 @@ const ProductsListing: React.FC = () => {
               No Products Found
             </Typography>
             <Typography variant="body1" color="textSecondary">
-              Try searching with a different term.
+              Try searching with a different term or adjust proper filters.
             </Typography>
           </Box>
         )}
@@ -141,7 +194,7 @@ const ProductsListing: React.FC = () => {
               <Pagination
                 count={Math.ceil(totalProducts / productsPerPage)}
                 page={page}
-                onChange={handleChange}
+                onChange={handlePageChange}
                 variant="outlined"
                 shape="rounded"
                 size="large"

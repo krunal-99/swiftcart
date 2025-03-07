@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -11,52 +10,68 @@ import {
   Divider,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { Product } from "../data/types";
 
 interface FilterSidebarProps {
   isMobile: boolean;
   onClose?: () => void;
+  products: Product[];
+  selectedCategory: string;
+  selectedBrands: string[];
+  priceRange: [number, number];
+  onCategoryChange: (category: string) => void;
+  onBrandChange: (brands: string[]) => void;
+  onPriceChange: (range: [number, number]) => void;
 }
 
 const categories = [
   "All Categories",
   "Men's clothing",
   "Women's clothing",
+  "Kid's clothing",
   "Footwear",
   "Watches",
   "Electronics",
-  "Kids clothing",
-  "Hand bags",
   "Jewellery",
+  "Hand bags",
 ];
 
-const brands = [
-  { name: "All", checked: true },
-  { name: "Zara", checked: false },
-  { name: "Levis", checked: false },
-  { name: "Adidas", checked: false },
-  { name: "Peter England", checked: false },
-  { name: "Allen Solly", checked: false },
-  { name: "Fabindia", checked: false },
-];
+const FilterSidebar: React.FC<FilterSidebarProps> = ({
+  isMobile,
+  onClose,
+  products,
+  selectedCategory,
+  selectedBrands,
+  priceRange,
+  onCategoryChange,
+  onBrandChange,
+  onPriceChange,
+}) => {
+  const getAvailableBrands = () => {
+    const filteredProducts =
+      selectedCategory === "All Categories"
+        ? products
+        : products.filter((p) => p.category === selectedCategory);
 
-const FilterSidebar: React.FC<FilterSidebarProps> = ({ isMobile, onClose }) => {
-  const [priceRange, setPriceRange] = useState<number[]>([0, 50000]);
-  const [selectedCategory, setSelectedCategory] =
-    useState<string>("Men's clothing");
-  const [checkedBrands, setCheckedBrands] = useState(brands);
+    return Array.from(new Set(filteredProducts.map((p) => p.brand))).sort();
+  };
+
+  const getMaxPrice = () => {
+    return Math.max(...products.map((p) => p.originalPrice));
+  };
+
+  const availableBrands = getAvailableBrands();
+  const maxPrice = getMaxPrice();
 
   const handlePriceChange = (_event: Event, newValue: number | number[]) => {
-    setPriceRange(newValue as number[]);
+    onPriceChange(newValue as [number, number]);
   };
 
-  const handleCategoryClick = (category: string) => {
-    setSelectedCategory(category);
-  };
-
-  const handleBrandToggle = (index: number) => {
-    const newCheckedBrands = [...checkedBrands];
-    newCheckedBrands[index].checked = !newCheckedBrands[index].checked;
-    setCheckedBrands(newCheckedBrands);
+  const handleBrandToggle = (brand: string) => {
+    const newBrands = selectedBrands.includes(brand)
+      ? selectedBrands.filter((b) => b !== brand)
+      : [...selectedBrands, brand];
+    onBrandChange(newBrands);
   };
 
   return (
@@ -97,13 +112,13 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ isMobile, onClose }) => {
               color: selectedCategory === category ? "#23a6f0" : "inherit",
               cursor: "pointer",
             }}
-            onClick={() => handleCategoryClick(category)}
+            onClick={() => onCategoryChange(category)}
           >
             {category === "All Categories" && <ArrowBackIosIcon />}
             <ListItemText
               primary={category}
-              slotProps={{
-                primary: {
+              sx={{
+                "& .MuiTypography-root": {
                   fontSize: "0.9rem",
                   fontWeight: selectedCategory === category ? "bold" : "normal",
                 },
@@ -124,7 +139,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ isMobile, onClose }) => {
         onChange={handlePriceChange}
         valueLabelDisplay="off"
         min={0}
-        max={50000}
+        max={maxPrice}
         sx={{
           width: "90%",
           mx: "auto",
@@ -157,13 +172,13 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ isMobile, onClose }) => {
       </Typography>
 
       <List disablePadding>
-        {checkedBrands.map((brand, index) => (
-          <ListItem key={brand.name} disablePadding sx={{ py: 0.5 }}>
+        {availableBrands.map((brand) => (
+          <ListItem key={brand} disablePadding sx={{ py: 0.5 }}>
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={brand.checked}
-                  onChange={() => handleBrandToggle(index)}
+                  checked={selectedBrands.includes(brand)}
+                  onChange={() => handleBrandToggle(brand)}
                   size="small"
                   sx={{
                     color: "#23a6f0",
@@ -173,7 +188,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ isMobile, onClose }) => {
                   }}
                 />
               }
-              label={<Typography variant="body2">{brand.name}</Typography>}
+              label={<Typography variant="body2">{brand}</Typography>}
               sx={{ width: "100%" }}
             />
           </ListItem>

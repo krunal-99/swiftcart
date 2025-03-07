@@ -42,3 +42,12 @@ export interface Review {
     reviews: Review[],
     imageUrls: string[],
   }
+
+  export interface FilterState {
+    category: string;
+    priceRange: [number, number];
+    brands: string[];
+    sortBy: string;
+  }
+  
+  export type SortOption = 'popularity' | 'price-low' | 'price-high' | 'name-asc' | 'name-desc';

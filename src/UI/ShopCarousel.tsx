@@ -4,7 +4,13 @@ import ShopCard from "./ShopCard";
 import { Box, Container, IconButton, Paper } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectFilteredProducts,
+  setBrands,
+  setCategory,
+} from "../features/productSlice";
 
 const responsive = {
   desktop: {
@@ -33,55 +39,58 @@ const shopCardItems = [
   {
     id: 1,
     image: "./src/assets/images/shop3.jpg",
-    heading: "MEN'S CLOTHING",
-    items: 5,
+    category: "Men's clothing",
   },
   {
     id: 2,
     image: "./src/assets/images/shop6.webp",
-    heading: "WOMEN'S CLOTHING",
-    items: 7,
+    category: "Women's clothing",
   },
   {
     id: 3,
     image: "./src/assets/images/shop2.jpg",
-    heading: "KIDS'S CLOTHING",
-    items: 15,
+    category: "Kid's clothing",
   },
   {
     id: 4,
     image: "./src/assets/images/nike.jpg",
-    heading: "FOOTWEAR",
-    items: 12,
+    category: "Footwear",
   },
   {
     id: 5,
     image: "./src/assets/images/rolex.webp",
-    heading: "WATCHES",
-    items: 18,
+    category: "Watches",
   },
   {
     id: 6,
     image: "./src/assets/images/apple.jpg",
-    heading: "ELECTRONICS",
-    items: 45,
+    category: "Electronics",
   },
   {
     id: 7,
     image: "./src/assets/images/necklace.jpg",
-    heading: "JEWELLERY",
-    items: 25,
+    category: "Jewellery",
   },
   {
     id: 8,
     image: "./src/assets/images/shop5.jpg",
-    heading: "HANDBAGS",
-    items: 20,
+    category: "Hand bags",
   },
 ];
 
 const ShopCarousel = () => {
+  const filteredProducts = useSelector(selectFilteredProducts);
+  useEffect(() => {
+    window.scrollTo({ top: 450, behavior: "smooth" });
+  }, [filteredProducts]);
+
   const carouselRef = useRef<any>(null);
+  const dispatch = useDispatch();
+
+  const handleCategoryClick = (category: string) => {
+    dispatch(setCategory(category));
+    dispatch(setBrands([]));
+  };
 
   return (
     <Box width="100%" padding="30px 0" position="relative">
@@ -132,7 +141,11 @@ const ShopCarousel = () => {
           arrows={false}
         >
           {shopCardItems.map((item) => (
-            <ShopCard key={item.id} data={item} />
+            <ShopCard
+              key={item.id}
+              data={item}
+              onClick={() => handleCategoryClick(item.category)}
+            />
           ))}
         </Carousel>
       </Container>

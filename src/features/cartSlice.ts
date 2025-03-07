@@ -21,6 +21,10 @@ const cartSlice = createSlice({
         addToCart(state,action) {
             const itemIndex = state.cartItems.findIndex((item) => item.id === action.payload.id);
             if(itemIndex >= 0 ) {
+                if(state.cartItems[itemIndex].cartQuantity > 4) {
+                    toast.error(`${state.cartItems[itemIndex].title}'s quantity cannot exceed 5.`)
+                    return;
+                }
                 state.cartItems[itemIndex].cartQuantity +=1
                 toast.info(`${state.cartItems[itemIndex].title}'s quantity increased in cart.`)
             } else{

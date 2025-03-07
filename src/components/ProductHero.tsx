@@ -29,6 +29,7 @@ import {
 } from "../features/cartSlice";
 import { addToList, removeFromList } from "../features/wishListSlice";
 import image from "../assets/images/product12.svg";
+import { useState } from "react";
 
 const ProductHero = () => {
   const { id } = useParams();
@@ -41,12 +42,13 @@ const ProductHero = () => {
   const wishlist = useSelector((state: RootState) => state.wishlist.list);
   const listItem = wishlist.find((item) => item.id === Number(id));
   const isInWishList = Boolean(listItem);
+  const [selectedColor, setSelectedColor] = useState(product?.colors[0]);
   const handleAddToCart = (product: Product) => {
     const cartData = {
       id: product.id,
       imageUrl: product.imageUrls[0],
       title: product.title,
-      color: product.colors[0],
+      color: selectedColor,
       price: product.salePrice,
       cartQuantity: 1,
     };
@@ -259,20 +261,22 @@ const ProductHero = () => {
             >
               {product.colors.map((color: string, index: number) => (
                 <Box
+                  component="button"
+                  onClick={() => setSelectedColor(color)}
                   key={index}
                   width={30}
                   height={30}
                   borderRadius="50%"
                   sx={{
                     backgroundColor: color,
-                    border: "2px solid transparent",
                     transition: "all 0.3s ease-in-out",
                     cursor: "pointer",
                     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
-                    "&:hover": {
-                      transform: "scale(1.2)",
-                      border: "2px solid #000",
-                    },
+                    transform: selectedColor === color ? "scale(1.2)" : "",
+                    border:
+                      selectedColor === color
+                        ? "2px solid #000"
+                        : "2px solid transparent",
                   }}
                 />
               ))}

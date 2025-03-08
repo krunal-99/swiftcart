@@ -107,7 +107,7 @@ const ContactForm: React.FC = () => {
                   sx={{ color: "#737373" }}
                   fontWeight={400}
                 >
-                  965845451
+                  965845452
                 </Typography>
               </Box>
             </Box>

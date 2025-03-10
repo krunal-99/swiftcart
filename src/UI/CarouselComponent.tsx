@@ -1,26 +1,52 @@
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../main";
+import { Product } from "../data/types";
+import { addToCart } from "../features/cartSlice";
 
 interface CarouselComponentProps {
   carouselData: {
     id: number;
     imageUrl: string;
-    season: string;
     collection: string;
     price: string;
     tagline: string;
     buttonText: string;
-    page: string;
+    path: string;
   }[];
 }
 
-const CarouselComponent: React.FC<CarouselComponentProps> = (props) => {
+const responsive = {
+  desktop: { breakpoint: { max: 3000, min: 1024 }, items: 1 },
+  tablet: { breakpoint: { max: 1024, min: 768 }, items: 1 },
+  mobile: { breakpoint: { max: 768, min: 0 }, items: 1 },
+};
+
+const CarouselComponent: React.FC<CarouselComponentProps> = ({
+  carouselData,
+}) => {
   const [isSwipeable, setIsSwipeable] = useState(true);
+  const products = useSelector((state: RootState) => state.products.items);
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (product: Product) => {
+    if (!product) return;
+    const cartData = {
+      id: product.id,
+      imageUrl: product.imageUrls[0],
+      title: product.title,
+      color: product.colors[0],
+      price: product.salePrice,
+      cartQuantity: 1,
+    };
+    dispatch(addToCart(cartData));
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,76 +61,74 @@ const CarouselComponent: React.FC<CarouselComponentProps> = (props) => {
     };
   }, []);
 
+  const CustomDot = ({ onClick, active }: any) => {
+    return (
+      <Box
+        component="button"
+        onClick={() => onClick()}
+        sx={{
+          width: "50px",
+          height: "10px",
+          margin: "0 4px",
+          backgroundColor: active ? "white" : "rgba(255, 255, 255, 0.5)",
+          border: "none",
+          cursor: "pointer",
+          transition: "all 0.3s",
+          position: "relative",
+          bottom: "20px",
+          display: "inline-block",
+        }}
+      />
+    );
+  };
+
   return (
     <Carousel
+      responsive={responsive}
       autoPlay
-      infiniteLoop
-      showThumbs={false}
-      showStatus={false}
+      infinite
+      showDots
+      arrows
       swipeable={isSwipeable}
-      emulateTouch={isSwipeable}
-      renderArrowPrev={(clickHandler, hasPrev) =>
-        hasPrev && (
-          <Button
-            onClick={clickHandler}
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: { xs: "5px", sm: "10px", md: "20px" },
-              zIndex: 2,
-              color: "white",
-              minWidth: "50px",
-              height: "50px",
-            }}
-          >
-            <ArrowBackIosIcon sx={{ fontSize: "30px" }} />
-          </Button>
-        )
-      }
-      renderArrowNext={(clickHandler, hasNext) =>
-        hasNext && (
-          <Button
-            onClick={clickHandler}
-            sx={{
-              position: "absolute",
-              top: "50%",
-              right: { xs: "5px", sm: "10px", md: "20px" },
-              zIndex: 2,
-              color: "white",
-              minWidth: "50px",
-              height: "50px",
-            }}
-          >
-            <ArrowForwardIosIcon sx={{ fontSize: "30px" }} />
-          </Button>
-        )
-      }
-      renderIndicator={(clickHandler, isSelected, index) => (
-        <Box
-          component="button"
-          key={index}
-          onClick={clickHandler}
+      draggable={isSwipeable}
+      customLeftArrow={
+        <Button
           sx={{
-            width: "50px",
-            height: "10px",
-            margin: "0 4px",
-            backgroundColor: isSelected ? "white" : "rgba(255, 255, 255, 0.5)",
-            border: "none",
-            cursor: "pointer",
-            transition: "all 0.3s",
-            position: "relative",
-            bottom: "20px",
-            display: "inline-block",
+            position: "absolute",
+            top: "50%",
+            left: { xs: "5px", sm: "10px", md: "20px" },
+            zIndex: 2,
+            color: "white",
+            minWidth: "50px",
+            height: "50px",
           }}
-        />
-      )}
+        >
+          <ArrowBackIosIcon sx={{ fontSize: "30px" }} />
+        </Button>
+      }
+      customRightArrow={
+        <Button
+          sx={{
+            position: "absolute",
+            top: "50%",
+            right: { xs: "5px", sm: "10px", md: "20px" },
+            zIndex: 2,
+            color: "white",
+            minWidth: "50px",
+            height: "50px",
+          }}
+        >
+          <ArrowForwardIosIcon sx={{ fontSize: "30px" }} />
+        </Button>
+      }
+      customDot={<CustomDot />}
     >
-      {props.carouselData.map((item) => (
+      {carouselData.map((item) => (
         <Box
           key={item.id}
           sx={{
             width: "100%",
-            height: "100vh",
+            height: "92vh",
             backgroundImage: `url(${item.imageUrl})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -114,6 +138,7 @@ const CarouselComponent: React.FC<CarouselComponentProps> = (props) => {
             justifyContent: { xs: "center", md: "flex-start" },
             textAlign: { xs: "center", md: "left" },
             px: { xs: 2, sm: 4, md: 8 },
+            mt: { xs: "65px", md: 0 },
           }}
         >
           <Stack
@@ -123,16 +148,6 @@ const CarouselComponent: React.FC<CarouselComponentProps> = (props) => {
               ml: { xs: 5, md: 10, lg: 15 },
             }}
           >
-            <Typography
-              variant="body1"
-              fontWeight={700}
-              sx={{
-                fontSize: { xs: "14px", sm: "16px", md: "18px" },
-                letterSpacing: "0.1px",
-              }}
-            >
-              {item.season}
-            </Typography>
             <Typography
               variant="h3"
               sx={{
@@ -171,11 +186,12 @@ const CarouselComponent: React.FC<CarouselComponentProps> = (props) => {
                   fontWeight={700}
                   fontSize={{ xs: "20px", sm: "22px", md: "24px" }}
                 >
-                  {item.price}
+                  ₹ {item.price}
                 </Typography>
               )}
-              <NavLink to={item.page === "hero" ? "/shop" : "/cart"}>
+              <NavLink to={item.path}>
                 <Button
+                  onClick={() => handleAddToCart(products[item.id])}
                   sx={{
                     backgroundColor: "#2dc071",
                     fontWeight: 700,

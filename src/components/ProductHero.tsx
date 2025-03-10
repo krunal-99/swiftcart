@@ -29,21 +29,27 @@ import {
 } from "../features/cartSlice";
 import { addToList, removeFromList } from "../features/wishListSlice";
 import image from "../assets/images/product12.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ProductHero = () => {
   const { id } = useParams();
-  const products = useSelector((state: RootState) => state.products.items);
-  const product = products.find((item) => item.id === Number(id));
   const dispatch = useDispatch();
+
+  const products = useSelector((state: RootState) => state.products.items);
   const cart = useSelector((state: RootState) => state.cart.cartItems);
-  const cartItem = cart.find((item) => item.id === Number(id));
-  const isInCart = Boolean(cartItem);
   const wishlist = useSelector((state: RootState) => state.wishlist.list);
+
+  const product = products.find((item) => item.id === Number(id));
+  const [selectedColor, setSelectedColor] = useState(product?.colors[0] || "");
+  const cartItem = cart.find(
+    (item) => item.id === Number(id) && item.color === selectedColor
+  );
+  const isInCart = Boolean(cartItem);
   const listItem = wishlist.find((item) => item.id === Number(id));
   const isInWishList = Boolean(listItem);
-  const [selectedColor, setSelectedColor] = useState(product?.colors[0]);
+
   const handleAddToCart = (product: Product) => {
+    if (!product) return;
     const cartData = {
       id: product.id,
       imageUrl: product.imageUrls[0],
@@ -55,6 +61,7 @@ const ProductHero = () => {
 
     dispatch(addToCart(cartData));
   };
+
   const handleAddToList = (product: Product) => {
     const listData = {
       id: product.id,
@@ -67,6 +74,18 @@ const ProductHero = () => {
       listQuantity: 1,
     };
     dispatch(addToList(listData));
+  };
+
+  useEffect(() => {
+    if (product) {
+      setSelectedColor(product.colors[0] || "");
+    }
+  }, [product]);
+
+  const handleRemoveFromCart = () => {
+    if (cartItem) {
+      dispatch(removeFromCart(cartItem));
+    }
   };
 
   if (!product) {
@@ -296,7 +315,7 @@ const ProductHero = () => {
                   flexDirection={{ xs: "column", sm: "row" }}
                 >
                   <Button
-                    onClick={() => dispatch(removeFromCart(product))}
+                    onClick={handleRemoveFromCart}
                     variant="contained"
                     color="error"
                     sx={{

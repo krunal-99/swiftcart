@@ -1,15 +1,19 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { RootState } from "../main";
 const SingleProductComponent = () => {
+  const products = useSelector((state: RootState) => state.products.items);
   return (
     <Box
       sx={{
         width: "90%",
         mx: "auto",
+        mt: "75px",
         display: "grid",
         gridTemplateColumns: { sm: "1fr", md: "1fr 1fr" },
         alignItems: "center",
-        gap: { xs: 4, md: 6 },
+        gap: { xs: 4, md: 0 },
         pb: 10,
       }}
     >
@@ -22,15 +26,15 @@ const SingleProductComponent = () => {
       >
         <Box
           component="img"
-          src="./src/assets/images/care.png"
+          src={products[35].imageUrls[0]}
           alt="Care Section"
           sx={{
             maxWidth: {
               xs: "100%",
               sm: "90%",
-              md: "500px",
-              lg: "600px",
-              xl: "700px",
+              md: "400px",
+              lg: "500px",
+              xl: "600px",
             },
             height: "auto",
           }}
@@ -44,12 +48,6 @@ const SingleProductComponent = () => {
         }}
       >
         <Typography
-          variant="body2"
-          sx={{ fontSize: "16px", fontWeight: 700, color: "#bdbdbd" }}
-        >
-          WINTER 2025
-        </Typography>
-        <Typography
           variant="h3"
           sx={{
             fontSize: { xs: "30px", sm: "36px", md: "40px" },
@@ -58,7 +56,7 @@ const SingleProductComponent = () => {
             lineHeight: { xs: "40px", md: "50px" },
           }}
         >
-          Part of the Neural Universe
+          {products[35].title}
         </Typography>
         <Typography
           variant="body1"
@@ -69,7 +67,7 @@ const SingleProductComponent = () => {
             maxWidth: "400px",
           }}
         >
-          We know how large objects will act, but things on a small scale.
+          {products[35].shortDescription}
         </Typography>
         <Stack
           direction="row"
@@ -79,7 +77,7 @@ const SingleProductComponent = () => {
             justifyContent: { xs: "center", md: "flex-start" },
           }}
         >
-          <NavLink to="/product">
+          <NavLink to="/product/36">
             <Button
               variant="contained"
               sx={{
@@ -94,20 +92,22 @@ const SingleProductComponent = () => {
               BUY NOW
             </Button>
           </NavLink>
-          <Button
-            variant="outlined"
-            sx={{
-              borderColor: "#2dc071",
-              color: "#2dc071",
-              fontSize: { xs: "14px", sm: "16px" },
-              fontWeight: 700,
-              px: 4,
-              py: 1.5,
-              "&:hover": { borderColor: "#28a961", color: "#28a961" },
-            }}
-          >
-            READ MORE
-          </Button>
+          <NavLink to="/product/36">
+            <Button
+              variant="outlined"
+              sx={{
+                borderColor: "#2dc071",
+                color: "#2dc071",
+                fontSize: { xs: "14px", sm: "16px" },
+                fontWeight: 700,
+                px: 4,
+                py: 1.5,
+                "&:hover": { borderColor: "#28a961", color: "#28a961" },
+              }}
+            >
+              READ MORE
+            </Button>
+          </NavLink>
         </Stack>
       </Stack>
     </Box>

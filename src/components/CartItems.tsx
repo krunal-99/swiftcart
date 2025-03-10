@@ -39,7 +39,7 @@ const CartItems = () => {
   const isMobile = useMediaQuery(appTheme.breakpoints.down("sm"));
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getTotals({}));
+    dispatch(getTotals());
     dispatch(getListTotal());
   }, [cart, dispatch]);
 
@@ -70,7 +70,7 @@ const CartItems = () => {
         <Button
           variant="contained"
           color="error"
-          onClick={() => dispatch(clearCart(cart))}
+          onClick={() => dispatch(clearCart())}
           sx={{
             fontWeight: 700,
             width: { xs: "50px", sm: "200px" },

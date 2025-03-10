@@ -2,12 +2,30 @@ import React from "react";
 import { Box, Typography, Grid, Paper } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setBrands, setCategory } from "../features/productSlice";
 
 const categories = [
-  { label: "MEN", image: "./src/assets/images/category1.jpeg" },
-  { label: "WOMEN", image: "./src/assets/images/category2.jpeg" },
-  { label: "ACCESSORIES", image: "./src/assets/images/category3.jpeg" },
-  { label: "KIDS", image: "./src/assets/images/category4.jpeg" },
+  {
+    label: "MEN",
+    category: "Men's clothing",
+    image: "./src/assets/images/category1.jpeg",
+  },
+  {
+    label: "WOMEN",
+    category: "Women's clothing",
+    image: "./src/assets/images/category2.jpeg",
+  },
+  {
+    label: "ACCESSORIES",
+    category: "Jewellery",
+    image: "./src/assets/images/category3.jpeg",
+  },
+  {
+    label: "KIDS",
+    category: "Kid's clothing",
+    image: "./src/assets/images/category4.jpeg",
+  },
 ];
 
 const CategoryItem = styled(Paper)(({ theme }) => ({
@@ -38,6 +56,12 @@ const CategoryItem = styled(Paper)(({ theme }) => ({
 }));
 
 const Categories: React.FC = () => {
+  const dispatch = useDispatch();
+
+  const handleCategoryClick = (category: string) => {
+    dispatch(setCategory(category));
+    dispatch(setBrands([]));
+  };
   return (
     <Box sx={{ pt: 10, background: "#fafafa", textAlign: "center", pb: 15 }}>
       <Typography variant="h4" fontWeight={700} color="#252b42" gutterBottom>
@@ -59,7 +83,9 @@ const Categories: React.FC = () => {
       >
         <Grid item xs={12} sm={6} md={4} sx={{ height: 500 }}>
           <NavLink to="/shop">
-            <CategoryItem>
+            <CategoryItem
+              onClick={() => handleCategoryClick(categories[0].category)}
+            >
               <img src={categories[0].image} alt={categories[0].label} />
               <span className="label">{categories[0].label}</span>
             </CategoryItem>
@@ -67,7 +93,9 @@ const Categories: React.FC = () => {
         </Grid>
         <Grid item xs={12} sm={6} md={4} sx={{ height: 500 }}>
           <NavLink to="/shop">
-            <CategoryItem>
+            <CategoryItem
+              onClick={() => handleCategoryClick(categories[1].category)}
+            >
               <img src={categories[1].image} alt={categories[1].label} />
               <span className="label">{categories[1].label}</span>
             </CategoryItem>
@@ -77,7 +105,9 @@ const Categories: React.FC = () => {
           <Grid container direction="column" spacing={2}>
             <Grid item sx={{ height: 240 }}>
               <NavLink to="/shop">
-                <CategoryItem>
+                <CategoryItem
+                  onClick={() => handleCategoryClick(categories[2].category)}
+                >
                   <img src={categories[2].image} alt={categories[2].label} />
                   <span className="label">{categories[2].label}</span>
                 </CategoryItem>
@@ -85,7 +115,9 @@ const Categories: React.FC = () => {
             </Grid>
             <Grid item sx={{ height: 240 }}>
               <NavLink to="/shop">
-                <CategoryItem>
+                <CategoryItem
+                  onClick={() => handleCategoryClick(categories[3].category)}
+                >
                   <img src={categories[3].image} alt={categories[3].label} />
                   <span className="label">{categories[3].label}</span>
                 </CategoryItem>

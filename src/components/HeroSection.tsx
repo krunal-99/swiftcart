@@ -1,26 +1,26 @@
+import { useSelector } from "react-redux";
 import CarouselComponent from "../UI/CarouselComponent";
+import { RootState } from "../main";
 const HeroSection = () => {
+  const products = useSelector((state: RootState) => state.products.items);
   const data = [
     {
       id: 1,
-      imageUrl: "./src/assets/images/hero.jpeg",
-      season: "WINTER 2025",
-      collection: "NEW COLLECTIONS",
-      tagline:
-        "We know how large objects will act, but things on a small scale.",
+      imageUrl: "./src/assets/images/bg1.jpg",
+      collection: `${products[66].title}`,
+      tagline: `${products[66].shortDescription}`,
       price: "",
       buttonText: "SHOP NOW",
-      page: "hero",
+      path: "/product/67",
     },
     {
       id: 2,
-      imageUrl: "./src/assets/images/heroreborn2.png",
-      season: "SPRING 2025",
-      collection: "NEW ARRIVALS",
-      tagline: "Fresh looks for a fresh season.",
+      imageUrl: "./src/assets/images/bg2.jpg",
+      collection: `${products[15].title}`,
+      tagline: `${products[15].shortDescription}`,
       price: "",
       buttonText: "SHOP NOW",
-      page: "hero",
+      path: "/product/16",
     },
   ];
   return <CarouselComponent carouselData={data} />;

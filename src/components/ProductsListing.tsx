@@ -48,8 +48,6 @@ const ProductsListing: React.FC = () => {
     firstProductIndex,
     lastProductIndex
   );
-  console.log("Products:", products);
-  console.log(filteredProducts);
 
   const handleFilterToggle = () => {
     setMobileFilterOpen((prev) => !prev);

@@ -1,5 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import { useEffect } from "react";
 
 interface shopCardData {
   id: number;

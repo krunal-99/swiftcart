@@ -24,7 +24,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Person2Icon from "@mui/icons-material/Person2";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,11 +43,48 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
+const StyledNavLink = styled(NavLink)(({ theme }) => ({
+  textDecoration: "none",
+  position: "relative",
+  "& .MuiButton-root": {
+    transition: "all 0.3s ease",
+  },
+  "&.active .MuiButton-root": {
+    color: "#23a6f0",
+    fontWeight: 800,
+  },
+  "@keyframes fadeIn": {
+    "0%": {
+      width: "0%",
+      opacity: 0,
+    },
+    "100%": {
+      width: "60%",
+      opacity: 1,
+    },
+  },
+}));
+
+const StyledDrawerNavLink = styled(NavLink)(({ theme }) => ({
+  textDecoration: "none",
+  width: "90%",
+  margin: "auto",
+  "&.active .MuiListItemText-root": {
+    color: "#23a6f0",
+    fontWeight: 800,
+  },
+  "&.active .MuiListItemButton-root": {
+    backgroundColor: "rgba(35, 166, 240, 0.08)",
+    borderRadius: "8px",
+  },
+}));
+
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isFixed, setIsFixed] = useState(false);
+  const location = useLocation();
 
   const toggleDrawer = (open: boolean) => () => {
     setDrawerOpen(open);
@@ -73,7 +110,7 @@ const Navbar = () => {
   const wishlist = useSelector((state: RootState) => state.wishlist);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getTotals({}));
+    dispatch(getTotals());
     dispatch(getListTotal());
   }, [cart, dispatch]);
 
@@ -89,8 +126,14 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
+  const isActiveLink = (path: string): boolean => {
+    if (path === "/" && location.pathname === "/") return true;
+    if (path !== "/" && location.pathname.includes(path)) return true;
+    return false;
+  };
+
   return (
-    <div>
+    <>
       <AppBar
         sx={{
           backgroundColor: "white",
@@ -122,10 +165,11 @@ const Navbar = () => {
               sx={{ ml: 10, flexGrow: 1, display: { xs: "none", md: "flex" } }}
             >
               {navLinks.map((navLink) => (
-                <NavLink
+                <StyledNavLink
                   key={navLink}
                   style={{ textDecoration: "none" }}
                   to={navLink === "HOME" ? "/" : `${navLink.toLowerCase()}`}
+                  className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <Button
                     sx={{
@@ -137,7 +181,7 @@ const Navbar = () => {
                   >
                     {navLink}
                   </Button>
-                </NavLink>
+                </StyledNavLink>
               ))}
             </Box>
             <Stack spacing={1} direction="row" sx={{ ml: "auto" }}>
@@ -151,7 +195,11 @@ const Navbar = () => {
               </IconButton>
               <NavLink to="/cart" style={{ textDecoration: "none" }}>
                 <IconButton
-                  sx={{ color: "#23a6f0", display: { xs: "none", md: "flex" } }}
+                  sx={{
+                    color: "#23a6f0",
+                    transition: "color 0.3s ease",
+                    display: { xs: "none", md: "flex" },
+                  }}
                 >
                   <Badge badgeContent={cart.totalCartQuantity} color="error">
                     <ShoppingCartIcon />
@@ -160,7 +208,11 @@ const Navbar = () => {
               </NavLink>
               <Tooltip title="User Profile">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar sx={{ bgcolor: "#23a6f0" }}>
+                  <Avatar
+                    sx={{
+                      bgcolor: "#23a6f0",
+                    }}
+                  >
                     <Person2Icon />
                   </Avatar>
                 </IconButton>
@@ -179,7 +231,18 @@ const Navbar = () => {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <MenuItem
+                    key={setting}
+                    onClick={handleCloseUserMenu}
+                    sx={{
+                      backgroundColor: isActiveLink(`/${setting.toLowerCase()}`)
+                        ? "rgba(35, 166, 240, 0.08)"
+                        : "transparent",
+                      "&:hover": {
+                        backgroundColor: "rgba(35, 166, 240, 0.12)",
+                      },
+                    }}
+                  >
                     <NavLink
                       key={setting}
                       style={{ textDecoration: "none", textAlign: "center" }}
@@ -188,7 +251,9 @@ const Navbar = () => {
                       <Typography
                         sx={{
                           textAlign: "center",
-                          color: "#737373",
+                          color: isActiveLink(`/${setting.toLowerCase()}`)
+                            ? "#23a6f0"
+                            : "#737373",
                           fontWeight: 700,
                         }}
                       >
@@ -232,14 +297,10 @@ const Navbar = () => {
           <List>
             {navLinks.map((navLink) => (
               <ListItem key={navLink} disablePadding>
-                <NavLink
+                <StyledDrawerNavLink
                   key={navLink}
-                  style={{
-                    textDecoration: "none",
-                    width: "90%",
-                    margin: "auto",
-                  }}
                   to={navLink === "HOME" ? "/" : `${navLink.toLowerCase()}`}
+                  className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <ListItemButton>
                     <ListItemText
@@ -251,14 +312,27 @@ const Navbar = () => {
                       }}
                     />
                   </ListItemButton>
-                </NavLink>
+                </StyledDrawerNavLink>
               </ListItem>
             ))}
             <ListItem disablePadding>
               <ListItemButton
-                sx={{ display: "flex", justifyContent: "center" }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  backgroundColor: isActiveLink("/cart")
+                    ? "rgba(35, 166, 240, 0.08)"
+                    : "transparent",
+                  borderRadius: "8px",
+                }}
               >
-                <NavLink to="/cart" style={{ textDecoration: "none" }}>
+                <NavLink
+                  to="/cart"
+                  style={{
+                    textDecoration: "none",
+                    color: "#23a6f0",
+                  }}
+                >
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Badge
                       style={{ color: "#23a6f0" }}
@@ -273,7 +347,14 @@ const Navbar = () => {
             </ListItem>
             <ListItem disablePadding>
               <ListItemButton
-                sx={{ display: "flex", justifyContent: "center" }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  backgroundColor: isActiveLink("/wishlist")
+                    ? "rgba(35, 166, 240, 0.08)"
+                    : "transparent",
+                  borderRadius: "8px",
+                }}
               >
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <Badge badgeContent={wishlist.listQuantity} color="error">
@@ -287,7 +368,7 @@ const Navbar = () => {
           </List>
         </Box>
       </Drawer>
-    </div>
+    </>
   );
 };
 

@@ -1,12 +1,19 @@
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Grid2, Typography } from "@mui/material";
 import CardComponent from "../UI/CardComponent";
 import { useSelector } from "react-redux";
 import { RootState } from "../main";
+import { Product } from "../data/types";
 
 const Products = () => {
   const products = useSelector((state: RootState) => state.products.items);
+  const getRandomProducts = (products: Product[], count: number) => {
+    const shuffled = [...products].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  };
+  const bestProducts =
+    products.length > 8 ? getRandomProducts(products, 8) : products;
   return (
-    <Container sx={{ mt: 10 }}>
+    <Box sx={{ my: 10 }}>
       <Box sx={{ textAlign: "center", mb: 4 }}>
         <Typography variant="h6" color="#737373">
           Featured Products
@@ -28,23 +35,19 @@ const Products = () => {
         </Typography>
       </Box>
 
-      <Grid container spacing={3} justifyContent="center" alignItems="center">
-        {products.slice(0, 8).map((product, index) => (
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
-            lg={3}
+      <Grid2 container spacing={3} justifyContent="center" alignItems="center">
+        {bestProducts.slice(0, 8).map((product, index) => (
+          <Grid2
+            columns={{ xs: 12, sm: 6, md: 4, lg: 3 }}
             key={index}
             display="flex"
             justifyContent="center"
           >
             <CardComponent key={index} product={product} />
-          </Grid>
+          </Grid2>
         ))}
-      </Grid>
-    </Container>
+      </Grid2>
+    </Box>
   );
 };
 

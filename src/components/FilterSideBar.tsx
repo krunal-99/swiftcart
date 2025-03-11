@@ -10,31 +10,8 @@ import {
   Divider,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { Product } from "../data/types";
-
-interface FilterSidebarProps {
-  isMobile: boolean;
-  onClose?: () => void;
-  products: Product[];
-  selectedCategory: string;
-  selectedBrands: string[];
-  priceRange: [number, number];
-  onCategoryChange: (category: string) => void;
-  onBrandChange: (brands: string[]) => void;
-  onPriceChange: (range: [number, number]) => void;
-}
-
-const categories = [
-  "All Categories",
-  "Men's clothing",
-  "Women's clothing",
-  "Kid's clothing",
-  "Footwear",
-  "Watches",
-  "Electronics",
-  "Jewellery",
-  "Hand bags",
-];
+import { FilterSidebarProps } from "../data/types";
+import { categories } from "../data/data";
 
 const FilterSidebar: React.FC<FilterSidebarProps> = ({
   isMobile,

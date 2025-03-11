@@ -17,12 +17,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Link } from "react-router-dom";
-
-interface RegisterFormData {
-  username: string;
-  email: string;
-  password: string;
-}
+import { RegisterFormData } from "../data/types";
 
 const RegisterForm: React.FC = () => {
   const [formData, setFormData] = useState<RegisterFormData>({

@@ -1,4 +1,5 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
+import { assets } from "../assets";
 
 const AboutHero = () => {
   return (
@@ -51,7 +52,7 @@ const AboutHero = () => {
       </Stack>
       <Box
         component="img"
-        src="./src/assets/images/about.svg"
+        src={`${assets.images.AboutHeroImg}`}
         height="auto"
         width={{ xs: "100%", sm: "80%", md: "500px" }}
         maxWidth="600px"

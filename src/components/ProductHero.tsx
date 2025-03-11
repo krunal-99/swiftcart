@@ -26,16 +26,16 @@ import {
   addToCart,
   decreaseQuantity,
   removeFromCart,
-} from "../features/cartSlice";
-import { addToList, removeFromList } from "../features/wishListSlice";
-import image from "../assets/images/product12.svg";
+} from "../store/cartSlice";
+import { addToList, removeFromList } from "../store/wishListSlice";
 import { useEffect, useState } from "react";
 
 const ProductHero = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const products = useSelector((state: RootState) => state.products.items);
+  const products = useSelector((state: RootState) => state.products?.items);
   const cart = useSelector((state: RootState) => state.cart.cartItems);
   const wishlist = useSelector((state: RootState) => state.wishlist.list);
 
@@ -65,7 +65,7 @@ const ProductHero = () => {
   const handleAddToList = (product: Product) => {
     const listData = {
       id: product.id,
-      imageUrl: product.imageUrls?.filter(Boolean)[0] || image,
+      imageUrl: product.imageUrls?.filter(Boolean)[0],
       title: product.title,
       type: product.type,
       originalPrice: product.originalPrice,
@@ -162,6 +162,8 @@ const ProductHero = () => {
           <Stack alignItems="center">
             <Carousel
               autoPlay
+              selectedItem={selectedIndex}
+              onChange={(index) => setSelectedIndex(index)}
               infiniteLoop
               showThumbs={false}
               showStatus={false}
@@ -178,9 +180,20 @@ const ProductHero = () => {
                       color: "white",
                       minWidth: "50px",
                       height: "50px",
+                      backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      transition: "background-color 0.3s ease",
+                      "&:hover": {
+                        backgroundColor: "rgba(0, 0, 0, 0.8)",
+                      },
                     }}
                   >
-                    <ArrowBackIosIcon sx={{ fontSize: "30px" }} />
+                    <ArrowBackIosIcon
+                      sx={{ fontSize: { xs: "20px", sm: "25px", md: "30px" } }}
+                    />
                   </Button>
                 )
               }
@@ -196,22 +209,46 @@ const ProductHero = () => {
                       color: "white",
                       minWidth: "50px",
                       height: "50px",
+                      backgroundColor: "rgba(0, 0, 0, 0.5)",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      transition: "background-color 0.3s ease",
+                      "&:hover": {
+                        backgroundColor: "rgba(0, 0, 0, 0.8)",
+                      },
                     }}
                   >
-                    <ArrowForwardIosIcon sx={{ fontSize: "30px" }} />
+                    <ArrowForwardIosIcon
+                      sx={{ fontSize: { xs: "20px", sm: "25px", md: "30px" } }}
+                    />
                   </Button>
                 )
               }
             >
               {product.imageUrls.map((image: string, idx: number) => (
                 <Box
-                  component="img"
                   key={idx}
-                  src={image}
-                  width={{ xs: "100%", sm: "510px" }}
-                  height={{ xs: "auto", sm: "410px" }}
-                  sx={{ objectFit: "cover" }}
-                ></Box>
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%",
+                    height: { xs: "250px", sm: "350px", md: "450px" },
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={image}
+                    sx={{
+                      maxWidth: "100%",
+                      maxHeight: "100%",
+                      objectFit: "contain",
+                      borderRadius: "10px",
+                    }}
+                  />
+                </Box>
               ))}
             </Carousel>
             <Stack
@@ -224,12 +261,18 @@ const ProductHero = () => {
             >
               {product.imageUrls.map((image: string, idx: number) => (
                 <Box
+                  onClick={() => setSelectedIndex(idx)}
                   component="img"
                   key={idx}
                   src={image}
                   width={80}
                   height={60}
-                  sx={{ objectFit: "cover", cursor: "pointer" }}
+                  sx={{
+                    objectFit: "cover",
+                    cursor: "pointer",
+                    border:
+                      selectedIndex === idx ? "2px solid #007bff" : "none",
+                  }}
                 ></Box>
               ))}
             </Stack>

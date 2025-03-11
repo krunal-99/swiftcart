@@ -14,10 +14,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import { Link } from "react-router-dom";
-interface LoginFormData {
-  email: string;
-  password: string;
-}
+import { LoginFormData } from "../data/types";
 
 const LoginForm: React.FC = () => {
   const [formData, setFormData] = useState<LoginFormData>({

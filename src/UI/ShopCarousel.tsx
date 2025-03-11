@@ -10,7 +10,8 @@ import {
   selectFilteredProducts,
   setBrands,
   setCategory,
-} from "../features/productSlice";
+} from "../store/productSlice";
+import { assets } from "../assets";
 
 const responsive = {
   desktop: {
@@ -38,42 +39,42 @@ const responsive = {
 const shopCardItems = [
   {
     id: 1,
-    image: "./src/assets/images/shop3.jpg",
+    image: `${assets.images.Shop3Img}`,
     category: "Men's clothing",
   },
   {
     id: 2,
-    image: "./src/assets/images/shop6.webp",
+    image: `${assets.images.Shop6Img}`,
     category: "Women's clothing",
   },
   {
     id: 3,
-    image: "./src/assets/images/shop2.jpg",
+    image: `${assets.images.Shop2Img}`,
     category: "Kid's clothing",
   },
   {
     id: 4,
-    image: "./src/assets/images/nike.jpg",
+    image: `${assets.images.NikeImg}`,
     category: "Footwear",
   },
   {
     id: 5,
-    image: "./src/assets/images/rolex.webp",
+    image: `${assets.images.RolexImg}`,
     category: "Watches",
   },
   {
     id: 6,
-    image: "./src/assets/images/apple.jpg",
+    image: `${assets.images.AppleImg}`,
     category: "Electronics",
   },
   {
     id: 7,
-    image: "./src/assets/images/necklace.jpg",
+    image: `${assets.images.NecklaceImg}`,
     category: "Jewellery",
   },
   {
     id: 8,
-    image: "./src/assets/images/shop5.jpg",
+    image: `${assets.images.Shop5Img}`,
     category: "Hand bags",
   },
 ];

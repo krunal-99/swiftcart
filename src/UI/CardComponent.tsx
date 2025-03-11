@@ -8,16 +8,12 @@ import {
   Typography,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import { Product } from "../data/types";
+import { Product, ProductCardProps } from "../data/types";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useDispatch, useSelector } from "react-redux";
-import { addToList, removeFromList } from "../features/wishListSlice";
+import { addToList, removeFromList } from "../store/wishListSlice";
 import { RootState } from "../main";
-
-interface ProductCardProps {
-  product: Product;
-}
 
 const CardComponent: React.FC<ProductCardProps> = (props) => {
   const wishlist = useSelector((state: RootState) => state.wishlist.list);

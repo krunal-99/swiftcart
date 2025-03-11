@@ -4,15 +4,15 @@ import ReplyAllIcon from "@mui/icons-material/ReplyAll";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTotals } from "../features/cartSlice";
+import { getTotals } from "../store/cartSlice";
+import { getListTotal } from "../store/wishListSlice";
 import { RootState } from "../main";
-import { getListTotal } from "../features/wishListSlice";
 
 const CartBoxes = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
   useEffect(() => {
-    dispatch(getTotals({}));
+    dispatch(getTotals());
     dispatch(getListTotal());
   }, [cart, dispatch]);
   return (

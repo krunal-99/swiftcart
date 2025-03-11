@@ -24,7 +24,7 @@ import {
   setPriceRange,
   setSortBy,
   selectAllProducts,
-} from "../features/productSlice";
+} from "../store/productSlice";
 
 const ProductsListing: React.FC = () => {
   const dispatch = useDispatch();
@@ -62,6 +62,7 @@ const ProductsListing: React.FC = () => {
 
   const handleCategoryChange = (category: string) => {
     dispatch(setCategory(category));
+    handleFilterToggle();
     setPage(1);
   };
 

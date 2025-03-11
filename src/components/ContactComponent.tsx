@@ -1,5 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import { assets } from "../assets";
 
 const ContactComponent = () => {
   return (
@@ -52,7 +53,7 @@ const ContactComponent = () => {
         sx={{
           width: "40%",
           height: "auto",
-          backgroundImage: "url('src/assets/images/contact.svg')",
+          backgroundImage: `url(${assets.images.ContactImg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

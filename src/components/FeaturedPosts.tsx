@@ -13,39 +13,7 @@ import {
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CommentIcon from "@mui/icons-material/Comment";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-
-const posts = [
-  {
-    id: 1,
-    image: "./src/assets/images/post1.jpeg",
-    tag: "Google",
-    title: "Loudest à la Madison #1 (L'integral)",
-    description:
-      "We focus on ergonomics and meeting you where you work. It's only a keystroke away.",
-    date: "22 April 2021",
-    comments: 10,
-  },
-  {
-    id: 2,
-    image: "./src/assets/images/post2.jpeg",
-    tag: "Google",
-    title: "Loudest à la Madison #1 (L'integral)",
-    description:
-      "We focus on ergonomics and meeting you where you work. It's only a keystroke away.",
-    date: "22 April 2021",
-    comments: 10,
-  },
-  {
-    id: 3,
-    image: "./src/assets/images/post3.jpeg",
-    tag: "Google",
-    title: "Loudest à la Madison #1 (L'integral)",
-    description:
-      "We focus on ergonomics and meeting you where you work. It's only a keystroke away.",
-    date: "22 April 2021",
-    comments: 10,
-  },
-];
+import { posts } from "../data/data";
 
 const FeaturedPosts: React.FC = () => {
   return (

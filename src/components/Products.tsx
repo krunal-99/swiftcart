@@ -1,15 +1,11 @@
 import { Box, Grid2, Typography } from "@mui/material";
 import CardComponent from "../UI/CardComponent";
+import { getRandomProducts } from "../utils/utils";
 import { useSelector } from "react-redux";
 import { RootState } from "../main";
-import { Product } from "../data/types";
 
 const Products = () => {
   const products = useSelector((state: RootState) => state.products.items);
-  const getRandomProducts = (products: Product[], count: number) => {
-    const shuffled = [...products].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
-  };
   const bestProducts =
     products.length > 8 ? getRandomProducts(products, 8) : products;
   return (

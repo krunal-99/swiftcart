@@ -12,30 +12,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
 import { NavLink } from "react-router-dom";
-
-const footerLinks = [
-  {
-    title: "Company Info",
-    links: ["About Us", "Carrier", "We are hiring", "Blog"],
-  },
-  {
-    title: "Legal",
-    links: ["About Us", "Carrier", "We are hiring", "Blog"],
-  },
-  {
-    title: "Features",
-    links: [
-      "Business Marketing",
-      "User Analytic",
-      "Live Chat",
-      "Unlimited Support",
-    ],
-  },
-  {
-    title: "Resources",
-    links: ["IOS & Android", "Watch a Demo", "Customers", "API"],
-  },
-];
+import { footerLinks } from "../data/data";
 
 const Footer = () => {
   return (

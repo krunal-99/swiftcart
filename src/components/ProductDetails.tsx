@@ -13,15 +13,10 @@ import {
   useTheme,
 } from "@mui/material";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../main";
 import { useParams } from "react-router-dom";
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
+import { RootState } from "../main";
+import { useSelector } from "react-redux";
+import { TabPanelProps } from "../data/types";
 
 const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;

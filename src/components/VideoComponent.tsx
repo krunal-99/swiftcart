@@ -1,10 +1,11 @@
 import { Box } from "@mui/material";
+import { assets } from "../assets";
 
 const VideoComponent = () => {
   return (
     <Box width="80%" m="auto">
       <video
-        src="./src/assets/video/ecommerce.mp4"
+        src={`${assets.videos.AdVideo}`}
         width="100%"
         height="auto"
         muted

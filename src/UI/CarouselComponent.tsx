@@ -7,20 +7,8 @@ import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../main";
-import { Product } from "../data/types";
-import { addToCart } from "../features/cartSlice";
-
-interface CarouselComponentProps {
-  carouselData: {
-    id: number;
-    imageUrl: string;
-    collection: string;
-    price: string;
-    tagline: string;
-    buttonText: string;
-    path: string;
-  }[];
-}
+import { CarouselComponentProps, Product } from "../data/types";
+import { addToCart } from "../store/cartSlice";
 
 const responsive = {
   desktop: { breakpoint: { max: 3000, min: 1024 }, items: 1 },
@@ -32,7 +20,7 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({
   carouselData,
 }) => {
   const [isSwipeable, setIsSwipeable] = useState(true);
-  const products = useSelector((state: RootState) => state.products.items);
+  const products = useSelector((state: RootState) => state?.products.items);
   const dispatch = useDispatch();
 
   const handleAddToCart = (product: Product) => {
@@ -191,7 +179,11 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({
               )}
               <NavLink to={item.path}>
                 <Button
-                  onClick={() => handleAddToCart(products[item.id])}
+                  onClick={() => {
+                    if (item.price !== "") {
+                      handleAddToCart(products[item.id]);
+                    }
+                  }}
                   sx={{
                     backgroundColor: "#2dc071",
                     fontWeight: 700,

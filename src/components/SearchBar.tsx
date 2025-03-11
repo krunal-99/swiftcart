@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { selectSearchTerm, setSearchTerm } from "../features/productSlice";
+import { selectSearchTerm, setSearchTerm } from "../store/productSlice";
 
 const SearchBar = () => {
   const dispatch = useDispatch();

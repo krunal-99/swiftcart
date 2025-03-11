@@ -1,1694 +1,4 @@
 import { Product } from "./types";
-// export const products: Product[] = [
-//   {
-//     id: 1,
-//     title: "Premium Leather Laptop Bag",
-//     type: "Accessory",
-//     category: "Hand bags",
-//     brand: "Hidesign",
-//     originalPrice: 4999,
-//     salePrice: 3999,
-//     rating: 8.7,
-//     reviewCount: 342,
-//     shortDescription: "Elegant genuine leather laptop bag with multiple compartments",
-//     detailDescription: "Crafted from premium full-grain leather, this laptop bag features a padded compartment that fits laptops up to 15.6 inches. The bag includes multiple pockets for accessories, documents, and personal items. The adjustable shoulder strap and sturdy handles provide comfortable carrying options. The bag's interior is lined with durable fabric to protect your devices from scratches.",
-//     additionalInformation: "Dimensions: 40cm x 30cm x 10cm | Weight: 1.2kg | Warranty: 1 year manufacturer warranty",
-//     colors: ["#3E2723", "#A52A2A", "#000000"],
-//     reviews: [
-//       { username: "Rahul M.", rating: 9, comment: "Excellent quality leather and craftsmanship. Worth every rupee." },
-//       { username: "Priya S.", rating: 8, comment: "Beautiful bag with plenty of space. The leather smell is divine!" },
-//       { username: "Amit K.", rating: 9, comment: "Using it for 6 months now, and it's aging beautifully." }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-//     ]
-//   },
-//   {
-//     id: 2,
-//     title: "Wireless Noise Cancelling Headphones",
-//     type: "Audio",
-//     category: "Electronics",
-//     brand: "Sony",
-//     originalPrice: 24990,
-//     salePrice: 19990,
-//     rating: 9.2,
-//     reviewCount: 1256,
-//     shortDescription: "Premium wireless headphones with industry-leading noise cancellation",
-//     detailDescription: "Experience the next level of silence with industry-leading noise cancellation technology. These headphones feature 40mm liquid crystal polymer drivers for exceptional audio quality. With up to 30 hours of battery life and quick charging capability, you can enjoy uninterrupted music all day. The touch controls allow easy management of your music, calls, and voice assistant. The headphones automatically adjust the ambient sound based on your activity for an optimal listening experience.",
-//     additionalInformation: "Bluetooth 5.0 | Battery Life: Up to 30 hours | Quick Charge: 10 min charge for 5 hours playback | Weight: 254g | Warranty: 2 years",
-//     colors: ["#000000", "#7B7B7B", "#C0C0C0"],
-//     reviews: [
-//       { username: "Vikram T.", rating: 10, comment: "The noise cancellation is unbelievable. Perfect for flights and office." },
-//       { username: "Neha G.", rating: 9, comment: "Sound quality is exceptional. Battery life is impressive too." },
-//       { username: "Karan S.", rating: 8, comment: "Comfortable for long listening sessions. Worth the investment." }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1577174881658-0f30ed549adc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1546435770-a3e426bf472b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-//     ]
-//   },
-//   {
-//     id: 3,
-//     title: "Men's Slim Fit Formal Shirt",
-//     type: "Clothing",
-//     category: "Men's Clothing",
-//     brand: "Allen Solly",
-//     originalPrice: 2499,
-//     salePrice: 1799,
-//     rating: 8.5,
-//     reviewCount: 789,
-//     shortDescription: "Premium cotton formal shirt with wrinkle-resistant technology",
-//     detailDescription: "This slim-fit formal shirt is crafted from 100% premium cotton with wrinkle-resistant technology, making it perfect for long workdays. The shirt features a classic collar, button cuffs, and a chest pocket. The breathable fabric ensures comfort throughout the day. The tailored fit provides a modern silhouette without being too tight. This versatile shirt pairs well with formal trousers for office wear or with chinos for a smart-casual look.",
-//     additionalInformation: "Material: 100% Cotton | Care: Machine wash cold, Tumble dry low | Sizes available: 38-44 | Fit: Slim fit",
-//     colors: ["#FFFFFF", "#87CEEB", "#FFB6C1", "#000000"],
-//     reviews: [
-//       { username: "Rajesh K.", rating: 9, comment: "Perfect fit and excellent fabric quality. Minimal ironing needed." },
-//       { username: "Suresh P.", rating: 8, comment: "Comfortable for all-day wear. The wrinkle-resistant feature actually works." },
-//       { username: "Mahesh T.", rating: 8, comment: "Great value for money. I've bought three more in different colors." }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1598032895397-b9472444bf93?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1607345366928-199ea26cfe3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-//     ]
-//   },
-//   {
-//     id: 4,
-//     title: "Smart LED TV 55-inch 4K",
-//     type: "Television",
-//     category: "Electronics",
-//     brand: "Samsung",
-//     originalPrice: 59990,
-//     salePrice: 49990,
-//     rating: 9.0,
-//     reviewCount: 2345,
-//     shortDescription: "55-inch 4K Ultra HD Smart LED TV with HDR and voice control",
-//     detailDescription: "Experience stunning clarity with this 55-inch 4K Ultra HD Smart LED TV. The Quantum Processor 4K upscales content to 4K resolution for enhanced detail. HDR technology brings out the detail and contrast in dark scenes. The TV features multiple voice assistants for hands-free control. With built-in apps and screen mirroring, you can enjoy a variety of content from different sources. The slim design with minimal bezels provides an immersive viewing experience.",
-//     additionalInformation: "Resolution: 3840 x 2160 | Refresh Rate: 120Hz | Connectivity: 3 HDMI ports, 2 USB ports, Wi-Fi, Bluetooth | Sound: 20W output with Dolby Digital Plus | Warranty: 1 year comprehensive + 1 year on panel",
-//     colors: ["#000000"],
-//     reviews: [
-//       { username: "Deepak S.", rating: 9, comment: "Picture quality is exceptional. Smart features work smoothly." },
-//       { username: "Anita R.", rating: 10, comment: "The 4K resolution is mind-blowing. Worth every penny." },
-//       { username: "Vivek M.", rating: 8, comment: "Great TV, but the sound could be better. I added a soundbar." }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1593784991095-a205069470b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1601944177325-f8867652837f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1461151304267-38535e780c79?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-//     ]
-//   },
-//   {
-//     id: 5,
-//     title: "Stainless Steel Water Bottle",
-//     type: "Kitchen",
-//     category: "Furniture",
-//     brand: "Milton",
-//     originalPrice: 1299,
-//     salePrice: 999,
-//     rating: 8.8,
-//     reviewCount: 1876,
-//     shortDescription: "Double-walled vacuum insulated stainless steel water bottle",
-//     detailDescription: "This premium stainless steel water bottle features double-walled vacuum insulation that keeps beverages cold for 24 hours or hot for 12 hours. The bottle is made from high-quality 18/8 food-grade stainless steel that's BPA-free and doesn't transfer flavors. The leak-proof cap ensures no spills in your bag. The wide mouth makes it easy to fill with ice cubes and clean. The durable powder coating provides a slip-free grip and prevents condensation on the exterior.",
-//     additionalInformation: "Capacity: 750ml | Material: 18/8 Stainless Steel | Dimensions: 27cm x 7.5cm | Weight: 330g | Warranty: 5 years",
-//     colors: ["#000000", "#1E90FF", "#FF4500", "#228B22"],
-//     reviews: [
-//       { username: "Arjun N.", rating: 9, comment: "Keeps water cold all day even in hot summer. Excellent quality." },
-//       { username: "Divya M.", rating: 8, comment: "No leaks, easy to clean, and looks stylish. Great purchase." },
-//       { username: "Ravi S.", rating: 9, comment: "Using it for 6 months daily. Still looks and works like new." }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1602143407151-7111542de6e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1610847499832-918a1c3c6811?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1589365278144-c9e705f843ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-//     ]
-//   },
-//   {
-//     id: 6,
-//     title: "Smartphone with 108MP Camera",
-//     type: "Mobile Phones",
-//     category: "Electronics",
-//     brand: "Xiaomi",
-//     originalPrice: 29999,
-//     salePrice: 24999,
-//     rating: 8.9,
-//     reviewCount: 3421,
-//     shortDescription: "Feature-packed smartphone with 108MP camera and 5G connectivity",
-//     detailDescription: "This powerful smartphone features a 108MP main camera with 8K video recording capability. The 6.67-inch AMOLED display offers a 120Hz refresh rate for smooth scrolling and gaming. Powered by the latest Snapdragon processor with 8GB RAM, it handles multitasking with ease. The 5000mAh battery supports 67W fast charging, giving you a full day's power in just 30 minutes. With 5G connectivity, you're future-proofed for the next generation of mobile networks. The phone runs on the latest Android version with minimal bloatware.",
-//     additionalInformation: "Display: 6.67-inch AMOLED, 120Hz | Processor: Snapdragon 8 Gen 1 | RAM: 8GB LPDDR5 | Storage: 128GB UFS 3.1 | Battery: 5000mAh | Charging: 67W wired | OS: Android 12 | Warranty: 1 year",
-//     colors: ["#000000", "#0000FF", "#FFFFFF"],
-//     reviews: [
-//       { username: "Rohit K.", rating: 9, comment: "Camera quality is exceptional. Battery life is impressive too." },
-//       { username: "Sneha T.", rating: 9, comment: "Fast performance and the display is gorgeous. Great value for money." },
-//       { username: "Prakash J.", rating: 8, comment: "5G works well in supported areas. Overall a solid phone." }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1598327105666-5b89351aff97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1546054454-aa26e2b734c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1585060544812-6b45742d762f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-//     ]
-//   },
-//   {
-//     id: 7,
-//     title: "Ergonomic Office Chair",
-//     type: "Office",
-//     category: "Furniture",
-//     brand: "Featherlite",
-//     originalPrice: 15999,
-//     salePrice: 12999,
-//     rating: 8.6,
-//     reviewCount: 742,
-//     shortDescription: "High-back ergonomic office chair with adjustable lumbar support",
-//     detailDescription: "This ergonomic office chair is designed for all-day comfort with adjustable lumbar support that conforms to your spine. The breathable mesh backrest provides ventilation to keep you cool during long work sessions. The chair features multiple adjustment points including seat height, armrest height and angle, tilt tension, and recline lock. The high-density foam cushion distributes weight evenly to reduce pressure points. The sturdy nylon base with smooth-rolling casters allows for easy movement on various floor surfaces.",
-//     additionalInformation: "Weight Capacity: 120kg | Seat Height: 45-55cm adjustable | Material: Mesh back, fabric seat | Assembly: Required, tools included | Warranty: 3 years",
-//     colors: ["#000000", "#808080", "#0000FF"],
-//     reviews: [
-//       { username: "Sanjay R.", rating: 9, comment: "Best investment for work from home. My back pain has significantly reduced." },
-//       { username: "Anjali P.", rating: 8, comment: "Very comfortable for long hours. Assembly was straightforward." },
-//       { username: "Mohan K.", rating: 9, comment: "The adjustability options are excellent. Quality construction." }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1580480055273-228ff5388ef8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1589384267710-7a170981ca78?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1579656381226-5fc0f0100c3b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-//     ]
-//   },
-//   {
-//     id: 8,
-//     title: "Handcrafted Leather Wallet",
-//     type: "Accessory",
-//     category: "Men's Clothing",
-//     brand: "Woodland",
-//     originalPrice: 1999,
-//     salePrice: 1499,
-//     rating: 8.7,
-//     reviewCount: 956,
-//     shortDescription: "Genuine leather bifold wallet with RFID protection",
-//     detailDescription: "This handcrafted wallet is made from full-grain genuine leather that develops a beautiful patina over time. The wallet features RFID blocking technology to protect your credit cards from unauthorized scanning. With 8 card slots, 2 currency compartments, and an ID window, it offers ample storage while maintaining a slim profile. The precision stitching ensures durability for years of use. Each wallet is unique with natural variations in the leather grain and color.",
-//     additionalInformation: "Material: Full-grain leather | Dimensions: 11.5cm x 9cm x 1.5cm | RFID Protection: Yes | Warranty: 1 year against manufacturing defects",
-//     colors: ["#8B4513", "#000000", "#A52A2A"],
-//     reviews: [
-//       { username: "Nikhil S.", rating: 9, comment: "Excellent quality leather. Slim design fits perfectly in pocket." },
-//       { username: "Arun T.", rating: 8, comment: "The RFID protection works well. Leather feels premium." },
-//       { username: "Dinesh R.", rating: 9, comment: "Using it for a year now and it's aging beautifully." }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1627123424574-724758594e93?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1606503825008-909a67e63c3d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1559694097-9180d94bb882?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-//     ]
-//   },
-//   {
-//     id: 9,
-//     title: "Fitness Smartwatch",
-//     type: "Wearables",
-//     category: "Electronics",
-//     brand: "Fitbit",
-//     originalPrice: 14999,
-//     salePrice: 11999,
-//     rating: 8.9,
-//     reviewCount: 2134,
-//     shortDescription: "Advanced fitness tracker with heart rate monitoring and GPS",
-//     detailDescription: "This advanced fitness smartwatch tracks your heart rate 24/7 and monitors sleep stages to provide insights into your health. The built-in GPS tracks your outdoor activities with precise route mapping. With over 20 goal-based exercise modes, you can get real-time stats during your workouts. The watch is water-resistant up to 50 meters, making it suitable for swimming. The always-on display is protected by Corning Gorilla Glass. The battery lasts up to 7 days on a single charge, depending on usage. The watch also supports notifications, music control, and contactless payments.",
-//     additionalInformation: "Display: 1.58-inch AMOLED | Water Resistance: 5 ATM | Battery Life: Up to 7 days | Sensors: Heart rate, SpO2, accelerometer, gyroscope, altimeter | Connectivity: Bluetooth 5.0, Wi-Fi | Compatibility: iOS 12.2+, Android 7.0+ | Warranty: 1 year",
-//     colors: ["#000000", "#1E90FF", "#FF69B4"],
-//     reviews: [
-//       { username: "Pradeep M.", rating: 9, comment: "Accurate fitness tracking and the battery life is impressive." },
-//       { username: "Kavita S.", rating: 9, comment: "Sleep tracking has helped me improve my sleep habits. Worth the investment." },
-//       { username: "Rajiv D.", rating: 8, comment: "GPS works well for running. The app is intuitive and provides good insights." }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1575311373937-040b8e1fd6b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-//     ]
-//   },
-//   {
-//     id: 10,
-//     title: "Handmade Ceramic Dinner Set",
-//     type: "Home",
-//     category: "Dining",
-//     brand: "Ellementry",
-//     originalPrice: 8999,
-//     salePrice: 6999,
-//     rating: 9.1,
-//     reviewCount: 487,
-//     shortDescription: "Artisanal 24-piece ceramic dinner set with hand-painted designs",
-//     detailDescription: "This exquisite dinner set is handcrafted by skilled artisans using traditional techniques. Each piece is made from high-quality ceramic and hand-painted with food-safe glazes. The set includes 6 dinner plates, 6 side plates, 6 bowls, and 6 mugs, perfect for a family of six. The unique hand-painted designs ensure that no two pieces are exactly alike. The ceramic material retains heat well, keeping your food warm longer. The set is microwave, dishwasher, and oven safe, making it both beautiful and practical for everyday use.",
-//     additionalInformation: "Material: Ceramic | Pieces: 24 (6 dinner plates, 6 side plates, 6 bowls, 6 mugs) | Dishwasher Safe: Yes | Microwave Safe: Yes | Oven Safe: Up to 180°C | Care: Avoid sudden temperature changes",
-//     colors: ["#F5F5DC", "#87CEEB", "#E6E6FA"],
-//     reviews: [
-//       { username: "Rekha J.", rating: 10, comment: "Absolutely beautiful craftsmanship. Each piece is a work of art." },
-//       { username: "Sunil P.", rating: 9, comment: "The quality is excellent. We use it for special occasions and everyday meals." },
-//       { username: "Meera K.", rating: 8, comment: "Beautiful set that has held up well to daily use. The colors are vibrant." }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1603199506016-b9a594b593c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1590502593747-42a996133562?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-//     ]
-//   },
-//   {
-//     id: 11,
-//     title: "Women's Running Shoes",
-//     type: "Sports",
-//     category: "Footwear",
-//     brand: "Nike",
-//     originalPrice: 7999,
-//     salePrice: 5999,
-//     rating: 8.8,
-//     reviewCount: 1543,
-//     shortDescription: "Lightweight running shoes with responsive cushioning",
-//     detailDescription: "These premium running shoes feature responsive cushioning that returns energy with every step. The engineered mesh upper provides targeted breathability and support where you need it most. The lightweight foam midsole delivers a smooth, stable ride. The rubber outsole offers durable traction on various surfaces. The shoes have a heel pull tab for easy on and off. The padded collar and tongue provide additional comfort during long runs. The reflective elements enhance visibility in low-light conditions.",
-//     additionalInformation: "Weight: 255g (women's size 7) | Drop: 10mm | Arch Support: Neutral | Terrain: Road | Pronation: Neutral | Warranty: 2 years",
-//     colors: ["#FF69B4", "#000000", "#4169E1", "#FFFFFF"],
-//     reviews: [
-//       { username: "Pooja S.", rating: 9, comment: "Extremely comfortable for long runs. Great cushioning and support." },
-//       { username: "Nisha R.", rating: 9, comment: "Perfect fit and very lightweight. My go-to running shoes now." },
-//       { username: "Tanya M.", rating: 8, comment: "Good grip on wet surfaces. Breathable even during summer runs." }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1608231387042-66d1773070a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-//     ]
-//   },
-//   {
-//     id: 12,
-//     title: "Professional DSLR Camera",
-//     type: "Electronics",
-//     category: "Photography",
-//     brand: "Canon",
-//     originalPrice: 89990,
-//     salePrice: 79990,
-//     rating: 9.3,
-//     reviewCount: 876,
-//     shortDescription: "Full-frame DSLR camera with 4K video recording",
-//     detailDescription: "This professional-grade DSLR camera features a 30.4 megapixel full-frame CMOS sensor that delivers stunning image quality with remarkable detail. The camera offers 4K video recording at 30fps and Full HD at 60fps. The 61-point autofocus system with 41 cross-points ensures precise focusing even in challenging conditions. The camera has a native ISO range of 100-32000, expandable to 50-102400, for excellent low-light performance. The weather-sealed body protects against dust and moisture. The 3.2-inch touchscreen LCD allows for intuitive operation. The camera is compatible with a wide range of EF lenses.",
-//     additionalInformation: "Sensor: 30.4MP Full-Frame CMOS | Processor: DIGIC 6+ | Autofocus: 61-point AF system | ISO Range: 100-32000 (expandable to 50-102400) | Continuous Shooting: 7fps | Storage: Dual card slots (CF and SD) | Battery Life: Approx. 900 shots | Warranty: 2 years",
-//     colors: ["#000000"],
-//     reviews: [
-//       { username: "Aditya P.", rating: 10, comment: "Exceptional image quality and autofocus performance. Worth every rupee for professionals." },
-//       { username: "Neelam K.", rating: 9, comment: "The low light performance is outstanding. Build quality is top-notch." },
-//       { username: "Sameer R.", rating: 9, comment: "4K video quality is excellent. The weather sealing has been reliable in various conditions." }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1616423640778-28d1b53229bd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1588372405219-e40d64efafcb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-//     ]
-//   },
-//   {
-//     id: 13,
-//     title: "Organic Ayurvedic Skincare Set",
-//     type: "Beauty",
-//     category: "Skincare",
-//     brand: "Forest Essentials",
-//     originalPrice: 4999,
-//     salePrice: 3999,
-//     rating: 8.9,
-//     reviewCount: 723,
-//     shortDescription: "Luxury Ayurvedic skincare set with natural ingredients",
-//     detailDescription: "This premium Ayurvedic skincare set is formulated with natural ingredients sourced from sustainable farms across India. The set includes a facial cleanser, toner, moisturizer, face mask, and facial oil, all designed to work together for radiant skin. The products are free from parabens, sulfates, and synthetic fragrances. The formulations are based on traditional Ayurvedic recipes enhanced with modern skincare science. All ingredients are ethically sourced and the packaging is eco-friendly. The products are suitable for all skin types and are dermatologically tested.",
-//     additionalInformation: "Contents: Facial Cleanser (100ml), Facial Toner (100ml), Facial Moisturizer (50ml), Face Mask (50g), Facial Oil (30ml) | Shelf Life: 12 months | Skin Type: All skin types | Free from: Parabens, sulfates, synthetic fragrances | Cruelty-free: Yes",
-//     colors: ["#F5F5DC"],
-//     reviews: [
-//       { username: "Ananya S.", rating: 9, comment: "My skin feels rejuvenated and glowing. The natural fragrance is divine." },
-//       { username: "Ritu P.", rating: 9, comment: "The facial oil is exceptional for dry skin. All products work well together." },
-//       { username: "Jyoti M.", rating: 8, comment: "Gentle yet effective. Has helped with my sensitive skin issues." }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1556228720-195a672e8a03?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1601612628452-9e99ced43524?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-//     ]
-//   },
-//   {
-//     id: 14,
-//     title: "Smart Home Security System",
-//     type: "Electronics",
-//     category: "Home Security",
-//     brand: "Godrej",
-//     originalPrice: 19999,
-//     salePrice: 16999,
-//     rating: 8.7,
-//     reviewCount: 542,
-//     shortDescription: "Comprehensive smart home security system with mobile app control",
-//     detailDescription: "This comprehensive smart home security system includes a central hub, 2 indoor cameras, 1 outdoor camera, 4 door/window sensors, and a motion detector. The system connects to your home Wi-Fi and can be controlled via the mobile app from anywhere. The cameras feature 1080p HD video, night vision, and two-way audio. The system supports AI-powered person detection to reduce false alerts. The door/window sensors notify you immediately when entry points are breached. The system works with voice assistants for hands-free control. The mobile app allows you to arm/disarm the system, view live camera feeds, and receive real-time alerts.",
-//     additionalInformation: "Camera Resolution: 1080p HD | Night Vision: Up to 30 feet | Storage: Cloud (7-day free, subscription for longer) and local microSD | Power: Wired with battery backup | Connectivity: Wi-Fi 2.4GHz | Compatibility: Android 5.0+, iOS 10.0+ | Warranty: 2 years",
-//     colors: ["#FFFFFF"],
-//     reviews: [
-//       { username: "Vinod K.", rating: 9, comment: "Easy to install and the app is intuitive. Provides peace of mind when away from home." },
-//       { username: "Sheetal R.", rating: 8, comment: "The motion detection works well and the camera quality is excellent." },
-//       { username: "Ramesh S.", rating: 9, comment: "Integration with voice assistants is seamless. The notifications are prompt." }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1558002038-1055907df827?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1563459802257-2a97df940f11?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-//       "https://images.unsplash.com/photo-1595750383596-b625f5c1a5d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-//     ]
-//   },{
-//   id: 15,
-//   title: "Premium Cotton Slim Fit Shirt",
-//   type: "Clothing",
-//   category: "Men's Clothing",
-//   brand: "Allen Solly",
-//   originalPrice: 2499,
-//   salePrice: 1799,
-//   rating: 8.7,
-//   reviewCount: 342,
-//   shortDescription: "Premium cotton slim fit formal shirt with button-down collar",
-//   detailDescription: "This premium cotton slim fit shirt from Allen Solly is crafted from 100% Egyptian cotton for superior comfort and durability. Features include a button-down collar, single-button cuffs, and a chest pocket. The slim fit design offers a modern silhouette while maintaining comfort throughout the day. Perfect for formal occasions or office wear.",
-//   additionalInformation: "Material: 100% Egyptian Cotton | Care: Machine wash cold, tumble dry low | Fit: Slim Fit | Collar: Button-down | Cuffs: Single-button",
-//   reviews: [
-//     {
-//       username: "Rajesh Kumar",
-//       rating: 9,
-//       comment: "Excellent quality shirt. The fabric feels premium and the fit is perfect for my build. Will definitely buy more colors.",
-//     },
-//     {
-//       username: "Amit Singh",
-//       rating: 8,
-//       comment: "Good shirt for office wear. The cotton is breathable and comfortable even in hot weather.",
-//     },
-//     {
-//       username: "Vikram Mehta",
-//       rating: 9,
-//       comment: "The slim fit is perfect - not too tight, not too loose. Excellent craftsmanship.",
-//     }
-//   ],
-//   imageUrls: [
-//     "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80",
-//     "https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80",
-//     "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80"
-//   ],
-//   colors: ["#FFFFFF", "#87CEEB", "#FFC0CB", "#000000"]
-// },
-//   {
-//     id: 16,
-//     title: "Floral Print Maxi Dress",
-//     type: "Clothing",
-//     category: "Women's Clothing",
-//     brand: "Biba",
-//     originalPrice: 3999,
-//     salePrice: 2799,
-//     rating: 9.2,
-//     reviewCount: 278,
-//     shortDescription: "Elegant floral print maxi dress with V-neck and flared design",
-//     detailDescription: "This stunning floral print maxi dress from Biba features a flattering V-neckline and a flared design that creates an elegant silhouette. Made from premium rayon fabric, it offers exceptional comfort and breathability. The vibrant floral pattern adds a touch of femininity, making it perfect for summer outings, casual gatherings, or festive occasions. The dress includes convenient side pockets and a concealed back zipper for easy wear.",
-//     additionalInformation: "Material: 100% Rayon | Care: Hand wash cold, line dry | Length: Maxi | Neckline: V-neck | Sleeves: Three-quarter | Closure: Back zipper",
-//     reviews: [
-//       {
-//           username: "Priya Sharma",
-//         rating: 10,
-//         comment: "Absolutely love this dress! The fit is perfect and the floral print is gorgeous. Received many compliments when I wore it to a family function.",
-//       },
-//       {
-//           username: "Neha Gupta",
-//         rating: 9,
-//         comment: "Beautiful dress with great quality fabric. The pockets are a nice bonus!",
-//         },
-//       {
-//           username: "Anjali Patel",
-//         rating: 8,
-//         comment: "Lovely dress but slightly longer than expected. Had to get it altered, but otherwise perfect.",
-//       }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1623609163859-ca93c959b5b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1619086303291-0e4c0f752f53?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//     ],
-//     colors: ["#FF69B4", "#87CEFA", "#98FB98", "#FFD700"]
-//   },
-//   {
-//     id: 17,
-//     title: "Premium Leather Running Shoes",
-//     type: "Footwear",
-//     category: "Footwear",
-//     brand: "Nike",
-//     originalPrice: 8999,
-//     salePrice: 6499,
-//     rating: 9.5,
-//     reviewCount: 512,
-//     shortDescription: "High-performance running shoes with responsive cushioning",
-//     detailDescription: "These premium Nike running shoes feature advanced cushioning technology for responsive performance and comfort during long runs. The breathable mesh upper provides ventilation while the durable rubber outsole offers excellent traction on various surfaces. The shoes include a padded collar and tongue for added comfort, and the removable insole allows for custom orthotics if needed. Designed with both performance and style in mind, these shoes are perfect for serious runners and casual athletes alike.",
-//     additionalInformation: "Material: Mesh upper, rubber outsole | Cushioning: Nike React foam | Drop: 10mm | Weight: 255g (men's size 9) | Arch Support: Neutral | Closure: Lace-up",
-//     reviews: [
-//       {
-//           username: "Rahul Verma",
-//         rating: 10,
-//         comment: "Best running shoes I've ever owned. The cushioning is perfect for my daily 5K runs, and they still look great after months of use.",
-//       },
-//       {
-//           username: "Karan Malhotra",
-//         rating: 9,
-//         comment: "Very comfortable for long-distance running. Good grip on both wet and dry surfaces.",
-//       },
-//       {
-//           username: "Deepak Sharma",
-//         rating: 9,
-//         comment: "Great shoes but took a few days to break in. Now they're my go-to for all my runs.",
-//       }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1608231387042-66d1773070a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//     ],
-//     colors: ["#FF0000", "#000000", "#4169E1", "#808080"]
-//   },
-//   {
-//     id: 18,
-//     title: "Chronograph Stainless Steel Watch",
-//     type: "Accessory",
-//     category: "Watches",
-//     brand: "Fossil",
-//     originalPrice: 12999,
-//     salePrice: 9999,
-//     rating: 9.0,
-//     reviewCount: 187,
-//     shortDescription: "Elegant chronograph watch with stainless steel strap and water resistance",
-//     detailDescription: "This sophisticated Fossil chronograph watch features a premium stainless steel case and bracelet with a sleek brushed finish. The watch face includes three sub-dials for tracking seconds, minutes, and hours, along with a date window at 4 o'clock. With 100m water resistance, it's suitable for swimming and snorkeling but not for diving. The luminous hands and markers ensure visibility in low-light conditions, while the scratch-resistant mineral crystal protects the face from daily wear. This versatile timepiece transitions seamlessly from office to evening wear.",
-//     additionalInformation:"Case Size: 44mm | Case Material: Stainless Steel | Movement: Quartz | Water Resistance: 100m | Battery Life: Approximately 2 years | Features: Chronograph, Date Display, Luminous Hands",
-//     reviews: [
-//       {
-//           username: "Aditya Kapoor",
-//         rating: 9,
-//         comment: "Excellent watch for the price. Looks much more expensive than it is and keeps perfect time.",
-//       },
-//       {
-//           username: "Sanjay Gupta",
-//         rating: 8,
-//         comment: "Good quality watch. The chronograph functions work well, and the stainless steel strap is comfortable.",
-//       },
-//       {
-//           username: "Rohit Sharma",
-//         rating: 10,
-//         comment: "Stunning watch that goes with everything. The water resistance is a great feature for everyday wear.",
-//       }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1524805444758-089113d48a6d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1622434641406-a158123450f9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1539874754764-5a96559165b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//     ],
-//     colors: ["#C0C0C0", "#FFD700", "#000000"]
-//   },
-//   {
-//     id: 19,
-//     title: "4K Smart LED TV",
-//     type: "Electronics",
-//     category: "Electronics",
-//     brand: "Samsung",
-//     originalPrice: 59999,
-//     salePrice: 47999,
-//     rating: 9.3,
-//     reviewCount: 423,
-//     shortDescription: "55-inch 4K Ultra HD Smart LED TV with HDR and built-in voice assistant",
-//     detailDescription: "Experience stunning visuals with this Samsung 55-inch 4K Ultra HD Smart LED TV. Featuring HDR technology, it delivers vibrant colors and deep blacks for an immersive viewing experience. The powerful processor upscales content to near-4K quality, while the smart TV platform provides access to popular streaming services like Netflix, Amazon Prime, and Disney+. Built-in voice assistants (Alexa and Google Assistant) allow for hands-free control, and the slim design with minimal bezels complements any living space. Multiple HDMI and USB ports ensure connectivity with all your devices.",
-//     additionalInformation:"Screen Size: 55 inches | Resolution: 3840 x 2160 (4K UHD) | Refresh Rate: 60Hz | HDR: Yes | Smart TV Platform: Tizen | Connectivity: Wi-Fi, Bluetooth, 3 HDMI ports, 2 USB ports | Audio: 20W output with Dolby Digital Plus | Power Consumption: 150W",
-//     reviews: [
-//       {
-//           username: "Vivek Malhotra",
-//         rating: 10,
-//         comment: "Exceptional picture quality and smart features. The setup was straightforward, and the interface is user-friendly.",
-//       },
-//       {
-//           username: "Suresh Patel",
-//         rating: 9,
-//         comment: "Great TV for the price. The 4K resolution is stunning, especially when watching nature documentaries.",
-//       },
-//       {
-//           username: "Anand Joshi",
-//         rating: 8,
-//         comment: "Good TV overall. The sound could be better, but the picture quality is excellent.",
-//       }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1593305841991-05c297ba4575?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1601944177325-f8867652837f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1461151304267-38535e780c79?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//     ],
-//     colors: ["#000000"]
-//   },
-//   {
-//     id: 20,
-//     title: "Dinosaur Print T-shirt Set",
-//     type: "Clothing",
-//     category: "Kid's Clothing",
-//     brand: "H&M",
-//     originalPrice: 1299,
-//     salePrice: 899,
-//     rating: 8.9,
-//     reviewCount: 156,
-//     shortDescription: "Comfortable cotton t-shirt and shorts set with fun dinosaur prints",
-//     detailDescription: "This adorable H&M dinosaur print set includes a short-sleeve t-shirt and matching shorts, perfect for active kids. Made from 100% organic cotton, the fabric is soft, breathable, and gentle on sensitive skin. The t-shirt features a colorful dinosaur print on the front, while the shorts have an elastic waistband with drawstring for a comfortable fit. The set is easy to wash and maintains its shape and vibrant colors even after multiple washes. Ideal for everyday wear, playdates, or casual outings.",
-//     additionalInformation:"Material: 100% Organic Cotton | Care: Machine wash cold, tumble dry low | Age Range: 2-8 years | Sizes Available: 2T, 3T, 4T, 5T, 6, 7, 8 | Set Includes: 1 T-shirt, 1 Shorts",
-//     reviews: [
-//       {
-//         username: "Meera Khanna",
-//         rating: 9,
-//         comment: "My son loves this dinosaur set! The material is soft and comfortable, and the prints are vibrant even after washing.",
-//        },
-//       {
-//         username: "Pooja Singh",
-//         rating: 8,
-//         comment: "Good quality clothing for kids. The size runs a bit large, so I'd recommend sizing down.",
-//        },
-//       {
-//         username: "Ritu Desai",
-//         rating: 10,
-//         comment: "Perfect summer outfit for my 4-year-old. The organic cotton is breathable and doesn't irritate his skin.",
-//        }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1522771930-78848d9293e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1519238359922-989348752efb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//     ],
-//     colors: ["#1E90FF", "#32CD32", "#FF6347", "#FFD700"]
-//   },
-//   {
-//     id: 21,
-//     title: "Diamond Pendant Necklace",
-//     type: "Jewelry",
-//     category: "Jewellery",
-//     brand: "Tanishq",
-//     originalPrice: 24999,
-//     salePrice: 19999,
-//     rating: 9.6,
-//     reviewCount: 89,
-//     shortDescription: "Elegant 18K gold diamond pendant necklace with delicate chain",
-//     detailDescription: "This exquisite Tanishq diamond pendant necklace features a stunning 0.25-carat solitaire diamond set in 18K gold. The pendant has a classic design with a modern twist, making it perfect for both everyday wear and special occasions. The delicate 18-inch chain complements the pendant beautifully and includes a secure lobster clasp. Each diamond is carefully selected for its exceptional cut, clarity, and brilliance. The necklace comes in a luxurious gift box with a certificate of authenticity, making it an ideal gift for anniversaries, birthdays, or other special celebrations.",
-//     additionalInformation:"Metal: 18K Gold | Diamond: 0.25 carat | Diamond Quality: VS clarity, F color | Chain Length: 18 inches | Clasp: Lobster | Certification: IGI certified | Warranty: Lifetime against manufacturing defects",
-//     reviews: [
-//       {
-//         username: "Anita Desai",
-//         rating: 10,
-//         comment: "Absolutely stunning necklace! The diamond catches the light beautifully, and the gold chain is delicate yet sturdy.",
-//        },
-//       {
-//         username: "Kavita Sharma",
-//         rating: 9,
-//         comment: "Purchased this for my anniversary and couldn't be happier. The quality is excellent, and it looks much more expensive than it is.",
-//        },
-//       {
-//         username: "Sunita Patel",
-//         rating: 10,
-//         comment: "Perfect everyday diamond necklace. Simple yet elegant, and the diamond has amazing sparkle.",
-//       }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1611652022419-a9419f74343d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//     ],
-//     colors: ["#FFD700", "#FFFFFF"]
-//   },
-//   {
-//     id: 22,
-//     title: "Designer Leather Handbag",
-//     type: "Accessory",
-//     category: "Accessories",
-//     brand: "Hidesign",
-//     originalPrice: 7999,
-//     salePrice: 5999,
-//     rating: 8.8,
-//     reviewCount: 134,
-//     shortDescription: "Premium genuine leather handbag with multiple compartments",
-//     detailDescription: "This sophisticated Hidesign leather handbag is crafted from premium full-grain leather that develops a beautiful patina over time. The spacious interior features multiple compartments, including a padded laptop sleeve that fits devices up to 13 inches, a zippered pocket for valuables, and several smaller pockets for organization. The bag closes with a secure zipper and includes both top handles and a detachable, adjustable shoulder strap for versatile carrying options. Metal feet on the bottom protect the bag when set down, and the signature Hidesign hardware adds a touch of elegance. Perfect for work, travel, or everyday use.",
-//     additionalInformation:"Material: Full-grain leather | Dimensions: 14\"L x 11\"H x 5\"D | Weight: 2.2 lbs | Interior: Cotton lining | Hardware: Brass with antique finish | Pockets: 1 laptop sleeve, 1 zippered pocket, 3 slip pockets | Strap Drop: 9\" (handles), 21\" (shoulder strap)",
-//     reviews: [
-//       {
-//           username: "Nisha Mehta",
-//         rating: 9,
-//         comment: "Beautiful bag with excellent craftsmanship. The leather is soft yet durable, and the organization inside is perfect for work.",
-//       },
-//       {
-//           username: "Deepika Reddy",
-//         rating: 8,
-//         comment: "Lovely bag but slightly heavier than expected. The quality is outstanding though, and it fits everything I need.",
-//       },
-//       {
-//         username: "Shalini Gupta",
-//         rating: 9,
-//         comment: "This bag is perfect for my daily commute. Fits my laptop, lunch, and all essentials with room to spare.",
-//       }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//     ],
-//     colors: ["#8B4513", "#000000", "#A52A2A", "#F5F5DC"]
-//   },
-//   {
-//     id: 23,
-//     title: "Wireless Noise Cancelling Headphones",
-//     type: "Electronics",
-//     category: "Electronics",
-//     brand: "Sony",
-//     originalPrice: 24999,
-//     salePrice: 19999,
-//     rating: 9.4,
-//     reviewCount: 367,
-//     shortDescription: "Premium wireless headphones with industry-leading noise cancellation",
-//     detailDescription: "Experience superior sound quality with these Sony wireless noise-cancelling headphones. Featuring industry-leading noise cancellation technology, they effectively block out ambient noise for immersive listening. The 40mm drivers deliver rich, clear audio across all frequencies, while the comfortable over-ear design with plush ear cushions allows for extended listening sessions without discomfort. With up to 30 hours of battery life and quick charging capability (5 hours of playback from just 10 minutes of charging), these headphones are perfect for travel, work, or home use. Additional features include touch controls, voice assistant compatibility, and a speak-to-chat function that automatically pauses music when you start speaking.",
-//     additionalInformation:"Driver Size: 40mm | Battery Life: Up to 30 hours | Charging Time: 3 hours (full charge) | Quick Charge: 10 min for 5 hours playback | Bluetooth Version: 5.0 | Codec Support: LDAC, AAC, SBC | Weight: 254g | Accessories: Carrying case, charging cable, audio cable",
-//     reviews: [
-//       {
-//         username: "Arjun Nair",
-//         rating: 10,
-//         comment: "These headphones are worth every rupee. The noise cancellation is phenomenal, especially on flights, and the sound quality is exceptional.",
-//        },
-//       {
-//         username: "Karthik Menon",
-//         rating: 9,
-//         comment: "Great headphones with impressive battery life. I regularly get over 28 hours on a single charge with noise cancellation on.",
-//        },
-//       {
-//         username: "Pradeep Kumar",
-//         rating: 9,
-//         comment: "The comfort level is amazing. I can wear these for hours without any discomfort, and the sound quality is top-notch.",
-//        }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1546435770-a3e426bf472b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1583394838336-acd977736f90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//     ],
-//     colors: ["#000000", "#C0C0C0", "#FFFFFF", "#0000FF"]
-//   },
-//   {
-//     id: 24,
-//     title: "Slim Fit Denim Jeans",
-//     type: "Clothing",
-//     category: "Men's Clothing",
-//     brand: "Levi's",
-//     originalPrice: 3999,
-//     salePrice: 2799,
-//     rating: 8.9,
-//     reviewCount: 412,
-//     shortDescription: "Classic slim fit denim jeans with stretch comfort",
-//     detailDescription: "These Levi's slim fit jeans combine classic style with modern comfort. Made from premium denim with added stretch, they provide flexibility and ease of movement throughout the day. The slim fit offers a contemporary silhouette without being too tight, sitting below the waist and slim through the hip and thigh with a narrow leg opening. Five-pocket styling, signature stitching on the back pockets, and the iconic leather patch add authentic Levi's details. The versatile medium wash works well for both casual and semi-formal occasions, easily pairing with t-shirts, button-downs, or sweaters.",
-//     additionalInformation:"Material: 98% Cotton, 2% Elastane | Fit: Slim | Rise: Mid-rise | Closure: Button and zipper fly | Pockets: 5-pocket styling | Care: Machine wash cold, tumble dry medium | Inseam Options: 30\", 32\", 34\" | Waist Sizes: 28-40",
-//     reviews: [
-//       {
-//         username: "Varun Khanna",
-//         rating: 9,
-//         comment: "Perfect fit and very comfortable. The stretch in the denim makes these great for all-day wear.",
-//       },
-//       {
-//           username: "Nikhil Sharma",
-//         rating: 8,
-//         comment: "Good quality jeans that have held up well after multiple washes. The color hasn't faded much.",
-//       },
-//       {
-//         username: "Rajat Verma",
-//         rating: 9,
-//         comment: "These are now my go-to jeans. The fit is perfect - not too tight but still looks tailored.",
-//       }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1026&q=80",
-//       "https://images.unsplash.com/photo-1582552938357-32b906df40cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1026&q=80",
-//       "https://images.unsplash.com/photo-1604176354204-9268737828e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1026&q=80"
-//     ],
-//     colors: ["#1E90FF", "#000080", "#000000"]
-//   },
-//   {
-//     id: 25,
-//     title: "Smartphone with Triple Camera",
-//     type: "Electronics",
-//     category: "Electronics",
-//     brand: "Samsung",
-//     originalPrice: 49999,
-//     salePrice: 42999,
-//     rating: 9.2,
-//     reviewCount: 528,
-//     shortDescription: "Feature-packed smartphone with triple camera system and AMOLED display",
-//     detailDescription: "This Samsung smartphone combines cutting-edge technology with sleek design. The 6.5-inch Dynamic AMOLED display offers vibrant colors and deep blacks with HDR10+ certification for an immersive viewing experience. The triple camera system includes a 64MP main camera, 12MP ultra-wide lens, and 5MP macro camera, allowing you to capture stunning photos in any situation. Powered by an octa-core processor and 8GB of RAM, it handles multitasking and demanding applications with ease. The 4500mAh battery supports fast charging and wireless charging for convenience. Additional features include an in-display fingerprint sensor, facial recognition, IP68 water and dust resistance, and expandable storage via microSD card.",
-//     additionalInformation:"Display: 6.5\" Dynamic AMOLED, 120Hz refresh rate | Processor: Octa-core | RAM: 8GB | Storage: 128GB (expandable) | Battery: 4500mAh | Cameras: 64MP main, 12MP ultra-wide, 5MP macro, 32MP front | OS: Android 12 | Connectivity: 5G, Wi-Fi 6, Bluetooth 5.2, NFC | Biometrics: In-display fingerprint, facial recognition | Water Resistance: IP68",
-//     reviews: [
-//       {
-//         username: "Akash Patel",
-//         rating: 9,
-//         comment: "Excellent smartphone with a fantastic camera system. Battery life is impressive, easily lasting a full day of heavy use.",
-//         },
-//       {
-//         username: "Ravi Shankar",
-//         rating: 10,
-//         comment: "The display is absolutely stunning - colors are vibrant and the 120Hz refresh rate makes everything smooth. Camera quality exceeds expectations.",
-//          },
-//       {
-//           username: "Siddharth Kapoor",
-//         rating: 8,
-//         comment: "Great phone overall. The only minor issue is that it heats up a bit during gaming, but performance remains stable.",
-//        }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1598327105666-5b89351aff97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1027&q=80",
-//       "https://images.unsplash.com/photo-1546054454-aa26e2b734c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1027&q=80",
-//       "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1027&q=80"
-//     ],
-//     colors: ["#000000", "#C0C0C0", "#4169E1", "#FFFFFF"]
-//   },
-//   {
-//     id: 26,
-//     title: "Stylish Block Heel Sandals",
-//     type: "Footwear",
-//     category: "Footwear",
-//     brand: "Metro",
-//     originalPrice: 2999,
-//     salePrice: 1999,
-//     rating: 8.5,
-//     reviewCount: 176,
-//     shortDescription: "Comfortable block heel sandals with ankle strap and cushioned footbed",
-//     detailDescription: "These Metro block heel sandals combine style and comfort for all-day wear. The 2.5-inch block heel provides stability and support, while the cushioned footbed ensures comfort with every step. The adjustable ankle strap with buckle closure offers a secure fit and adds a touch of elegance. Crafted from premium synthetic leather with a soft lining, these sandals are both durable and comfortable. The non-slip rubber sole provides excellent traction on various surfaces. Versatile enough to pair with both casual and formal outfits, these sandals are perfect for work, parties, or everyday wear.",
-//     additionalInformation:"Material: Synthetic leather upper, rubber sole | Heel Height: 2.5 inches | Closure: Adjustable ankle strap with buckle | Footbed: Cushioned | Platform Height: 0.5 inches | Available Colors: Black, Tan, Nude, Red | Available Sizes: 36-41 (EU)",
-//     reviews: [
-//       {
-//         username: "Divya Mathur",
-//         rating: 9,
-//         comment: "These sandals are so comfortable! I wore them to a wedding and was able to dance all night without any pain.",
-//        },
-//       {
-//         username: "Priyanka Joshi",
-//         rating: 8,
-//         comment: "Good quality sandals that look more expensive than they are. The block heel makes them easy to walk in.",
-//        },
-//       {
-//         username: "Sneha Gupta",
-//         rating: 8,
-//         comment: "Comfortable and stylish. The ankle strap is adjustable which is great for my narrow ankles.",
-//       }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1562273138-f46be4ebdf33?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//     ],
-//     colors: ["#000000", "#A52A2A", "#FFC0CB", "#FF0000"]
-//   },
-//   {
-//     id: 27,
-//     title: "Gold Plated Bangles Set",
-//     type: "Jewelry",
-//     category: "Jewellery",
-//     brand: "Malabar Gold",
-//     originalPrice: 8999,
-//     salePrice: 6999,
-//     rating: 9.1,
-//     reviewCount: 103,
-//     shortDescription: "Elegant set of six gold-plated bangles with intricate designs",
-//     detailDescription: "This stunning set of six bangles from Malabar Gold features intricate traditional designs with a modern twist. Each bangle is crafted from brass and plated with 22K gold for a luxurious finish that resembles solid gold at a fraction of the price. The bangles vary slightly in design while maintaining a cohesive look, allowing them to be worn together as a set or mixed with other bangles for a personalized style. The secure clasp mechanism makes them easy to put on and take off, while ensuring they stay in place during wear. These bangles are perfect for both everyday wear and special occasions like weddings, festivals, or parties.",
-//     additionalInformation:"Material: Brass with 22K gold plating | Quantity: Set of 6 bangles | Inner Diameter: 2.6 inches (standard size) | Width: 0.4 inches | Weight: Approximately 120g (total) | Clasp: Push-button clasp | Care: Store in a dry place, avoid contact with water and chemicals | Warranty: 6 months against manufacturing defects",
-//     reviews: [
-//       {
-//         username: "Rekha Agarwal",
-//         rating: 9,
-//         comment: "Beautiful bangles that look like real gold. The designs are intricate and the clasp mechanism is secure.",
-//       },
-//       {
-//         username: "Jyoti Sharma",
-//         rating: 9,
-//         comment: "Excellent quality for the price. I've worn them several times and they haven't tarnished at all.",
-//       },
-//       {
-//         username: "Sarita Patel",
-//         rating: 10,
-//         comment: "These bangles are stunning! They're comfortable to wear and the designs receive many compliments.",
-//       }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//     ],
-//     colors: ["#FFD700"]
-//   },
-//   {
-//     id: 28,
-//     title: "Printed Floral Dress for Girls",
-//     type: "Clothing",
-//     category: "Kid's Clothing",
-//     brand: "Gini & Jony",
-//     originalPrice: 1799,
-//     salePrice: 1299,
-//     rating: 8.8,
-//     reviewCount: 145,
-//     shortDescription: "Adorable floral print dress with puff sleeves and bow detail",
-//     detailDescription: "This charming Gini & Jony floral dress is perfect for special occasions or everyday wear. Made from soft cotton blend fabric, it features a beautiful all-over floral print in vibrant colors that little girls will love. The puff sleeves add a touch of elegance, while the bow detail at the waist enhances the cute factor. The dress has a concealed back zipper for easy dressing and a full skirt that twirls beautifully when she moves. The fabric is breathable and comfortable, making it suitable for all-day wear. Machine washable and colorfast, this dress maintains its vibrant appearance even after multiple washes.",
-//     additionalInformation:"Material: 95% Cotton, 5% Elastane | Care: Machine wash cold, tumble dry low | Age Range: 2-8 years | Closure: Back zipper | Length: Knee-length | Occasion: Casual, Party | Season: All seasons",
-//     reviews: [
-//       {
-//         username: "Neha Kapoor",
-//         rating: 9,
-//         comment: "My daughter loves this dress! The fabric is soft, and the floral print is vibrant and hasn't faded after washing.",
-//       },
-//       {
-//         username: "Swati Gupta",
-//         rating: 8,
-//         comment: "Pretty dress with good quality fabric. The size runs a bit small, so I'd recommend sizing up.",
-//       },
-//       {
-//         username: "Anjali Singh",
-//         rating: 9,
-//         comment: "Beautiful dress that my daughter wore for her birthday. The puff sleeves and bow detail make it look extra special.",
-//       }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1567113463300-102a7eb3cb26?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//     ],
-//     colors: ["#FF69B4", "#87CEEB", "#9370DB", "#FFFFFF"]
-//   },
-//   {
-//     id: 29,
-//     title: "Automatic Chronograph Watch",
-//     type: "Accessory",
-//     category: "Watches",
-//     brand: "Titan",
-//     originalPrice: 15999,
-//     salePrice: 12999,
-//     rating: 8.9,
-//     reviewCount: 167,
-//     shortDescription: "Sophisticated automatic chronograph watch with leather strap",
-//     detailDescription: "This premium Titan automatic chronograph watch combines classic design with modern functionality. The watch features a self-winding mechanical movement that eliminates the need for a battery, powered instead by the natural motion of your wrist. The elegant 42mm stainless steel case houses a multi-function dial with chronograph sub-dials for seconds, minutes, and hours, along with a date window at 4 o'clock. The scratch-resistant sapphire crystal protects the face while providing exceptional clarity. The genuine leather strap with contrast stitching adds a touch of sophistication and develops a beautiful patina over time. Water-resistant to 50 meters, this watch is suitable for everyday wear including swimming in shallow water.",
-//     additionalInformation:"Movement: Automatic mechanical | Case Diameter: 42mm | Case Material: Stainless steel | Crystal: Sapphire | Strap: Genuine leather | Water Resistance: 50m | Functions: Hours, minutes, seconds, chronograph, date | Power Reserve: Approximately 40 hours | Warranty: 2 years international warranty",
-//     reviews: [
-//       {
-//         username: "Vikram Singh",
-//         rating: 9,
-//         comment: "Excellent watch with great craftsmanship. The automatic movement works flawlessly, and the chronograph functions are precise.",
-//       },        {
-//         username: "Ajay Sharma",
-//         rating: 8,
-//         comment: "Beautiful timepiece that looks much more expensive than it is. The leather strap is comfortable and high quality.",
-//       },
-//       {
-//         username: "Rajeev Kumar",
-//         rating: 9,
-//         comment: "This is my first automatic watch, and I'm impressed with the quality. It keeps accurate time and the chronograph is a useful feature.",
-//       }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1547996160-81dfa63595aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1612817159949-195b6eb9e31a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//     ],
-//     colors: ["#000000", "#8B4513", "#C0C0C0"]
-//   },
-//   {
-//     id: 30,
-//     title: "Wireless Bluetooth Earbuds",
-//     type: "Electronics",
-//     category: "Electronics",
-//     brand: "boAt",
-//     originalPrice: 4999,
-//     salePrice: 2999,
-//     rating: 8.7,
-//     reviewCount: 623,
-//     shortDescription: "True wireless earbuds with touch controls and long battery life",
-//     detailDescription: "Experience superior sound quality with these boAt wireless Bluetooth earbuds. Featuring 10mm dynamic drivers, they deliver powerful bass and crystal-clear highs for an immersive audio experience. The true wireless design eliminates tangled cords, while Bluetooth 5.0 technology ensures a stable connection up to 10 meters. With touch controls on each earbud, you can easily manage music playback, calls, and voice assistants without reaching for your phone. The earbuds provide up to 6 hours of playback on a single charge, and the compact charging case adds an additional 24 hours, for a total of 30 hours of battery life. IPX5 water resistance protects against sweat and light rain, making these earbuds perfect for workouts and outdoor activities.",
-//     additionalInformation:"Driver Size: 10mm | Bluetooth Version: 5.0 | Battery Life: 6 hours (earbuds), 24 hours (with case) | Charging Time: 1.5 hours | Water Resistance: IPX5 | Controls: Touch | Microphone: Built-in with noise reduction | Compatibility: Android, iOS, Windows | Warranty: 1 year",
-//     reviews: [
-//       {
-//         username: "Manish Tiwari",
-//         rating: 9,
-//         comment: "Great sound quality for the price. The bass is impressive, and the battery life is as advertised.",
-//       },
-//       {
-//         username: "Suresh Kumar",
-//         rating: 8,
-//         comment: "Good earbuds for everyday use. The touch controls work well, and they're comfortable even for long listening sessions.",
-//       },
-//       {
-//         username: "Prakash Jha",
-//         rating: 9,
-//         comment: "Excellent value for money. The sound quality is comparable to much more expensive brands, and the battery life is impressive.",
-//       }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1608156639585-b3a032ef9689?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//     ],
-//     colors: ["#000000", "#FFFFFF", "#FF0000", "#0000FF"]
-//   },
-//   {
-//     id: 31,
-//     title: "Leather Formal Shoes",
-//     type: "Footwear",
-//     category: "Footwear",
-//     brand: "Red Tape",
-//     originalPrice: 4999,
-//     salePrice: 3499,
-//     rating: 8.6,
-//     reviewCount: 198,
-//     shortDescription: "Premium genuine leather formal shoes with brogue detailing",
-//     detailDescription: "These sophisticated Red Tape formal shoes are crafted from genuine leather with classic brogue detailing for a timeless look. The burnished finish adds character and depth to the rich color, while the leather lining provides comfort and breathability. The cushioned insole offers support for all-day wear, and the durable rubber outsole provides excellent traction and shock absorption. The lace-up closure ensures a secure fit, and the slightly elevated heel adds a touch of height. Perfect for formal occasions, business meetings, or everyday office wear, these versatile shoes pair well with suits, trousers, or even dark jeans for a smart-casual look.",
-//     additionalInformation:"Material: Genuine leather upper, leather lining, rubber outsole | Closure: Lace-up | Heel Height: 1 inch | Style: Brogue | Toe Shape: Round | Available Colors: Black, Brown, Tan | Available Sizes: UK 6-11 | Care: Clean with leather cleaner, use shoe trees to maintain shape",
-//     reviews: [
-//       {
-//           username: "Rahul Khanna",
-//         rating: 9,
-//         comment: "Excellent quality shoes that look professional and feel comfortable. The leather is soft yet durable.",
-//       },
-//       {
-//         username: "Anil Sharma",
-//         rating: 8,
-//         comment: "Good formal shoes for the price. They required a short break-in period but are now very comfortable for all-day wear.",
-//       },
-//       {
-//         username: "Deepak Verma",
-//         rating: 9,
-//         comment: "These shoes look much more expensive than they are. The brogue detailing adds a touch of elegance to any outfit.",
-//       }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1531310197839-ccf54634509e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//     ],
-//     colors: ["#000000", "#8B4513", "#D2B48C"]
-//   },
-//   {
-//     id: 32,
-//     title: "Silver Oxidized Jhumka Earrings",
-//     type: "Jewelry",
-//     category: "Jewellery",
-//     brand: "Jaipur Mart",
-//     originalPrice: 1499,
-//     salePrice: 999,
-//     rating: 9.2,
-//     reviewCount: 215,
-//     shortDescription: "Traditional silver oxidized jhumka earrings with intricate detailing",
-//     detailDescription: "These stunning jhumka earrings from Jaipur Mart showcase the rich tradition of Indian craftsmanship. Handcrafted from sterling silver with an oxidized finish, they feature intricate filigree work and traditional motifs that reflect India's artistic heritage. The dome-shaped design is adorned with small bells that create a subtle, pleasant tinkling sound with movement. Lightweight despite their statement size, these earrings are comfortable for all-day wear. The secure lever-back closure ensures they stay in place. These versatile earrings add a touch of ethnic elegance to both traditional outfits like sarees and lehengas, as well as contemporary western wear for a fusion look.",
-//     additionalInformation:"Material: 925 Sterling Silver with oxidized finish | Style: Traditional Jhumka | Length: 2.5 inches | Width: 1.5 inches | Weight: 12g (pair) | Closure: Lever-back | Care: Store in a dry place, clean with silver polish cloth | Origin: Handcrafted in Jaipur, India",
-//     reviews: [
-//       {
-//         username: "Shalini Gupta",
-//         rating: 10,
-//         comment: "These jhumkas are absolutely beautiful! The craftsmanship is exquisite, and they're surprisingly lightweight for their size.",
-//        },
-//       {
-//         username: "Neha Sharma",
-//         rating: 9,
-//         comment: "Gorgeous earrings that received many compliments when I wore them to a wedding. The oxidized silver gives them a unique, antique look.",
-//        },
-//       {
-//         username: "Anjali Patel",
-//         rating: 8,
-//         comment: "Beautiful jhumkas with intricate detailing. They're a bit larger than I expected but still very wearable and elegant.",
-//       }
-//     ],
-//     imageUrls: [
-//       "https://images.unsplash.com/photo-1630019852942-f89202989a59?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//       "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//     ],
-//     colors: ["#C0C0C0"]
-//   },
-//   {
-//       id: 33,
-//       title: "Wireless Gaming Mouse",
-//       type: "Electronics",
-//       category: "Electronics",
-//       brand: "Logitech",
-//       originalPrice: 5999,
-//       salePrice: 4499,
-//       rating: 9.3,
-//       reviewCount: 378,
-//       shortDescription: "High-performance wireless gaming mouse with customizable RGB lighting",
-//       detailDescription: "Elevate your gaming experience with this Logitech wireless gaming mouse. Featuring a high-precision 16,000 DPI optical sensor, it delivers exceptional tracking accuracy for competitive gaming. The ultra-fast 1ms response rate and reliable wireless connection ensure lag-free performance. With 6 programmable buttons, you can customize controls for your favorite games. The ergonomic design with textured grips provides comfort during extended gaming sessions. RGB lighting with 16.8 million color options allows for personalization, while the rechargeable battery offers up to 60 hours of gameplay on a single charge. The lightweight construction (95g) enables quick movements without fatigue.",
-//       additionalInformation: "Sensor: 16,000 DPI optical | Connectivity: Wireless (2.4GHz) | Response Rate: 1ms | Buttons: 6 programmable | Battery Life: Up to 60 hours | Weight: 95g | RGB: Yes, 16.8 million colors | Compatibility: Windows, macOS | Software: Logitech G HUB | Warranty: 2 years",
-//       reviews: [
-//         {
-
-//          username: "Akshay Mehta",
-//           rating: 10,
-//           comment: "Best gaming mouse I've ever used. The sensor is incredibly precise, and the wireless performance is indistinguishable from wired.",
-//           },
-//         {
-//           username: "Varun Singh",
-//           rating: 9,
-//           comment: "Great mouse with excellent battery life. I can go almost a week of heavy gaming before needing to recharge.",
-//           },
-//         {
-//           username: "Nikhil Sharma",
-//           rating: 9,
-//           comment: "The customization options are fantastic. The software is intuitive, and the RGB lighting looks amazing.",
-//           }
-//       ],
-//       imageUrls: [
-//         "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//         "https://images.unsplash.com/photo-1527814050087-3793815479db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//         "https://images.unsplash.com/photo-1605773527852-c546a8584ea3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//       ],
-//       colors: ["#000000", "#FFFFFF", "#FF0000"]
-//     },
-//     {
-//         id: 34,
-//         title: "Printed Casual Shirt",
-//         type: "Clothing",
-//         category: "Men's Clothing",
-//         brand: "Peter England",
-//         originalPrice: 1899,
-//         salePrice: 1299,
-//         rating: 8.6,
-//         reviewCount: 256,
-//         shortDescription: "Stylish printed casual shirt with short sleeves and modern fit",
-//         detailDescription: "This trendy Peter England casual shirt features a contemporary all-over print that adds personality to your casual wardrobe. Made from 100% cotton, it offers exceptional breathability and comfort in warm weather. The modern fit is relaxed without being baggy, providing a clean silhouette. The short sleeves and button-down collar create a versatile look that works well for casual outings, weekend brunches, or relaxed office environments. The shirt includes a chest pocket and curved hem that looks great both tucked in or worn out. Easy to care for and resistant to wrinkles, this shirt maintains its crisp appearance throughout the day.",
-//         additionalInformation: "Material: 100% Cotton | Fit: Modern fit | Collar: Button-down | Sleeves: Short | Closure: Button front | Pattern: All-over print | Care: Machine wash cold, tumble dry low | Sizes: S-XXL",
-//         reviews: [
-//           {
-//             username: "Aditya Sharma",
-//             rating: 9,
-//             comment: "Great casual shirt for summer. The fabric is lightweight and breathable, and the print is subtle yet stylish.",
-//             },
-//           {
-//             username: "Rahul Gupta",
-//             rating: 8,
-//             comment: "Good quality shirt with nice detailing. The fit is perfect - not too tight or too loose.",
-//             },
-//           {
-//             username: "Karan Malhotra",
-//             rating: 9,
-//             comment: "Comfortable shirt that looks great with jeans or chinos. Received several compliments when I wore it to a casual dinner.",
-//             }
-//         ],
-//         imageUrls: [
-//           "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1589310243389-96a5483213a8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1603252109303-2751441dd157?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//         ],
-//         colors: ["#87CEEB", "#FFFFFF", "#98FB98", "#FFA07A"]
-//       },
-//       {
-//         id: 35,
-//         title: "Fitness Tracker with Heart Rate Monitor",
-//         type: "Electronics",
-//         category: "Electronics",
-//         brand: "Fitbit",
-//         originalPrice: 9999,
-//         salePrice: 7999,
-//         rating: 9.1,
-//         reviewCount: 412,
-//         shortDescription: "Advanced fitness tracker with heart rate monitoring and sleep analysis",
-//         detailDescription: "This Fitbit fitness tracker helps you achieve your health goals with comprehensive activity and wellness monitoring. The continuous heart rate tracking provides insights into your cardio fitness level and helps optimize workouts. Track steps, distance, calories burned, and active minutes throughout the day. The advanced sleep monitoring analyzes light, deep, and REM sleep stages to help improve your sleep quality. The bright, color touchscreen displays real-time stats and smartphone notifications. Water-resistant to 50 meters, it's suitable for swimming and showering. The long-lasting battery provides up to 7 days of use on a single charge, keeping you connected without frequent recharging.",
-//         additionalInformation: "Display: 1.4\" color touchscreen | Battery Life: Up to 7 days | Water Resistance: 50m | Sensors: Optical heart rate, 3-axis accelerometer, altimeter | Connectivity: Bluetooth | Compatibility: iOS, Android | Tracking: Steps, distance, calories, sleep, heart rate | Notifications: Calls, texts, calendar, apps | Warranty: 1 year",
-//         reviews: [
-//           {
-//             username: "Priya Nair",
-//             rating: 9,
-//             comment: "Excellent fitness tracker that has helped me stay motivated. The heart rate monitoring is accurate, and the sleep tracking has been eye-opening.",
-//             },
-//           {
-//             username: "Ankit Patel",
-//             rating: 10,
-//             comment: "Love this tracker! The battery life is impressive - I only need to charge it once a week despite using all the features daily.",
-//             },
-//           {
-//             username: "Meera Kapoor",
-//             rating: 8,
-//             comment: "Good fitness tracker with useful features. The app is intuitive and provides detailed insights about your health metrics.",
-//             }
-//         ],
-//         imageUrls: [
-//           "https://images.unsplash.com/photo-1576243345690-4e4b79b63288?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1510003402327-b1a6ad3592ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//         ],
-//         colors: ["#000000", "#FF69B4", "#4169E1", "#32CD32"]
-//       },
-//       {
-//         id: 36,
-//         title: "Handcrafted Leather Belt",
-//         type: "Accessory",
-//         category: "Accessories",
-//         brand: "Ruosh",
-//         originalPrice: 2499,
-//         salePrice: 1799,
-//         rating: 8.9,
-//         reviewCount: 167,
-//         shortDescription: "Premium handcrafted leather belt with classic buckle design",
-//         detailDescription: "This Ruosh handcrafted leather belt combines timeless style with exceptional craftsmanship. Made from full-grain Italian leather, it features a classic design that complements both formal and casual outfits. The belt is meticulously hand-stitched by skilled artisans, ensuring durability and attention to detail. The solid brass buckle with a brushed finish adds a touch of sophistication, while the 7 adjustment holes allow for a customized fit. The belt's 35mm width is versatile enough for most belt loops. Each belt develops a unique patina over time, becoming more beautiful with age. Perfect for daily wear, this belt is a staple accessory for any wardrobe.",
-//         additionalInformation: "Material: Full-grain Italian leather | Width: 35mm | Buckle: Solid brass with brushed finish | Adjustment Holes: 7 | Available Sizes: 30-42 inches | Available Colors: Black, Brown, Tan | Care: Clean with leather conditioner | Origin: Handcrafted in India",
-//         reviews: [
-//           {
-//             username: "Rajiv Khanna",
-//             rating: 9,
-//             comment: "Excellent quality belt. The leather is thick and supple, and the buckle has a premium feel to it.",
-//             },
-//           {
-//             username: "Sunil Mehta",
-//             rating: 9,
-//             comment: "This belt looks much more expensive than it is. The craftsmanship is outstanding, and it pairs well with both jeans and formal trousers.",
-//             },
-//           {
-//             username: "Vikram Singh",
-//             rating: 8,
-//             comment: "Good quality leather belt that has held up well with daily use. The color has developed a nice patina over time.",
-//             }
-//         ],
-//         imageUrls: [
-//           "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1624222247344-550fb60583dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1611911813383-67769b37a149?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//         ],
-//         colors: ["#000000", "#8B4513", "#D2B48C"]
-//       },
-//       {
-//         id: 37,
-//         title: "Stainless Steel Water Bottle",
-//         type: "Accessory",
-//         category: "Accessories",
-//         brand: "Milton",
-//         originalPrice: 999,
-//         salePrice: 799,
-//         rating: 8.7,
-//         reviewCount: 289,
-//         shortDescription: "Vacuum insulated stainless steel water bottle that keeps drinks hot or cold",
-//         detailDescription: "This premium Milton stainless steel water bottle features double-wall vacuum insulation that keeps beverages hot for up to 12 hours and cold for up to 24 hours. Made from high-quality 18/8 food-grade stainless steel, it's BPA-free and doesn't transfer flavors or odors. The leak-proof lid with a secure twist cap prevents spills, making it perfect for commuting, travel, or outdoor activities. The sleek, ergonomic design fits most cup holders and backpack pockets, while the powder-coated exterior provides a comfortable grip and prevents condensation. Durable and built to last, this bottle is an eco-friendly alternative to disposable plastic bottles, helping reduce waste while keeping you hydrated.",
-//         additionalInformation: "Material: 18/8 food-grade stainless steel | Capacity: 750ml | Insulation: Double-wall vacuum | Temperature Retention: Hot - 12 hours, Cold - 24 hours | Lid Type: Leak-proof twist cap | Features: BPA-free, sweat-proof, condensation-free | Care: Hand wash recommended | Warranty: 1 year",
-//         reviews: [
-//           {
-//             username: "Neha Gupta",
-//             rating: 9,
-//             comment: "Excellent water bottle that keeps water cold all day, even in hot weather. The leak-proof cap works perfectly.",
-//             },
-//           {
-//             username: "Ravi Kumar",
-//             rating: 8,
-//             comment: "Good quality bottle with great insulation. I filled it with hot tea in the morning, and it was still hot when I drank it in the afternoon.",
-//             },
-//           {
-//             username: "Priya Sharma",
-//             rating: 9,
-//             comment: "Sturdy bottle that's perfect for the gym and office. The powder coating has held up well without scratches or chips.",
-//             }
-//         ],
-//         imageUrls: [
-//           "https://images.unsplash.com/photo-1602143407151-7111542de6e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1610824352934-c10d87b700cc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1589365278144-c9e705f843ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//         ],
-//         colors: ["#000000", "#1E90FF", "#FF4500", "#32CD32"]
-//       },
-//       {
-//         id: 38,
-//         title: "Kids' Sports Shoes",
-//         type: "Footwear",
-//         category: "Kid's Clothing",
-//         brand: "Adidas",
-//         originalPrice: 2499,
-//         salePrice: 1899,
-//         rating: 9.0,
-//         reviewCount: 187,
-//         shortDescription: "Lightweight sports shoes for kids with cushioned soles and easy closure",
-//         detailDescription: "These Adidas kids' sports shoes are designed for active children who love to run, jump, and play. The lightweight construction reduces fatigue, while the breathable mesh upper keeps little feet cool and comfortable. The cushioned EVA midsole provides excellent shock absorption to protect growing feet, and the non-marking rubber outsole offers superior traction on various surfaces. The hook-and-loop closure allows for easy on and off, promoting independence, while the padded collar and tongue prevent irritation. Reflective details enhance visibility in low light conditions for added safety. These versatile shoes are perfect for school, sports activities, or casual wear, combining performance features with playful design elements that kids love.",
-//         additionalInformation: "Material: Mesh upper, rubber outsole | Closure: Hook-and-loop (Velcro) | Cushioning: EVA midsole | Features: Breathable, lightweight, reflective details | Age Range: 4-12 years | Available Sizes: UK 10C-5Y | Care: Wipe clean with damp cloth | Weight: Approximately 180g (single shoe, size 13C)",
-//         reviews: [
-//           {
-//             username: "Ritu Sharma",
-//             rating: 9,
-//             comment: "Great shoes for my active 6-year-old. They're lightweight, comfortable, and the Velcro closure makes them easy for him to put on himself.",
-//             },
-//           {
-//             username: "Anand Patel",
-//             rating: 9,
-//             comment: "These shoes have held up remarkably well despite my daughter wearing them for everything from school to playground activities.",
-//             },
-//           {
-//             username: "Kavita Nair",
-//             rating: 8,
-//             comment: "Good quality shoes with nice cushioning. My son finds them comfortable for his PE classes and outdoor play.",
-//             }
-//         ],
-//         imageUrls: [
-//           "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1491553895911-0055eca6402d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//         ],
-//         colors: ["#FF0000", "#1E90FF", "#000000", "#32CD32"]
-//       },
-//       {
-//         id: 39,
-//         title: "Pearl and Gold Necklace Set",
-//         type: "Jewelry",
-//         category: "Jewellery",
-//         brand: "CaratLane",
-//         originalPrice: 15999,
-//         salePrice: 12999,
-//         rating: 9.4,
-//         reviewCount: 98,
-//         shortDescription: "Elegant freshwater pearl necklace with matching earrings in 18K gold setting",
-//         detailDescription: "This exquisite CaratLane pearl necklace set showcases the timeless beauty of freshwater pearls combined with modern design. The necklace features 7-8mm high-quality freshwater pearls arranged in a graduated pattern, interspersed with delicate 18K gold beads that add a touch of luxury. The adjustable chain allows for versatile styling, while the secure lobster clasp ensures the necklace stays in place. The matching drop earrings feature single pearls suspended from gold posts with push-back closures for comfortable all-day wear. Each pearl is hand-selected for its luster, shape, and surface quality, resulting in a set with exceptional beauty. Perfect for weddings, special occasions, or adding elegance to business attire, this set comes in a premium gift box with a certificate of authenticity.",
-//         additionalInformation: "Pearls: 7-8mm freshwater pearls | Metal: 18K gold | Necklace Length: 16-18\" adjustable | Earring Length: 1\" | Clasp: Lobster | Earring Closure: Push-back | Certification: Includes authenticity certificate | Care: Store in provided box, clean with soft cloth | Warranty: 1 year against manufacturing defects",
-//         reviews: [
-//           {
-//             username: "Asha Reddy",
-//             rating: 10,
-//             comment: "Stunning pearl set with exceptional quality. The pearls have beautiful luster, and the gold accents add just the right amount of elegance.",
-//             },
-//           {
-//             username: "Leela Nair",
-//             rating: 9,
-//             comment: "Beautiful necklace and earrings that look much more expensive than they are. I wore them to my daughter's wedding and received many compliments.",
-//             },
-//           {
-//             username: "Shalini Mehta",
-//             rating: 9,
-//             comment: "Elegant pearl set with excellent craftsmanship. The adjustable chain on the necklace is a thoughtful feature that allows for different necklines.",
-//             }
-//         ],
-//         imageUrls: [
-//           "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//         ],
-//         colors: ["#FFFFFF", "#FFD700"]
-//       },
-//       {
-//         id: 40,
-//         title: "Leather Crossbody Sling Bag",
-//         type: "Accessory",
-//         category: "Accessories",
-//         brand: "Baggit",
-//         originalPrice: 2999,
-//         salePrice: 2299,
-//         rating: 8.7,
-//         reviewCount: 176,
-//         shortDescription: "Compact leather crossbody sling bag with multiple compartments",
-//         detailDescription: "This stylish Baggit crossbody sling bag combines functionality with contemporary design. Crafted from premium vegan leather with a textured finish, it offers the look and feel of genuine leather while being environmentally conscious. The compact size is perfect for carrying essentials without bulk, making it ideal for shopping, travel, or everyday use. The bag features a main zippered compartment, a front pocket with magnetic closure, and a back zippered pocket for items requiring extra security. The adjustable shoulder strap allows for comfortable wear across the body or over the shoulder. The water-resistant exterior protects your belongings from light rain, while the durable polyester lining withstands daily use. This versatile bag complements both casual and semi-formal outfits.",
-//         additionalInformation: "Material: Premium vegan leather exterior, polyester lining | Dimensions: 8\"W x 10\"H x 2\"D | Strap Length: Adjustable up to 25\" | Closure: Zipper | Pockets: 1 main compartment, 1 front pocket, 1 back pocket, 2 interior slip pockets | Features: Water-resistant, adjustable strap | Care: Wipe clean with damp cloth | Warranty: 6 months",
-//         reviews: [
-//           {
-//             username: "Nisha Patel",
-//             rating: 9,
-//             comment: "Perfect size for daily essentials. The quality is excellent, and the vegan leather looks and feels premium.",
-//            },
-//           {
-//             username: "Priya Sharma",
-//             rating: 8,
-//             comment: "Great bag for everyday use. The multiple compartments help keep everything organized, and the strap is comfortable.",
-//            },
-//           {
-//             username: "Deepika Reddy",
-//             rating: 9,
-//             comment: "Stylish and functional bag that goes with everything. I appreciate that it's vegan leather but still looks sophisticated.",
-//            }
-//         ],
-//         imageUrls: [
-//           "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//         ],
-//         colors: ["#000000", "#8B4513", "#A52A2A", "#F5F5DC"]
-//       },
-//       {
-//         id: 41,
-//         title: "Portable Bluetooth Speaker",
-//         type: "Electronics",
-//         category: "Electronics",
-//         brand: "JBL",
-//         originalPrice: 7999,
-//         salePrice: 5999,
-//         rating: 9.2,
-//         reviewCount: 345,
-//         shortDescription: "Waterproof portable Bluetooth speaker with 360° sound and long battery life",
-//         detailDescription: "This JBL portable Bluetooth speaker delivers powerful, room-filling sound in a compact, travel-friendly design. The 360° speaker arrangement provides immersive audio from every angle, while the passive radiators enhance bass performance for deep, rich lows. With IPX7 waterproof certification, it withstands immersion in water up to 1 meter for 30 minutes, making it perfect for pool parties, beach outings, or shower use. The rechargeable battery offers up to 12 hours of playtime on a single charge, and the built-in power bank feature lets you charge your smartphone or tablet via the USB port. Bluetooth 5.1 connectivity ensures stable wireless streaming from up to 30 feet away, while the speakerphone function with noise-canceling technology allows for clear hands-free calls. The durable fabric covering and rugged rubber housing protect against drops and bumps during travel.",
-//         additionalInformation: "Bluetooth Version: 5.1 | Battery Life: Up to 12 hours | Charging Time: 4 hours | Water Resistance: IPX7 (waterproof) | Power Output: 20W RMS | Frequency Response: 65Hz-20kHz | Features: 360° sound, built-in power bank, speakerphone | Connectivity: Bluetooth, 3.5mm aux input | Dimensions: 7\" x 3\" x 3\" | Weight: 540g | Warranty: 1 year",
-//         reviews: [
-//           {
-//             username: "Vikram Nair",
-//             rating: 10,
-//             comment: "Incredible sound quality for such a compact speaker. The bass is impressive, and the 360° sound fills my entire living room.",
-//             },
-//           {
-//             username: "Arjun Mehta",
-//             rating: 9,
-//             comment: "Great portable speaker with excellent battery life. I took it on a weekend trip, and it lasted the entire time without needing a recharge.",
-//             },
-//           {
-//             username: "Kiran Sharma",
-//             rating: 8,
-//             comment: "Good sound quality and truly waterproof. I accidentally dropped it in the pool, and it continued working perfectly after I fished it out.",
-//              }
-//         ],
-//         imageUrls: [
-//           "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1589003077984-894e133dabab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1596455607563-ad6193f76b17?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//         ],
-//         colors: ["#000000", "#FF0000", "#1E90FF", "#32CD32"]
-//       },
-//       {
-//         id: 42,
-//         title: "Organic Cotton Baby Romper Set",
-//         type: "Clothing",
-//         category: "Kid's Clothing",
-//         brand: "FirstCry",
-//         originalPrice: 1499,
-//         salePrice: 999,
-//         rating: 9.1,
-//         reviewCount: 213,
-//         shortDescription: "Soft organic cotton romper set for babies with cute animal prints",
-//         detailDescription: "This adorable FirstCry romper set is designed with your baby's comfort and safety in mind. Made from 100% GOTS-certified organic cotton, the fabric is exceptionally soft, breathable, and free from harmful chemicals, making it perfect for a baby's sensitive skin. The set includes three rompers with playful animal prints and embroidered details that add a touch of charm. The envelope neckline allows for easy dressing and undressing, while the snap buttons at the bottom facilitate quick diaper changes. The tagless design prevents skin irritation, and the flatlock seams minimize chafing. The pre-shrunk fabric maintains its shape and softness even after multiple washes. This versatile set is perfect for everyday wear, playtime, or as a thoughtful baby shower gift.",
-//         additionalInformation: "Material: 100% GOTS-certified organic cotton | Set Includes: 3 rompers | Age Range: 0-12 months | Sizes Available: 0-3M, 3-6M, 6-9M, 9-12M | Closure: Envelope neckline, snap buttons at bottom | Care: Machine wash cold, tumble dry low | Features: Tagless design, flatlock seams, pre-shrunk fabric | Certification: GOTS (Global Organic Textile Standard)",
-//         reviews: [
-//           {
-//             username: "Meera Kapoor",
-//             rating: 10,
-//             comment: "These rompers are incredibly soft and perfect for my baby's sensitive skin. The animal prints are adorable, and the quality is excellent.",
-//             },
-//           {
-//             username: "Anita Sharma",
-//             rating: 9,
-//             comment: "Great quality organic cotton that gets softer with each wash. The snap buttons make diaper changes so much easier.",
-//             },
-//           {
-//             username: "Priya Nair",
-//             rating: 8,
-//             comment: "Lovely romper set that's held up well after multiple washes. The envelope neckline is perfect for easily dressing my wiggly baby.",
-//             }
-//         ],
-//         imageUrls: [
-//           "https://images.unsplash.com/photo-1522771930-78848d9293e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1519238359922-989348752efb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//         ],
-//         colors: ["#87CEEB", "#98FB98", "#FFCBA4", "#FFC0CB"]
-//       },
-//       {
-//         id: 43,
-//         title: "Men's Aviator Sunglasses",
-//         type: "Accessory",
-//         category: "Accessories",
-//         brand: "Ray-Ban",
-//         originalPrice: 7999,
-//         salePrice: 5999,
-//         rating: 9.3,
-//         reviewCount: 267,
-//         shortDescription: "Classic aviator sunglasses with polarized lenses and gold frame",
-//         detailDescription: "These iconic Ray-Ban aviator sunglasses combine timeless style with premium functionality. The classic teardrop shape flatters most face shapes and has remained fashionable for decades. The polarized lenses reduce glare and enhance visual clarity, making them perfect for driving or outdoor activities. The lenses also provide 100% UV protection, safeguarding your eyes from harmful sun rays. The lightweight gold-tone metal frame features adjustable nose pads for a comfortable, customized fit, while the slim temples with plastic end tips ensure they stay securely in place. The green G-15 lenses offer true color perception and exceptional optical clarity. Each pair comes with a premium leather case, cleaning cloth, and authentication certificate. These versatile sunglasses complement both casual and formal attire, making them a staple accessory for any wardrobe.",
-//         additionalInformation: "Frame Material: Metal | Lens Material: Glass | Lens Type: Polarized | UV Protection: 100% | Frame Width: 58mm | Bridge Width: 14mm | Temple Length: 135mm | Case: Premium leather case included | Warranty: 2 years against manufacturing defects | Origin: Made in Italy",
-//         reviews: [
-//           {
-//             username: "Rahul Khanna",
-//             rating: 10,
-//             comment: "Classic sunglasses that never go out of style. The polarized lenses make a huge difference when driving on sunny days.",
-//             },
-//           {
-//             username: "Vikram Singh",
-//             rating: 9,
-//             comment: "Excellent quality sunglasses with perfect fit. The gold frame looks premium, and the green lenses provide great clarity.",
-//             },
-//           {
-//             username: "Aditya Sharma",
-//             rating: 9,
-//             comment: "Worth the investment. These sunglasses are comfortable for all-day wear and provide exceptional sun protection.",
-//             }
-//         ],
-//         imageUrls: [
-//           "https://images.unsplash.com/photo-1577803645773-f96470509666?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//         ],
-//         colors: ["#FFD700", "#C0C0C0", "#000000"]
-//       },
-//       {
-//         id: 44,
-//         title: "Digital Drawing Tablet",
-//         type: "Electronics",
-//         category: "Electronics",
-//         brand: "Wacom",
-//         originalPrice: 12999,
-//         salePrice: 9999,
-//         rating: 9.0,
-//         reviewCount: 187,
-//         shortDescription: "Professional drawing tablet with pressure-sensitive pen and customizable shortcuts",
-//         detailDescription: "This Wacom digital drawing tablet is designed for artists, designers, and creative professionals seeking precision and control in their digital artwork. The 10 x 6.25-inch active area provides ample space for drawing, while maintaining a compact footprint on your desk. The battery-free pen offers 8,192 levels of pressure sensitivity, allowing for natural-feeling brush strokes that respond to the slightest variations in pressure. The tablet features 8 customizable ExpressKeys that can be programmed with your most-used shortcuts to streamline your workflow. The 4 multi-function touch strips provide intuitive control for scrolling, zooming, brush size adjustment, and canvas rotation. Compatible with Windows and macOS, the tablet connects via USB and works seamlessly with popular creative software like Adobe Photoshop, Illustrator, and Clip Studio Paint. The textured surface mimics the feel of paper for a natural drawing experience.",
-//         additionalInformation: "Active Area: 10\" x 6.25\" | Pressure Sensitivity: 8,192 levels | ExpressKeys: 8 customizable | Touch Strips: 4 multi-function | Pen: Battery-free, includes stand and replacement nibs | Resolution: 5080 LPI | Compatibility: Windows 7 or later, macOS 10.12 or later | Connectivity: USB | Software: Includes Wacom drivers and creative software bundle | Warranty: 2 years",
-//         reviews: [
-//           {
-//             username: "Arjun Mehta",
-//             rating: 9,
-//             comment: "Excellent drawing tablet for digital art. The pressure sensitivity is impressive, and the ExpressKeys save so much time in my workflow.",
-//             },
-//           {
-//             username: "Priya Sharma",
-//             rating: 9,
-//             comment: "Great quality tablet that has significantly improved my digital illustration process. The pen feels natural, almost like drawing on paper.",
-//             },
-//           {
-//             username: "Rahul Kapoor",
-//             rating: 8,
-//             comment: "Good tablet for professional work. There's a slight learning curve, but once you get used to it, it's an invaluable tool for digital artists.",
-//             }
-//         ],
-//         imageUrls: [
-//           "https://images.unsplash.com/photo-1561518776-e76a5e48f731?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1629429407759-01cd3d7cfb38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1587614298171-a597ef0f8d7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//         ],
-//         colors: ["#000000", "#808080"]
-//       },
-//       {
-//         id: 45,
-//         title: "Handcrafted Wooden Chess Set",
-//         type: "Accessory",
-//         category: "Accessories",
-//         brand: "Chessbazaar",
-//         originalPrice: 4999,
-//         salePrice: 3799,
-//         rating: 9.5,
-//         reviewCount: 112,
-//         shortDescription: "Premium handcrafted wooden chess set with weighted pieces and folding board",
-//         detailDescription: "This exquisite Chessbazaar wooden chess set combines artisanal craftsmanship with functional design. Each piece is meticulously hand-carved from premium rosewood and boxwood by skilled artisans, showcasing intricate details and smooth finishing. The chess pieces feature a Staunton design, the international standard for chess tournaments, with a king height of 3.5 inches. Each piece is weighted with felt-bottomed bases for optimal stability during play. The folding chess board is crafted from the same premium woods, creating a striking contrast between the squares. When folded, the board transforms into a storage box for the chess pieces, with a velvet-lined interior that protects each piece. The board's surface is finished with a subtle satin lacquer that enhances the natural wood grain while providing durability. This heirloom-quality chess set is perfect for serious players, collectors, or as a sophisticated decorative piece for your home or office.",
-//         additionalInformation: "Materials: Rosewood and boxwood | King Height: 3.5 inches | Board Size (open): 18\" x 18\" | Board Size (folded): 18\" x 9\" x 2\" | Squares: 2\" x 2\" | Pieces: 32 weighted chess pieces with felt bottoms | Storage: Folding board with velvet-lined interior | Finish: Satin lacquer | Care: Dust with soft cloth, avoid direct sunlight | Origin: Handcrafted in India",
-//         reviews: [
-//           {
-//             username: "Vikram Iyer",
-//             rating: 10,
-//             comment: "Exceptional chess set with beautiful craftsmanship. The weighted pieces feel substantial, and the board's folding design is both practical and elegant.",
-//            },
-//           {
-//             username: "Anil Sharma",
-//             rating: 9,
-//             comment: "This chess set exceeds expectations. The attention to detail in the carving is impressive, and the wood grain is stunning.",
-//            },
-//           {
-//             username: "Rajiv Kapoor",
-//             rating: 10,
-//             comment: "Heirloom quality chess set that has become a centerpiece in my study. The craftsmanship is exceptional, and it's a joy to play with.",
-//            }
-//         ],
-//         imageUrls: [
-//           "https://images.unsplash.com/photo-1586165368502-1bad197a6461?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1611195974226-a6a9be9dd763?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//         ],
-//         colors: ["#8B4513", "#F5DEB3"]
-//       },
-//       {
-//         id: 46,
-//         title: "Yoga Mat with Alignment Marks",
-//         type: "Accessory",
-//         category: "Accessories",
-//         brand: "Reebok",
-//         originalPrice: 2499,
-//         salePrice: 1799,
-//         rating: 9.0,
-//         reviewCount: 234,
-//         shortDescription: "Non-slip yoga mat with alignment marks and eco-friendly materials",
-//         detailDescription: "Enhance your yoga practice with this premium Reebok yoga mat featuring helpful alignment marks. The printed alignment system guides proper positioning for various poses, helping beginners learn correct form and allowing experienced practitioners to refine their technique. Made from eco-friendly TPE (Thermoplastic Elastomer) material, this mat is free from PVC, latex, and harmful chemicals. The dual-layer construction provides optimal cushioning for joints while maintaining stability for balance poses. The textured non-slip surface ensures secure grip even during intense, sweaty sessions, while the closed-cell construction prevents moisture absorption and bacterial growth. At 6mm thick, the mat offers excellent cushioning without compromising stability. Lightweight and portable, it includes a free carrying strap for easy transport to and from the studio. This versatile mat is suitable for all types of yoga, Pilates, and floor exercises.",
-//         additionalInformation: "Material: Eco-friendly TPE | Thickness: 6mm | Dimensions: 72\" x 24\" | Weight: 2.2 lbs | Features: Alignment marks, non-slip texture, dual-layer construction | Includes: Carrying strap | Care: Wipe clean with mild soap and water, air dry | Warranty: 1 year | Eco-friendly: PVC-free, latex-free, non-toxic",
-//         reviews: [
-//           {
-//             username: "Priya Nair",
-//             rating: 9,
-//             comment: "Excellent yoga mat with helpful alignment marks. The cushioning is perfect - supportive without being too soft, and the grip is outstanding even during hot yoga.",
-//             },
-//           {
-//             username: "Anita Sharma",
-//             rating: 9,
-//             comment: "Great quality mat that has improved my practice. The alignment marks are subtle but effective for checking positioning.",
-//             },
-//           {
-//             username: "Deepa Mehta",
-//             rating: 8,
-//             comment: "Good mat with excellent grip. The eco-friendly material doesn't have the chemical smell that many other mats have.",
-//             }
-//         ],
-//         imageUrls: [
-//           "https://images.unsplash.com/photo-1592432678016-e910b452f9a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1518611012118-696072aa579a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80",
-//           "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1080&q=80"
-//         ],
-//         colors: ["#4682B4", "#800080", "#006400", "#000000"]
-//     },
-//     {
-//       id: 46,
-//       title: "Allen Solly Men's Classic Fit Blazer",
-//       type: "Formal Wear",
-//       category: "All Men's clothing",
-//       brand: "Allen Solly",
-//       originalPrice: 6999,
-//       salePrice: 4899,
-//       rating: 8.8,
-//       reviewCount: 245,
-//       shortDescription: "Premium wool blend classic fit blazer in navy blue",
-//       detailDescription: "Allen Solly's signature blazer combines timeless style with modern tailoring. Crafted from a premium wool blend fabric, this navy blue blazer features notched lapels, two-button closure, and functional sleeve buttons. The classic fit design ensures comfort while maintaining a sharp silhouette. Perfect for formal occasions or business meetings.",
-//       additionalInformation: "Material: 60% Wool, 40% Polyester | Fit: Classic | Color: Navy Blue | Sizes: 38-46 | Care: Dry clean only | Made in India | SKU: AS-BLZ-2024-NV",
-//       reviews: [
-//         {
-//           username: "Rahul Mehta",
-//           rating: 9,
-//           comment: "Excellent fit and quality. The fabric is perfect for year-round wear."
-//         },
-//         {
-//           username: "Suresh Kumar",
-//           rating: 8,
-//           comment: "Great blazer for formal occasions. Stitching quality is top-notch."
-//         }
-//       ],
-//       imageUrls: [
-//         "https://images.unsplash.com/photo-1598808503746-f34c53b9323e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80",
-//         "https://images.unsplash.com/photo-1598808503800-fb201a4cd28c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80"
-//       ],
-//       colors: ["#000080", "#000000", "#808080"]
-//     },
-//     {
-//       id: 47,
-//       title: "Zara Pleated Midi Dress",
-//       type: "Dresses",
-//       category: "Women's clothing",
-//       brand: "Zara",
-//       originalPrice: 4999,
-//       salePrice: 3499,
-//       rating: 9.2,
-//       reviewCount: 178,
-//       shortDescription: "Elegant pleated midi dress with floral print",
-//       detailDescription: "This stunning Zara midi dress features an all-over floral print on flowing pleated fabric. The dress includes a fitted waist, round neckline, and short flutter sleeves. The midi length and lightweight material make it perfect for both casual and semi-formal occasions.",
-//       additionalInformation: "Material: 100% Polyester | Length: Midi | Pattern: Floral | Sizes: XS-XL | Care: Machine wash cold | Made in Turkey",
-//       reviews: [
-//         {
-//           username: "Priya Sharma",
-//           rating: 9,
-//           comment: "Beautiful dress with excellent drape. The pleats hold up well after washing."
-//         },
-//         {
-//           username: "Meera Patel",
-//           rating: 9.5,
-//           comment: "Perfect for summer events. The fabric quality is exceptional."
-//         }
-//       ],
-//       imageUrls: [
-//         "https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80",
-//         "https://images.unsplash.com/photo-1595777457645-a5f6d41c9966?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80"
-//       ],
-//       colors: ["#FFB6C1", "#E6E6FA"]
-//     },
-//     {
-//       id: 48,
-//       title: "Nike Air Zoom Pegasus 38",
-//       type: "Running Shoes",
-//       category: "Footwear",
-//       brand: "Nike",
-//       originalPrice: 9995,
-//       salePrice: 7995,
-//       rating: 9.4,
-//       reviewCount: 456,
-//       shortDescription: "Premium running shoes with React foam technology",
-//       detailDescription: "The Nike Air Zoom Pegasus 38 continues its legacy of being the reliable trainer for runners of all levels. Features Nike React foam for responsive cushioning and a Zoom Air unit in the forefoot for added bounce. The engineered mesh upper provides targeted breathability and support.",
-//       additionalInformation: "Material: Mesh upper, React foam midsole | Drop: 10mm | Weight: 275g (M), 235g (W) | Sizes: UK 6-12 | Usage: Road running | Technology: Zoom Air, React foam",
-//       reviews: [
-//         {
-//           username: "Arjun Singh",
-//           rating: 9.5,
-//           comment: "Best running shoes I've owned. Great cushioning and support for long runs."
-//         },
-//         {
-//           username: "Karthik Raman",
-//           rating: 9,
-//           comment: "Excellent daily trainers. The React foam provides perfect balance of cushion and response."
-//         }
-//       ],
-//       imageUrls: [
-//         "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80",
-//         "https://images.unsplash.com/photo-1608231387042-66d1773070a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80"
-//       ],
-//       colors: ["#000000", "#4169E1", "#FF4500"]
-//     },
-//     {
-//       id: 49,
-//       title: "Titan Raga Moonlight",
-//       type: "Women's Watch",
-//       category: "Watches",
-//       brand: "Titan",
-//       originalPrice: 12995,
-//       salePrice: 9995,
-//       rating: 9.1,
-//       reviewCount: 234,
-//       shortDescription: "Elegant women's watch with mother of pearl dial",
-//       detailDescription: "The Titan Raga Moonlight features a stunning mother of pearl dial adorned with Swarovski crystals. The slim rose gold-toned case and bracelet complement any outfit. Water-resistant up to 30m with precise quartz movement.",
-//       additionalInformation: "Case Material: Stainless Steel | Case Diameter: 28mm | Movement: Quartz | Water Resistance: 30m | Crystal: Mineral | Warranty: 2 years | Battery Life: 2 years",
-//       reviews: [
-//         {
-//           username: "Anjali Gupta",
-//           rating: 9,
-//           comment: "Beautiful watch that looks much more expensive than it is. Perfect for special occasions."
-//         },
-//         {
-//           username: "Sneha Reddy",
-//           rating: 9.5,
-//           comment: "Elegant design and comfortable to wear. The mother of pearl dial is stunning."
-//         }
-//       ],
-//       imageUrls: [
-//         "https://images.unsplash.com/photo-1524805444758-089113d48a6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80",
-//         "https://images.unsplash.com/photo-1524592094714-0f0654e20314?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80"
-//       ],
-//       colors: ["#FFD700", "#FFF5EE"]
-//     },
-//     {
-//       id: 50,
-//       title: "Forest Essentials Facial Treatment Kit",
-//       type: "Skincare",
-//       category: "Beauty",
-//       brand: "Forest Essentials",
-//       originalPrice: 3250,
-//       salePrice: 2925,
-//       rating: 9.3,
-//       reviewCount: 189,
-//       shortDescription: "Luxury Ayurvedic facial treatment kit with natural ingredients",
-//       detailDescription: "This comprehensive facial treatment kit from Forest Essentials includes a cleanser, toner, serum, and moisturizer. All products are formulated using traditional Ayurvedic recipes with pure, natural ingredients like Kashmir Saffron, Indian Rose, and Pure Honey.",
-//       additionalInformation: "Contents: 4 products | Quantity: 30ml each | Skin Type: All | Shelf Life: 12 months | Natural Ingredients | Cruelty-free | Made in India",
-//       reviews: [
-//         {
-//           username: "Ritu Desai",
-//           rating: 9.5,
-//           comment: "Amazing results! My skin feels rejuvenated and glowing after using this kit."
-//         },
-//         {
-//           username: "Pooja Mehta",
-//           rating: 9,
-//           comment: "Love the natural ingredients and the subtle fragrance. Great for sensitive skin."
-//         }
-//       ],
-//       imageUrls: [
-//         "https://images.unsplash.com/photo-1570174097350-7c0374c5f7d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80",
-//         "https://images.unsplash.com/photo-1570174691944-7cdc93b51d45?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80"
-//       ],
-//       colors: ["#DEB887", "#F5F5DC"]
-//     }
-// ]
 
 export const products: Product[] = [
   {
@@ -2241,9 +551,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80",
-      "https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80",
-      "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80",
+      "https://images.unsplash.com/photo-1593757147298-e064ed1419e5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTV8fHNoaXJ0JTIwYm95c3xlbnwwfHwwfHx8MA%3D%3D",
+      "https://images.unsplash.com/photo-1626557981101-aae6f84aa6ff?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1594201510970-f549e4a6e96d?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     ],
     colors: ["#FFFFFF", "#87CEEB", "#FFC0CB", "#000000"],
   },
@@ -2282,8 +592,8 @@ export const products: Product[] = [
     ],
     imageUrls: [
       "https://images.unsplash.com/photo-1621072156002-e2fccdc0b176?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1621072156004-e2fccdc0b177?auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1621072156006-e2fccdc0b178?auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1463860452799-793003efcb2d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1601935033900-059813f9abfc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     ],
   },
   {
@@ -2321,8 +631,8 @@ export const products: Product[] = [
     ],
     imageUrls: [
       "https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1583396060233-3d13dcd43235?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1583396060762-68bd900d8b63?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://cdn-img.prettylittlething.com/1/f/6/f/1f6fd633c625e71f0a16e93a53e3a7e0b1d5ea5c_cma0523_4.jpg",
+      "https://cdn-img.prettylittlething.com/1/d/f/0/1df07bdf846bcb5d3ee1d66374d4756859b63740_cly4082_2.jpg",
     ],
   },
   {
@@ -2398,9 +708,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1584273143981-41c073dfe8f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1551854838-212c50b4c184?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://i.pinimg.com/736x/8f/16/68/8f1668f0afc37b5d1f645ccd48685d8c.jpg",
+      "https://assets.ajio.com/medias/sys_master/root/20201015/eSWV/5f8745bdf997dd8c83653c91/-473Wx593H-460760387-gray-MODEL4.jpg",
+      "https://assets.digitalcontent.marksandspencer.app/images/w_1024,q_auto,f_auto/MS_10_T83_9432S_Y0_X_EC_0/High-Waisted-Wide-Leg-Trousers",
     ],
   },
   {
@@ -2481,8 +791,6 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1583846783214-7229a91b20ed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
     ],
   },
-
-  // H&M Products
   {
     id: 21,
     title: "Organic Cotton Blouse",
@@ -2513,7 +821,7 @@ export const products: Product[] = [
       { username: "Dia R.", rating: 8, comment: "Perfect for summer" },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1604671801908-6f0c6a092c05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://amourvert.com/cdn/shop/files/10390_Aida_IVORY_1_2ff81b78-6883-4cd6-902e-4c7b6b31d6b2.jpg?/amourvert.com/cdn/shop/files/10390_Aida_IVORY_1_2ff81b78-6883-4cd6-902e-4c7b6b31d6b2.jpg?&w=%7Bwidth%7D",
       "https://images.unsplash.com/photo-1581044777550-4cfa60707c03?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
     ],
@@ -2546,7 +854,7 @@ export const products: Product[] = [
     imageUrls: [
       "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       "https://images.unsplash.com/photo-1583846783214-7229a91b20ed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1583846717393-dc2412c95ed7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://m.media-amazon.com/images/I/71f07Aq8EXL._AC_SL1500_.jpg",
     ],
   },
   {
@@ -2580,8 +888,8 @@ export const products: Product[] = [
     ],
     imageUrls: [
       "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1583846717393-dc2412c95ed7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1583846783214-7229a91b20ed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1472923430079-278ad08b889a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1559034750-cdab70a66b8e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     ],
   },
   {
@@ -2610,9 +918,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1583846717393-dc2412c95ed7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://cdnc.lystit.com/photos/missguided/1c50653a/missguided-designer-blue-Tall-Blue-Denim-Cropped-Jacket.jpeg",
+      "https://i.ebayimg.com/images/g/ulIAAOSw9-xld2IB/s-l1600.jpg",
+      "https://www.tradeinn.com/f/13889/138899370/levis---90s-trucker-denim-jacket.jpg",
     ],
   },
   {
@@ -2645,9 +953,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1583846783214-7229a91b20ed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1583846717393-dc2412c95ed7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://tse1.mm.bing.net/th?id=OIP.z9HL9xvjHmQK4aF_pJqswgHaJ2&w=200&h=266&c=7",
+      "https://tse2.mm.bing.net/th?id=OIP.-syXG8UZBo1utQCHH89uawHaLH&w=200&h=300&c=7",
+      "https://tse2.mm.bing.net/th?id=OIP.Shgdt-i-0A-91bWgGKl8ZwHaLx&w=200&h=318&c=7",
     ],
   },
 
@@ -2719,7 +1027,7 @@ export const products: Product[] = [
     imageUrls: [
       "https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       "https://images.unsplash.com/photo-1581044777550-4cfa60707c03?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1604671801908-6f0c6a092c05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://tse1.mm.bing.net/th?id=OIP._izz2Y2DFlso1oEWYGVlDgAAAA&w=200&h=307&c=7",
     ],
   },
   {
@@ -2744,9 +1052,9 @@ export const products: Product[] = [
       { username: "Mehak R.", rating: 9, comment: "Worth the investment" },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1583846717393-dc2412c95ed7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1583846783214-7229a91b20ed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://product-images-cdn.liketoknow.it/sZKY7AmhvSt4QlUsDP1mZnrXInItNv8sf8UxStoSFHHhkfFAyD.oGAowYztY8IBCt7dU43PwyZaVQNa.OUn6HoB6bbH_Qnt74LSKMuD73148PuqmOVLJE6CQGSzzlEQo2LeW6WujZOxBiRlwm.IE9D9qrG5E_.kQnzltuSyFCo.lpCcIKzkB8vR8bYw-?v=0&auto=format&fm=webp&w=450&q=80&dpr=2.625",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/bdfd1895-3303-53b0-b893-132a9fb2e2ab/c7562025-858a-52f9-9b87-56d12b452965.jpg",
+      "https://product-images-cdn.liketoknow.it/bwW0DwbO6K.K9.5nA1n.JJkm97vPieo928XlUN77ssCr9FDeAn_YPTduWTWmsuKbH1yo8j.w.z8jvU.lFa3UScr2g3YWAZB6iKDITCSQwmDmMVNJqilMgyvE.tpkTcEEFwmoa1tGU4tnSyaZ65fY7QDaoi1cp5EEEDv0nSCCOUmhc6mmUVQ5i9M1ORU-?v=0&auto=format&fm=webp&w=450&q=80&dpr=2.625",
     ],
   },
   {
@@ -2841,9 +1149,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1595034313512-b1e3000a4568?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1617331721458-bd3bd3f9c7f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1555009393-f20bdb245c4d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://cdn.fcglcdn.com/brainbees/images/products/583x720/15421903a.webp",
+      "https://cdn.fcglcdn.com/brainbees/images/products/583x720/19116987a.webp",
+      "https://assets.digitalcontent.marksandspencer.app/image/upload/w_600,h_780,q_auto,f_auto,e_sharpen/SD_04_T86_3704Q_UT_X_EC_0",
     ],
   },
   {
@@ -2881,9 +1189,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1524920333556-382fe7615d3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://i.etsystatic.com/5143695/r/il/53ea10/3494942803/il_570xN.3494942803_qsz1.jpg",
       "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1476234251651-f353703a034d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://fredandnoah.com/cdn/shop/products/IMG_8008_2231x.jpg?v=1624312474",
     ],
   },
   {
@@ -2999,13 +1307,11 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1503944168849-8bf86875bbd8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://en-sa.sssports.com/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dwccd359a6/sss/SSS2/N/K/8/6/H/SSS2_NK86H383_023_742728121635_1.jpg?sw=700&sh=700&sm=fit",
+      "https://images.stylishop.com/cdn-cgi/image/width=500,quality=100/media/catalog/product/2111398320/images/2111398320_1.jpg?v=1",
+      "https://images.bestsellerclothing.in/data/JJ/22-mar-2024/900381301_g4.jpg?width=1080&height=1355&mode=fill&fill=blur&format=auto",
     ],
   },
-
-  // H&M Kids Products
   {
     id: 36,
     title: "Organic Cotton Overall Dress",
@@ -3114,9 +1420,9 @@ export const products: Product[] = [
       { username: "Aarti K.", rating: 9, comment: "Perfect party wear skirt." },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1476234251651-f353703a034d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1524920333556-382fe7615d3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://www.chanellewright.com/cdn/shop/products/74607582_786181951835255_1116993613549535232_o.jpg?v=1578937440",
+      "https://i.etsystatic.com/14768389/r/il/4bd765/1329559326/il_570xN.1329559326_6rcl.jpg",
+      "https://i.ebayimg.com/images/g/0T4AAOSwVaxk0gJK/s-l1200.jpg",
     ],
   },
   {
@@ -3153,9 +1459,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1544022613-e87ca75a784a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://shop.mango.com/assets/rcs/pics/static/T6/fotos/S/67093265_TM.jpg?imwidth=2048&imdensity=1&ts=1708418028090",
       "https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1516962126636-27bf9e59a5b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://images.meesho.com/images/products/425689523/sdvom_512.webp",
     ],
   },
   {
@@ -3192,13 +1498,11 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1595034313512-b1e3000a4568?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1617331721458-bd3bd3f9c7f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1555009393-f20bdb245c4d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://us.hatley.com/cdn/shop/files/pdp_zoom_d6076762-bfbd-4547-bbc1-dfa477d13ea5.jpg?v=1720730051&width=1445",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/fe0a33b4-e1e8-5c4c-a318-5f7d604cef19/6d37201a-9505-5cd4-83a6-b2daff697d2b.jpg",
+      "https://www.citythreads.com/cdn/shop/products/8_18ffffc2-fa5a-49ba-a125-36b99ac58107_1200x.png?v=1694831184",
     ],
   },
-
-  // Gap Kids Products
   {
     id: 41,
     title: "Stretch Denim Jeans",
@@ -3234,7 +1538,7 @@ export const products: Product[] = [
     ],
     imageUrls: [
       "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://images.meesho.com/images/products/430438101/7ow7w_512.webp",
       "https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
     ],
   },
@@ -3264,9 +1568,9 @@ export const products: Product[] = [
       { username: "Sara M.", rating: 9, comment: "Perfect school sweater." },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1445796886651-d31a2c15f3c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://lookagain.scene7.com/is/image/OttoUK/600w/Kids-Logo-Print-Hoodie-by-KangaROOS~51245636FRSP.jpg",
+      "https://assets.ajio.com/medias/sys_master/root/20241224/s5cP/676a48d8c148fa1b305af81b/-473Wx593H-442306913-blue-MODEL.jpg",
+      "https://images.jackjones.com/12258823/4547989/008/jackjones-jjelogosweathood2col24-25noosjnr-yellow.jpg?v=f69d7f72182cc2cc6316afb10065a265&format=webp&width=1280&quality=90&key=25-0-3",
     ],
   },
   {
@@ -3303,9 +1607,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1524920333556-382fe7615d3f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1476234251651-f353703a034d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB f8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1621452773781-0f992fd1f5cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://image.made-in-china.com/2f0j00PyHlYBignnbV/Custom-Logo-Short-Sleeve-School-Uniform-Polo-Shirt-Dress-and-Short-Sport-Wear-2-Piece-Set-School-Uniforms-for-Girls-and-Boys.webp",
+      "https://s.alicdn.com/@sc04/kf/HTB1Lth9gHZnBKNjSZFrq6yRLFXaJ.jpg_720x720q50.jpg",
+      "https://image.made-in-china.com/202f0j00kmMbYuOqpFcn/Summer-Short-Sleeve-Dress-Primary-School-Uniform-Polo-Long-School-Girl-Dress-Uniform-for-Kids-Girls-School.webp",
     ],
   },
   {
@@ -3334,9 +1638,9 @@ export const products: Product[] = [
       { username: "Dev M.", rating: 9, comment: "Perfect for active kids." },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1503944168849-8bf86875bbd8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://5.imimg.com/data5/ANDROID/Default/2020/9/MO/KE/XH/25983076/product-jpeg.jpg",
+      "https://images-cdn.ubuy.co.in/657b0f402527684f37169038-patpat-boys-cargo-pants-with-pocket.jpg",
+      "https://image.made-in-china.com/2f0j00BjRbAYtKEvoP/Spring-Autumn-High-Quality-Boy-s-Casual-Trouser-Popular-Kids-Cargo-Pants.jpg",
     ],
   },
   {
@@ -3365,9 +1669,9 @@ export const products: Product[] = [
       { username: "Advika M.", rating: 9, comment: "Holds up well in wash." },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1596870230751-ebdfce98ec42?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://img.tatacliq.com/images/i18//437Wx649H/MP000000022526466_437Wx649H_202406072212411.jpeg",
+      "https://media-uk.landmarkshops.in/cdn-cgi/image/h=831,w=615,q=85,fit=cover/max-new/1000010616067-Multicolour-M-1000010616067-9292021_01-2100.jpg",
+      "https://assets.ajio.com/medias/sys_master/root/20240928/JG6y/66f768e7f9b8ef490b7980f7/-473Wx593H-700492653-multi-MODEL.jpg",
     ],
   },
   {
@@ -3522,8 +1826,8 @@ export const products: Product[] = [
     ],
     imageUrls: [
       "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a",
-      "https://images.unsplash.com/photo-1582588678413-dbf45f4823e9",
-      "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb",
+      "https://wornwellhub.com/wp-content/uploads/2024/11/p-photo-2024-11-11-12-44-07-13-17-07-878819.webp",
+      "https://heartbreak.run/cdn/shop/products/DH5392-401-PHSRH000-2000_740x.jpg?v=1669232040",
     ],
   },
   {
@@ -3560,9 +1864,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1605408499391-6368c628ef42",
-      "https://images.unsplash.com/photo-1605348532760-6753d2c43329",
-      "https://images.unsplash.com/photo-1605408499391-6368c628ef42",
+      "https://images-cdn.ubuy.co.in/66805e2d608cf94aba671756-nike-men-39-s-sneaker.jpg",
+      "https://i1.t4s.cz/products/dh3344-003/nike-metcon-7-flyease-472173-dh3344-003.jpeg",
+      "https://fitatmidlife.com/wp-content/uploads/Nike-Metcon-7-AMP-Shoe-Review-2-crop.jpg",
     ],
   },
 
@@ -3636,7 +1940,7 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2",
+      "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/ec857a26f920444eb59d816d37d31f0a_9366/TRACK-GAIT_Black_JK1262_01_00_standard.jpg",
       "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb",
       "https://images.unsplash.com/photo-1582588678413-dbf45f4823e9",
     ],
@@ -3676,9 +1980,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1628413993904-0f392e1c5896",
-      "https://images.unsplash.com/photo-1628413993904-0f392e1c5896",
-      "https://images.unsplash.com/photo-1628413993904-0f392e1c5896",
+      "https://thumblr.uniid.it/product/238724/a037a4a66921.jpg?width=3840&format=webp&q=75",
+      "https://thumblr.uniid.it/product/239026/8cf4fee194e9.jpg?width=3840&format=webp&q=75",
+      "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//98/MTA-63424376/adidas_adidas_predator_edge-3_firm_ground_football_shoes_sepatu_sepakbola_pria_-gw1002-_full04_sd0e5wlu.jpg",
     ],
   },
   {
@@ -3713,7 +2017,7 @@ export const products: Product[] = [
     imageUrls: [
       "https://images.unsplash.com/photo-1603808033192-082d6919d3e1",
       "https://images.unsplash.com/photo-1603808033176-9d134e6f2c74",
-      "https://images.unsplash.com/photo-1603808033192-082d6919d3e1",
+      "https://assets.adidas.com/images/w_600,f_auto,q_auto/b7beee7c32d4438aaba3acb6001c2e7b_9366/Forum_Low_Shoes_White_FY7757_01_standard.jpg",
     ],
   },
   {
@@ -3747,8 +2051,8 @@ export const products: Product[] = [
     ],
     imageUrls: [
       "https://images.unsplash.com/photo-1605408499391-6368c628ef42",
-      "https://images.unsplash.com/photo-1605408499391-6368c628ef42",
-      "https://images.unsplash.com/photo-1605408499391-6368c628ef42",
+      "https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2021%2F08%2Fadidas-4dfwd-pulse-signal-green-q46451-release-date-1.jpg?q=75&w=800&cbr=1&fit=max",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/49c1e513-476e-548f-8c36-c2bc77551a5e/cc6f2a81-5c1e-509b-917d-8856d937ccaf.jpg",
     ],
   },
   {
@@ -3778,8 +2082,8 @@ export const products: Product[] = [
     ],
     imageUrls: [
       "https://images.unsplash.com/photo-1539185441755-769473a23570",
-      "https://images.unsplash.com/photo-1539185441755-769473a23570",
-      "https://images.unsplash.com/photo-1539185441755-769473a23570",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/9dac5a7e-0f9a-5c9a-8c92-63d6b7223279/0cc90d30-a5b6-5b17-84e7-d69176530e61.jpg",
+      "https://cdn.mos.cms.futurecdn.net/DPnxwM7aHibtP7cGvS2emh.jpg",
     ],
   },
   {
@@ -3813,8 +2117,8 @@ export const products: Product[] = [
     ],
     imageUrls: [
       "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2",
-      "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2",
-      "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2",
+      "https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2019%2F04%2Fnew-balance-990-v5-made-in-us-grey-00.jpg?w=960&cbr=1&q=90&fit=max",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/d240ae9a-fd18-5635-8582-b8cc8b4c35f8/261927f6-e828-52c9-a5de-fa05d581f3d1.jpg",
     ],
   },
   {
@@ -3847,9 +2151,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a",
-      "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a",
+      "https://5.imimg.com/data5/SELLER/Default/2024/1/373401914/XG/NY/OZ/102860792/whatsapp-image-2023-12-21-at-4-50-17-pm-1-500x500.jpeg",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/4924585c-9740-5af0-b98b-f2ee95ff9418/cfe32d8d-7011-565b-ace5-0273f4adc8e0.jpg",
+      "https://images-cdn.ubuy.co.in/6540d4621f5e2829a339f68c-new-balance-men-39-s-fuelcell-rc-elite.jpg",
     ],
   },
   {
@@ -3882,9 +2186,9 @@ export const products: Product[] = [
       { username: "Swati R.", rating: 8, comment: "Durable and comfortable." },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa",
-      "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa",
-      "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa",
+      "https://images.bauerhosting.com/affiliates/sites/2/2023/10/New-Balance-Fresh-Foam-X-Hierro-v7-review-1.jpg?auto=format&w=1440&q=80",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/878ac8b9-32f8-5098-a0c3-a23a68d75fe8/f813def0-89ee-5d07-a1a1-fb1e618144a5.jpg",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/6add1114-fb57-5251-8d53-7dc09cad082f/cc6f2a81-5c1e-509b-917d-8856d937ccaf.jpg",
     ],
   },
   {
@@ -3913,9 +2217,9 @@ export const products: Product[] = [
       { username: "Mira K.", rating: 9, comment: "Comfortable and stylish." },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2",
-      "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2",
-      "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2",
+      "https://m.media-amazon.com/images/I/51bWK0yNBVL._AC_SY695_.jpg",
+      "https://image-cdn.hypb.st/https%3A%2F%2Fhypebeast.com%2Fimage%2F2017%2F07%2Fnew-balance-574-sport-official-unveil-tw.jpg?w=960&cbr=1&q=90&fit=max",
+      "https://resources.booztcdn.com/211736-1602502388_574ML574EGG5copy.jpg",
     ],
   },
   {
@@ -3953,9 +2257,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1547996160-81dfa63595aa",
-      "https://images.unsplash.com/photo-1627165364322-a151cfbc1fb5",
-      "https://images.unsplash.com/photo-1627165364322-a151cfbc1fb5",
+      "https://cdn.prod.website-files.com/636a2d3c26aa845d12b17679/645a5a5b722c712a9f2b4102_2019-11-04-rolex-submariner-date-ref-116610ln-49.webp",
+      "https://img.chrono24.com/images/uhren/37208939-ztd1ndjvefju3tnblgdx77l7-ExtraLarge.jpg",
+      "https://media.rolex.com/image/upload/q_auto:best/f_auto/c_limit,w_3840/v1727258031/rolexcom/collection/family-pages/professional-watches/submariner/top-navigation/professional-watches-submariner-all-models-navigation_m126603-0001_2210jva_001",
     ],
   },
   {
@@ -3992,9 +2296,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1627165364589-c5e7cd95bcf3",
-      "https://images.unsplash.com/photo-1627165364589-c5e7cd95bcf3",
-      "https://images.unsplash.com/photo-1627165364589-c5e7cd95bcf3",
+      "https://images.secondmovement.com/media/catalog/product/cache/105b3c9229095e8c1e373d2e9464b4da/r/o/rolex-cosmograph-daytona-116503-powg19b-multiple-4.jpg",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/14f6b13f-cd7b-5f4a-bba2-751560d5ac18/fd2437ed-2e64-5cc0-8e21-2ea42a698ca0.jpg",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/5c8976c3-b611-5ba1-9ed3-1f8d03e1432d/f47ab36e-fb8f-5a32-a7d2-89b3d60c4633.jpg",
     ],
   },
   {
@@ -4031,9 +2335,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1627165364627-0a8e8f20d634",
-      "https://images.unsplash.com/photo-1627165364627-0a8e8f20d634",
-      "https://images.unsplash.com/photo-1627165364627-0a8e8f20d634",
+      "https://images.secondmovement.com/media/catalog/product/cache/105b3c9229095e8c1e373d2e9464b4da/r/o/rolex-gmt-master-ii-126710blnr-blkind-powg22c-multiple-1.jpg",
+      "https://newsroom-content.rolex.com/-/media/project/rolex/newsroom/rolex/rolex-newsroom-int/2024-04/gmt-master-ii/responsive-images/newsroom-topolino-m126710grnr-0004_2401uf_002.jpg?imwidth=337",
+      "https://images.secondmovement.com/media/catalog/product/cache/105b3c9229095e8c1e373d2e9464b4da/r/o/rolex-gmt-master-ii-126710blro-blkind-multiple-7.jpg",
     ],
   },
   {
@@ -4071,9 +2375,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1627165364590-1d2c6c8bf4c1",
-      "https://images.unsplash.com/photo-1627165364590-1d2c6c8bf4c1",
-      "https://images.unsplash.com/photo-1627165364590-1d2c6c8bf4c1",
+      "https://cdn11.bigcommerce.com/s-eie9lsi1uc/images/stencil/1280x1280/products/205692/2452163/rolex-day-date-40-228238-chpsp-79__24728.1741010093.jpg?c=1",
+      "https://newsroom-content.rolex.com/-/media/project/rolex/newsroom/rolex/rolex-newsroom-int/2022/day-date/01_banner/m228236-0012_2201jva_001-v1.jpg?imwidth=375&impolicy=grid-1",
+      "https://cdn11.bigcommerce.com/s-eie9lsi1uc/images/stencil/1280x1280/products/205691/2451939/rolex-day-date-40-228239-blurp-72__80070.1741010021.jpg?c=1",
     ],
   },
   {
@@ -4110,9 +2414,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1627165364627-0a8e8f20d634",
-      "https://images.unsplash.com/photo-1627165364627-0a8e8f20d634",
-      "https://images.unsplash.com/photo-1627165364627-0a8e8f20d634",
+      "https://watchesbysjx.com/wp-content/uploads/2024/07/rolex-sky-dweller-white-gold-oysterflex.jpg",
+      "https://images.secondmovement.com/media/catalog/product/cache/105b3c9229095e8c1e373d2e9464b4da/r/o/rolex-sky-dweller-326934-powg18b-multiple-2.jpg",
+      "https://img.chrono24.com/images/uhren/27178325-9ig089vjcnavusdfei0y11vz-ExtraLarge.jpg",
     ],
   },
   {
@@ -4149,9 +2453,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1622434641406-a158123450f9",
-      "https://images.unsplash.com/photo-1622434641406-a158123450f9",
-      "https://images.unsplash.com/photo-1622434641406-a158123450f9",
+      "https://www.omegawatches.com/media/wysiwyg/Precision-PN15-large.jpg",
+      "https://www.omegawatches.com/media/wysiwyg/Home_SP_MoonphaseMeteorite_large.jpg",
+      "https://www.omegawatches.com/media/wysiwyg/Precision-PN15-watch.png",
     ],
   },
   {
@@ -4188,9 +2492,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
+      "https://www.omegawatches.com/media/wysiwyg/SE-2103042200101-P-large.jpg",
+      "https://www.omegawatches.com/media/wysiwyg/Home_SP_30430435206001.png",
+      "https://www.omegawatches.com/media/catalog/product/o/m/omega-seamaster-diver-300m-co-axial-master-chronometer-42-mm-21090422001003-c0bfe1.png?w=400",
     ],
   },
   {
@@ -4228,9 +2532,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/08372447-6a27-5795-a34d-595576e9f447/f3628426-050a-5c99-9e9e-0f38ea2a0bc6.jpg",
       "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
+      "https://www.omegawatches.com/media/wysiwyg/Home_SP_Pilot_KV_Push.jpg",
     ],
   },
   {
@@ -4267,9 +2571,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
+      "https://www.omegawatches.com/media/catalog/product/o/m/omega-de-ville-mini-tresor-quartz-26-mm-42817266004007-5898e2.png?w=700",
+      "https://www.omegawatches.com/media/catalog/product/o/m/omega-de-ville-mini-tresor-quartz-26-mm-42817266004008-0f56e0.png?w=700",
+      "https://www.omegawatches.com/media/catalog/product/o/m/omega-de-ville-mini-tresor-quartz-26-mm-42815266004001-c9d10e.png?w=700",
     ],
   },
   {
@@ -4306,9 +2610,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
+      "https://www.omegawatches.com/media/catalog/product/o/m/omega-seamaster-aqua-terra-150m-co-axial-master-chronometer-41-mm-22010412103006-5059c4.png?w=700",
+      "https://www.omegawatches.com/media/catalog/product/o/m/omega-seamaster-aqua-terra-150m-co-axial-master-chronometer-41-mm-22012412101001-eec16d.png?w=700",
+      "https://www.omegawatches.com/media/catalog/product/o/m/omega-seamaster-aqua-terra-150m-co-axial-master-chronometer-41-mm-22010412101002-ceac31.png?w=700",
     ],
   },
 
@@ -4347,9 +2651,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
+      "https://www.tagheuer.com/on/demandware.static/-/Library-Sites-TagHeuer-Shared/default/dw730e32fc/images/sprites/Carrera/CBS2210.FC6534/RTW_backUp.jpg",
+      "https://www.tagheuer.com/on/demandware.static/-/Sites-tagheuer-master/default/dw90e50211/TAG_Heuer_Carrera/CBS2210.FC6534/CBS2210.FC6534_0314.png?impolicy=resize&width=3840",
+      "https://www.tagheuer.com/on/demandware.static/-/Sites-tagheuer-master/default/dwce722cee/TAG_Heuer_Carrera/CBS2210.FC6534/CBS2210.FC6534_12.png?impolicy=resize&width=3840",
     ],
   },
   {
@@ -4386,9 +2690,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
+      "https://www.tagheuer.com/on/demandware.static/-/Library-Sites-TagHeuer-Shared/default/dw229f91a3/images/sprites/Monaco/CBL2111.BA0644/RTW_backUp.jpg",
+      "https://www.tagheuer.com/on/demandware.static/-/Sites-tagheuer-master/default/dwc159dcef/TAG_Heuer_Monaco/CBL2111.BA0644/CBL2111.BA0644_0314.png?impolicy=resize&width=3840",
+      "https://www.tagheuer.com/on/demandware.static/-/Sites-tagheuer-master/default/dw73821e57/TAG_Heuer_Monaco/CBL2111.BA0644/CBL2111.BA0644_12.png?impolicy=resize&width=3840",
     ],
   },
   {
@@ -4425,9 +2729,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
+      "https://www.tagheuer.com/on/demandware.static/-/Library-Sites-TagHeuer-Shared/default/dwf1ce45b4/images/sprites/Carrera/CBU2082.FT6275/RTW_backUp.jpg",
+      "https://www.tagheuer.com/on/demandware.static/-/Sites-tagheuer-master/default/dwb65a08ac/TAG_Heuer_Carrera/CBU2082.FT6275/CBU2082.FT6275_11.png?impolicy=resize&width=3840",
+      "https://www.tagheuer.com/on/demandware.static/-/Sites-tagheuer-master/default/dwe15d848a/TAG_Heuer_Carrera/CBU2082.FT6275/CBU2082.FT6275_0314.png?impolicy=resize&width=3840",
     ],
   },
   {
@@ -4464,9 +2768,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
+      "https://www.tagheuer.com/on/demandware.static/-/Sites-tagheuer-master/default/dw0709bab9/TAG_Heuer_Formula_1/CAZ1010.BA0842/CAZ1010.BA0842_1000.png?impolicy=resizeTrim&width=1768&height=2212",
+      "https://www.tagheuer.com/on/demandware.static/-/Sites-tagheuer-master/default/dwece17e22/TAG_Heuer_Formula_1/CAZ1010.BA0842/CAZ1010.BA0842_0913.png?impolicy=resize&width=3840",
+      "https://www.tagheuer.com/on/demandware.static/-/Sites-tagheuer-master/default/dw480a6891/TAG_Heuer_Formula_1/CAZ1010.BA0842/CAZ1010.BA0842_12.png?impolicy=resize&width=3840",
     ],
   },
   {
@@ -4503,9 +2807,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
-      "https://images.unsplash.com/photo-1548171915-e79a380a2a4b",
+      "https://www.tagheuer.com/on/demandware.static/-/Sites-tagheuer-master/default/dw01e9bb93/TAG_Heuer_Connected_/SBR8A80.BT6261/SBR8A80.BT6261_0913.png?impolicy=resize&width=3840",
+      "https://www.tagheuer.com/on/demandware.static/-/Sites-tagheuer-master/default/dw2ba0331d/TAG_Heuer_Connected_/SBR8A80.BT6261/SBR8A80.BT6261_00.png?impolicy=resizeTrim&width=1768&height=2212",
+      "https://www.tagheuer.com/on/demandware.static/-/Sites-tagheuer-master/default/dw90323bdf/Calibre_E4_45MM/SBR8A80.BT6261/SBR8A80.BT6261_12.png?impolicy=resize&width=3840",
     ],
   },
   {
@@ -4584,9 +2888,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1696446702183-abd8e2ccf4c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1695048133142-1a20484d2569?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1695048132936-814e25f93ca1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://m.media-amazon.com/images/I/81Os1SDWpcL._SX679_.jpg",
+      "https://m.media-amazon.com/images/I/51UtwJ0576L._SX679_.jpg",
+      "https://m.media-amazon.com/images/I/81MDZsYTIoL._SX679_.jpg",
     ],
   },
   {
@@ -4625,7 +2929,7 @@ export const products: Product[] = [
     imageUrls: [
       "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       "https://images.unsplash.com/photo-1589739900266-43b2843f4c12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1511375617956-4dff31f5f4c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://m.media-amazon.com/images/I/51NVFTCAP3L._SX300_SY300_QL70_FMwebp_.jpg",
     ],
   },
   {
@@ -4663,9 +2967,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1696925126790-f7d2776d6b03?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1697557443517-8ad3d9b96481?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1697557443661-0da271a4e7eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://www.apple.com/v/apple-watch-ultra-2/g/images/overview/hero/hero_endframe__b7prz1z3rs2u_large_2x.jpg",
+      "https://www.apple.com/v/apple-watch-ultra-2/g/images/overview/running/lifestyle_running__cj4i05t23gk2_large_2x.jpg",
+      "https://www.apple.com/v/apple-watch-ultra-2/g/images/overview/cycling/cycling_rpm__c2a2ydzatp0m_large_2x.jpg",
     ],
   },
   {
@@ -4702,9 +3006,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1696925126790-f7d2776d6b03?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1697557443517-8ad3d9b96481?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1697557443661-0da271a4e7eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://m.media-amazon.com/images/I/51WZTCvBFAL._SY879_.jpg",
+      "https://m.media-amazon.com/images/I/51G5pfRfSfL._SY879_.jpg",
+      "https://m.media-amazon.com/images/I/51UxtGtL8gL._SY879_.jpg",
     ],
   },
 
@@ -4821,9 +3125,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1632634571086-44a8be676ad3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       "https://images.unsplash.com/photo-1587033411391-5d9e51cce126?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1589739900257-fb583dd296b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://images.samsung.com/is/image/samsung/assets/in/galaxy-tab-s9/feature/galaxy-tab-s9-kv-pc.jpg",
+      "https://images.samsung.com/is/image/samsung/assets/in/galaxy-tab-s9/feature/galaxy-tab-s9-ai-image03-pc.jpg",
     ],
   },
   {
@@ -4856,9 +3160,9 @@ export const products: Product[] = [
       { username: "Linda K.", rating: 8.7, comment: "Premium build quality." },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1697557443517-8ad3d9b96481?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1697557443661-0da271a4e7eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1697557443403-d3fe8857bcc8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://m.media-amazon.com/images/I/41s8MrQUONL._SX300_SY300_QL70_FMwebp_.jpg",
+      "https://m.media-amazon.com/images/I/71mP-5v4pxL._SX679_.jpg",
+      "https://m.media-amazon.com/images/I/71ium7SD9VL._SX679_.jpg",
     ],
   },
   {
@@ -4893,7 +3197,7 @@ export const products: Product[] = [
     imageUrls: [
       "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       "https://images.unsplash.com/photo-1598331668826-20cecc596b86?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1598331668626-12a9c95f7a22?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://m.media-amazon.com/images/I/81ZnkXiV6EL._SX522_.jpg",
     ],
   },
 
@@ -4933,8 +3237,8 @@ export const products: Product[] = [
     ],
     imageUrls: [
       "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1618366712025-a97b0ffa0932?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1618366712013-259d3fb7c8cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://m.media-amazon.com/images/I/51gaT35OeML._SX522_.jpg",
+      "https://d1ncau8tqf99kp.cloudfront.net/converted/103364_original_local_1200x1050_v3_converted.webp",
     ],
   },
   {
@@ -4972,8 +3276,8 @@ export const products: Product[] = [
     ],
     imageUrls: [
       "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1516035071-78769b4b1ddb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1516035645876-b7f1c4c9a7c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://m.media-amazon.com/images/I/81Tr3Jo8DvL._SX679_.jpg",
+      "https://m.media-amazon.com/images/I/812VIwWG2DL._SX679_.jpg",
     ],
   },
   {
@@ -5011,8 +3315,8 @@ export const products: Product[] = [
     ],
     imageUrls: [
       "https://images.unsplash.com/photo-1593784991095-a205069470b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1593784991127-ed114d3a8ebb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1593784991400-e31c3c8b4559?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://m.media-amazon.com/images/I/81IAdR7FhwL._SX522_.jpg",
+      "https://m.media-amazon.com/images/I/71nIENiNlrL._SX522_.jpg",
     ],
   },
   {
@@ -5051,7 +3355,7 @@ export const products: Product[] = [
     imageUrls: [
       "https://images.unsplash.com/photo-1607853202273-797f1c22a38e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       "https://images.unsplash.com/photo-1621259182978-fbf93132d53d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1622297845775-5ff1b87b0da7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://m.media-amazon.com/images/I/71nIENiNlrL._SX522_.jpg",
     ],
   },
   {
@@ -5088,9 +3392,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1598331668826-20cecc596b86?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1598331668626-12a9c95f7a22?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://m.media-amazon.com/images/I/61qL6ihGn7L._SX679_.jpg",
+      "https://m.media-amazon.com/images/I/61xTj3Q0llL._SX679_.jpg",
+      "https://m.media-amazon.com/images/I/718hZDkhEkL._SX679_.jpg",
     ],
   },
   {
@@ -5170,7 +3474,7 @@ export const products: Product[] = [
     imageUrls: [
       "https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1602752275197-9d317a1b3f81?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://www.cartier.com/dw/image/v2/BGTJ_PRD/on/demandware.static/-/Sites-cartier-master/default/dw043c559f/images/large/6d82e05f8e265881b6746cb62e4d7b8f.png?sw=750&sh=750&sm=fit&sfrm=png",
     ],
   },
   {
@@ -5207,9 +3511,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1594534475808-b18fc33b045e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://www.cartier.com/dw/image/v2/BGTJ_PRD/on/demandware.static/-/Sites-cartier-master/default/dwfa43f32a/images/large/b66edd509d8d5796a5828ef84e9d3586.png?sw=750&sh=750&sm=fit&sfrm=png",
+      "https://www.cartier.com/dw/image/v2/BGTJ_PRD/on/demandware.static/-/Sites-cartier-master/default/dw62b0abd0/images/large/ad9817bcf15d56a28f90fa5494c20073.png?sw=750&sh=750&sm=fit&sfrm=png",
+      "https://www.cartier.com/dw/image/v2/BGTJ_PRD/on/demandware.static/-/Sites-cartier-master/default/dwb3b2e2a3/images/large/c27593ecd63451b785881134fa9a1675.png?sw=750&sh=750&sm=fit&sfrm=png",
     ],
   },
   {
@@ -5248,7 +3552,7 @@ export const products: Product[] = [
     imageUrls: [
       "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1602283076962-5c50ca1dce50?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://www.cartier.com/dw/image/v2/BGTJ_PRD/on/demandware.static/-/Sites-cartier-master/default/dwcaadb41d/images/large/d23340307fba5cd8908e9eae232477fa.png?sw=750&sh=750&sm=fit&sfrm=png",
     ],
   },
   {
@@ -5328,7 +3632,7 @@ export const products: Product[] = [
     imageUrls: [
       "https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1602752275197-9d317a1b3f81?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://www.susannahlovis.com/wp-content/uploads/2022/05/7004213_susannahlovis_antique_vintage_jewellery_vintage_cartier_wide_love_ring_in_yellow_gold_IMG_2009.jpg",
     ],
   },
   {
@@ -5404,7 +3708,7 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1602283076962-5c50ca1dce50?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://press.tiffany.com/wp-content/uploads/Sclumberger_ATJ_4x5_9.jpg",
       "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
       "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
     ],
@@ -5443,9 +3747,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1602283076962-5c50ca1dce50?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://media.tiffany.com/is/image/Tiffany/EcomItemL2/tiffany-hardweargraduated-link-necklace-70750996_1067505_AV_1.jpg?op_usm=1.0%2C1.0%2C6.0&defaultImage=NoImageAvailableInternal",
+      "https://media.tiffany.com/is/image/Tiffany/EcomItemL2/tiffany-hardwearmedium-link-necklace-70751143_1063705_SV_1.jpg?op_usm=1.0%2C1.0%2C6.0&defaultImage=NoImageAvailableInternal",
+      "https://media.tiffany.com/is/image/Tiffany/EcomItemL2/tiffany-hardweargraduated-link-necklace-38086898_969560_AV_1.jpg?op_usm=1.0%2C1.0%2C6.0&defaultImage=NoImageAvailableInternal",
     ],
   },
   {
@@ -5482,9 +3786,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1630019852942-f89202989a59?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://e3brpsvspqv.exactdn.com/wp-content/uploads/2018/01/E109.jpg?strip=all&lossy=0&webp=92&sharp=1&ssl=1",
+      "https://media.tiffany.com/is/image/Tiffany/EcomItemL2/tiffany-solesteearrings-60572895_1027799_ED.jpg?op_usm=2.0%2C1.0%2C6.0&%24cropN=0.1%2C0.1%2C0.8%2C0.8&defaultImage=NoImageAvailableInternal",
+      "https://static.wixstatic.com/media/fc9e82_492439f702b8420daed9b43cbf064e78~mv2.jpg/v1/fill/w_480,h_640,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/fc9e82_492439f702b8420daed9b43cbf064e78~mv2.jpg",
     ],
   },
 
@@ -5523,9 +3827,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1602283076962-5c50ca1dce50?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://imperialtime.co.uk/media/catalog/product/cache/d5aad5f722d05c93b59d23ee81aaf26b/u/n/untitled_design_10__1.png",
+      "https://i.pinimg.com/736x/2c/23/79/2c2379ab7c6201de045fe658b2917399.jpg",
+      "https://imperialtime.co.uk/media/catalog/product/cache/d5aad5f722d05c93b59d23ee81aaf26b/i/m/img_2041_3.jpg",
     ],
   },
   {
@@ -5562,9 +3866,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1602752275197-9d317a1b3f81?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://nypost.com/wp-content/uploads/sites/2/2022/05/van-cleef-clover-ring-hp.jpg?quality=75&strip=all",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/3e54e74e-68bf-532b-904a-2c65ed0b5cb8/fb8242b6-5a01-5d8c-96c8-dbde0cf2a3ab.jpg",
+      "https://www.vancleefarpels.cn/content/dam/rcq/vca/20/54/42/6/2054426.jpeg",
     ],
   },
   {
@@ -5640,9 +3944,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1630019852942-f89202989a59?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://www.mgsignedjewelry.com/images/MTSJ12380-1.jpg",
+      "https://mygemma.com/cdn/shop/products/119957-fv.jpg?v=1683331947&width=400",
+      "https://i.pinimg.com/736x/fa/37/29/fa372912bbd6d60425cfc8464eb568f6.jpg",
     ],
   },
   {
@@ -5679,9 +3983,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1594534475808-b18fc33b045e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "https://www.vancleefarpels.cn/content/dam/rcq/vca/16/27/42/4/1627424.png",
+      "https://www.mikaeldan.com/41312-superlarge_default/van-cleef-arpels-cadenas-gold-watch.jpg",
+      "https://www.vancleefarpels.com/content/dam/rcq/vca/16/27/41/9/1627419.png",
     ],
   },
   {
@@ -5720,9 +4024,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
       "https://images.unsplash.com/photo-1591561954555-607968c989ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://us.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-neverfull-mm--M46987_PM1_Cropped%20worn%20view.jpg",
     ],
   },
   {
@@ -5799,9 +4103,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1591561954555-607968c989ab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://preview.redd.it/pochette-metis-pros-cons-v0-1wh09qm3sktb1.jpg?width=1080&crop=smart&auto=webp&s=a554b56893c02b775088e717cfabac9f71bdc31e",
+      "https://in.louisvuitton.com/images/is/image/lv/1/PP_VP_M/louis-vuitton--M46595_PM2_Front%20view.jpg?wid=750&hei=870",
+      "https://in.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-pochette-metis-east-west--M22942_PM2_Front%20view.jpg",
     ],
   },
   {
@@ -5838,9 +4142,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://in.louisvuitton.com/images/is/image/lv/1/PP_VP_M/louis-vuitton--N83103_PM2_Front%20view.jpg?wid=750&hei=870",
+      "https://in.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-capucines-bb--M24684_PM2_Front%20view.jpg",
+      "https://i0.wp.com/thesisluxury.com/wp-content/uploads/2023/12/z4954370851826_7272833c5e4e89017751df45e6a524c3.jpg?fit=2016%2C1512&ssl=1",
     ],
   },
   {
@@ -5877,13 +4181,11 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1594633313931-7e152a81b89b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://in.louisvuitton.com/images/is/image/lv/1/PP_VP_L/louis-vuitton-petite-malle--M23518_PM1_Cropped%20worn%20view.jpg",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/b05a20f2-1918-5780-95c1-c98af11ed0ea/a22e9ae1-6ddd-5298-bff1-8a97dc7f0118.jpg",
+      "https://eu.louisvuitton.com/images/is/image/lv/1/PP_VP_M/louis-vuitton--M45943_PM2_Front%20view.jpg?wid=750&hei=870",
     ],
   },
-
-  // Gucci Products
   {
     id: 111,
     title: "GG Marmont Matelassé",
@@ -5918,9 +4220,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1594633312532-4b99d5cd41e1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/cbce1cb7-c760-528a-92b3-3be430cea7b9/261927f6-e828-52c9-a5de-fa05d581f3d1.jpg",
+      "https://i.pinimg.com/736x/10/81/6f/10816f6b38fda0e204995c5ddbaede15.jpg",
+      "https://images-cdn.ubuy.co.in/65eb0f9072b2fc6eb12f3b99-gucci-gg-marmont-small-shoulder-bag.jpg",
     ],
   },
   {
@@ -5957,9 +4259,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1594633312787-4fbf6c62bc12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://luxecollectivefashion.com/cdn/shop/files/LVO53225_0-Photoroom_912x.jpg?v=1728396022",
+      "https://i.pinimg.com/736x/62/b6/04/62b60476d2bd1506e5c20905b0254de0.jpg",
+      "https://luxecollectivefashion.com/cdn/shop/files/GXY49192_10-Photoroom_912x.jpg?v=1726754186",
     ],
   },
   {
@@ -5996,9 +4298,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1594633312888-9e2e0d0c3562?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://backend.yoogiscloset.com/media/catalog/product/5/6/562028_01.jpg?quality=80&bg-color=255%2C255%2C255&fit=bounds&height=840&width=630",
+      "https://biubiubiuluxury.com/cdn/shop/files/DSC00863-removebg-preview.png?v=1728450165&width=320",
+      "https://voguesg.s3.ap-southeast-1.amazonaws.com/wp-content/uploads/2022/01/18123548/Heat-and-bend-Gucci-3.jpg",
     ],
   },
   {
@@ -6035,9 +4337,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1594633312961-48c95ff1ea0f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://cdn11.bigcommerce.com/s-eie9lsi1uc/images/stencil/1280x1280/products/5551/22066/360_724606_9C2SG_8746_001_100_0000_Light-Mini-sac-main-OphidiaGG__78127.1680687972.jpg?c=1",
+      "https://img.vitkac.com/uploads/product_thumb/TORBA%20772239%20FACUJ-8745/up/2.jpg",
+      "https://cdn11.bigcommerce.com/s-eie9lsi1uc/images/stencil/1280x1280/products/96890/988547/772053_96IWG_8745_004_100_0000_Light-Mini-sac-main-OphidiaGG__57909.1701077817.jpg?c=1",
     ],
   },
   {
@@ -6074,9 +4376,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1594633313025-2f2f3e4d0b1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://i.pinimg.com/736x/e4/91/59/e49159ef8645e9cad4abc4458936efda.jpg",
+      "https://i.pinimg.com/236x/ec/df/c1/ecdfc17ade2a4f4d8aa4bba7a9f588c5.jpg",
+      "https://vader-prod.s3.amazonaws.com/1683023793-gucci-jackie-bag-6450e7908f9a6.jpg",
     ],
   },
   // Hermès Products
@@ -6114,9 +4416,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1594633313094-3ac2367cd154?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://i.pinimg.com/474x/d5/b4/fd/d5b4fddca3f2c4573610a7e6cd9eb858.jpg",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/e17895ac-c641-58ae-bf50-e3ccc6e88f78/c333fa07-46bc-5144-847a-89206d0c368e.jpg",
+      "https://myalmari.in/cdn/shop/files/KJO4-0323.jpg?v=1733972628&width=3699",
     ],
   },
   {
@@ -6153,9 +4455,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1594633313159-4c2d904933d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/c3c88cac-cc3e-5479-a661-1075cbf3b725/aec8f940-3469-5597-816f-0dd903b3407c.jpg",
+      "https://d2u1z1lopyfwlx.cloudfront.net/thumbnails/d2c91d0b-2f42-59b6-8cc5-95c2cd1d0d69/9bb8cf9c-f902-570c-b4d0-496205399f5b.jpg",
+      "https://medias.collectorsquare.com/images/products/409936/00pp-hermes-kelly-28-cm-handbag-in-royal-blue-box-leather.jpg",
     ],
   },
   {
@@ -6192,9 +4494,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1594633313227-7a31cf2a52f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://i.pinimg.com/736x/d8/f9/d9/d8f9d943ef792609595e544a7dba6e1b.jpg",
+      "https://saclab.com/wp-content/uploads/2023/02/2317_Hermes_Constance_24_Feu_M_1M.jpg",
+      "https://saclab.com/wp-content/uploads/2021/05/798_Hermes_Constance_24_Gold_M_1F_S.jpg",
     ],
   },
   {
@@ -6231,9 +4533,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1594633313298-ba8bc5a6c3e5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://assets.hermes.com/is/image/hermesproduct/evelyne-iii-29-bag--056277CK08-worn-9-0-0-900-900_g.jpg",
+      "https://preview.redd.it/haul-evelyne-iii-29-in-gold-with-phw-v0-g844bjc5paod1.jpeg?auto=webp&s=a0f18d552d70f74260d9faae102712b25e302140",
+      "https://i.pinimg.com/564x/a5/d8/05/a5d80509d4ae2f154a607f356427c786.jpg",
     ],
   },
   {
@@ -6270,9 +4572,9 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://images.unsplash.com/photo-1594633313416-3e7c13bf489c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1591561954557-26941169b49e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+      "https://assets.hermes.cn/is/image/hermesproduct/picotin-lock-18-pocket-bag--083189CKAO-worn-1-0-0-900-900_g.jpg",
+      "https://i.pinimg.com/736x/aa/d7/6f/aad76fa5b4ba9cc3bb0dd0c6a76360bc.jpg",
+      "https://www.bragmybag.com/wp-content/uploads/2020/04/Hermes-Picotin-Lock-18-Bag-in-Clemence-Gris-Misty.webp",
     ],
   },
 ];

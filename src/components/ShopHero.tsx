@@ -11,15 +11,7 @@ import {
   Stack,
 } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import { SortOption } from "../data/types";
-
-interface ShopHeroProps {
-  title: string;
-  subtitle: string;
-  onFilterClick?: () => void;
-  sortBy: string;
-  onSortChange: (value: SortOption) => void;
-}
+import { ShopHeroProps, SortOption } from "../data/types";
 
 const ShopHero: React.FC<ShopHeroProps> = ({
   title,

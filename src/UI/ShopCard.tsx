@@ -1,15 +1,5 @@
 import { Box, Typography } from "@mui/material";
-
-interface shopCardData {
-  id: number;
-  image: string;
-  category: string;
-}
-
-interface ShopCardProps {
-  data: shopCardData;
-  onClick: () => void;
-}
+import { ShopCardProps } from "../data/types";
 
 const ShopCard: React.FC<ShopCardProps> = ({ data, onClick }) => {
   return (

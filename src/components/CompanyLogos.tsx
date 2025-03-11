@@ -1,13 +1,6 @@
 import { Box, Stack } from "@mui/material";
+import { companies } from "../data/data";
 
-const companies = [
-  "./src/assets/images/company1.png",
-  "./src/assets/images/company2.png",
-  "./src/assets/images/company3.png",
-  "./src/assets/images/company4.png",
-  "./src/assets/images/company5.png",
-  "./src/assets/images/company6.png",
-];
 const CompanyLogos = () => {
   return (
     <Stack

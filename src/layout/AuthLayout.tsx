@@ -8,11 +8,7 @@ import {
   useTheme,
 } from "@mui/material";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-interface AuthLayoutProps {
-  children: React.ReactNode;
-  title: string;
-  subtitle: string;
-}
+import { AuthLayoutProps } from "../data/types";
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({
   children,

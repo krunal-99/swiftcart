@@ -1,9 +1,11 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { RootState } from "../main";
+import { useSelector } from "react-redux";
+
 const SingleProductComponent = () => {
   const products = useSelector((state: RootState) => state.products.items);
+
   return (
     <Box
       sx={{

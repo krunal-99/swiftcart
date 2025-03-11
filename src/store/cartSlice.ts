@@ -1,12 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Cart } from "../data/types";
+import { cartItemsSchema } from "../data/types";
 import { toast } from "react-toastify";
-
-interface cartItemsSchema {
-  cartItems: Cart[];
-  totalCartQuantity: number;
-  totalCartAmount: number;
-}
 
 const initialState: cartItemsSchema = {
   cartItems: localStorage.getItem("cartItems")

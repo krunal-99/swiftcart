@@ -9,14 +9,10 @@ import {
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { NavLink } from "react-router-dom";
-import { Wishlist } from "../data/types";
+import { ListCardProps } from "../data/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../main";
-import { removeFromList } from "../features/wishListSlice";
-
-interface ListCardProps {
-  product: Wishlist;
-}
+import { removeFromList } from "../store/wishListSlice";
 
 const WishListCard: React.FC<ListCardProps> = (props) => {
   const wishlist = useSelector((state: RootState) => state.wishlist.list);

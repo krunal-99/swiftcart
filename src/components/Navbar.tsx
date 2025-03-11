@@ -18,7 +18,6 @@ import {
   Typography,
   Badge,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -29,55 +28,16 @@ import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../main";
-import { getTotals } from "../features/cartSlice";
-import { getListTotal } from "../features/wishListSlice";
+import { getTotals } from "../store/cartSlice";
+import { getListTotal } from "../store/wishListSlice";
+import {
+  StyledDrawerNavLink,
+  DrawerHeader,
+  StyledNavLink,
+} from "../themes/ComponentThemes";
 
 const navLinks = ["HOME", "SHOP", "ABOUT", "CONTACT"];
 const settings = ["REGISTER", "LOGIN"];
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  ...theme.mixins.toolbar,
-}));
-
-const StyledNavLink = styled(NavLink)(({ theme }) => ({
-  textDecoration: "none",
-  position: "relative",
-  "& .MuiButton-root": {
-    transition: "all 0.3s ease",
-  },
-  "&.active .MuiButton-root": {
-    color: "#23a6f0",
-    fontWeight: 800,
-  },
-  "@keyframes fadeIn": {
-    "0%": {
-      width: "0%",
-      opacity: 0,
-    },
-    "100%": {
-      width: "60%",
-      opacity: 1,
-    },
-  },
-}));
-
-const StyledDrawerNavLink = styled(NavLink)(({ theme }) => ({
-  textDecoration: "none",
-  width: "90%",
-  margin: "auto",
-  "&.active .MuiListItemText-root": {
-    color: "#23a6f0",
-    fontWeight: 800,
-  },
-  "&.active .MuiListItemButton-root": {
-    backgroundColor: "rgba(35, 166, 240, 0.08)",
-    borderRadius: "8px",
-  },
-}));
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -85,6 +45,7 @@ const Navbar = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isFixed, setIsFixed] = useState(false);
   const location = useLocation();
+  const cart = useSelector((state: RootState) => state.cart);
 
   const toggleDrawer = (open: boolean) => () => {
     setDrawerOpen(open);
@@ -106,7 +67,6 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const cart = useSelector((state: RootState) => state.cart);
   const wishlist = useSelector((state: RootState) => state.wishlist);
   const dispatch = useDispatch();
   useEffect(() => {

@@ -11,23 +11,7 @@ import { NavLink } from "react-router-dom";
 import XIcon from "@mui/icons-material/X";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
-const team = [
-  {
-    imageUrl: "./src/assets/images/team3.jpg",
-    username: "John Doe",
-    profession: "Project Manager",
-  },
-  {
-    imageUrl: "./src/assets/images/team1.jpg",
-    username: "Karen Page",
-    profession: "Senior Software Developer",
-  },
-  {
-    imageUrl: "./src/assets/images/team2.jpg",
-    username: "Jessica Jones",
-    profession: "Software Developer",
-  },
-];
+import { team } from "../data/data";
 
 const OurTeam = () => {
   return (

@@ -19,7 +19,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../main";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { NavLink } from "react-router-dom";
@@ -29,15 +28,16 @@ import {
   decreaseQuantity,
   getTotals,
   removeFromCart,
-} from "../features/cartSlice";
+} from "../store/cartSlice";
 import { useEffect } from "react";
-import { getListTotal } from "../features/wishListSlice";
+import { getListTotal } from "../store/wishListSlice";
+import { RootState } from "../main";
 
 const CartItems = () => {
-  const cart = useSelector((state: RootState) => state.cart);
   const appTheme = useTheme();
   const isMobile = useMediaQuery(appTheme.breakpoints.down("sm"));
   const dispatch = useDispatch();
+  const cart = useSelector((state: RootState) => state.cart);
   useEffect(() => {
     dispatch(getTotals());
     dispatch(getListTotal());

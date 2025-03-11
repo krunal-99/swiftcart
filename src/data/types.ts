@@ -80,12 +80,6 @@ export interface TabPanelProps {
   value: number;
 }
 
-export interface RegisterFormData {
-  username: string;
-  email: string;
-  password: string;
-}
-
 export interface ShopHeroProps {
   title: string;
   subtitle: string;

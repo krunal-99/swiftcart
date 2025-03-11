@@ -3,7 +3,7 @@ import { Box, Typography, Grid2 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setBrands, setCategory } from "../store/productSlice";
-import { CategoryItem } from "../UI/CategoryItem";
+import { CategoryItem } from "../themes/ComponentThemes";
 import { categoriesData } from "../data/data";
 
 const Categories: React.FC = () => {

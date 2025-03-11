@@ -1,11 +1,8 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import { RootState } from "../main";
-import { useSelector } from "react-redux";
+import { singleProductData } from "../data/data";
 
 const SingleProductComponent = () => {
-  const products = useSelector((state: RootState) => state.products.items);
-
   return (
     <Box
       sx={{
@@ -28,7 +25,7 @@ const SingleProductComponent = () => {
       >
         <Box
           component="img"
-          src={products[35].imageUrls[0]}
+          src={`${singleProductData.imageUrl}`}
           alt="Care Section"
           sx={{
             maxWidth: {
@@ -58,7 +55,7 @@ const SingleProductComponent = () => {
             lineHeight: { xs: "40px", md: "50px" },
           }}
         >
-          {products[35].title}
+          {singleProductData.title}
         </Typography>
         <Typography
           variant="body1"
@@ -69,7 +66,7 @@ const SingleProductComponent = () => {
             maxWidth: "400px",
           }}
         >
-          {products[35].shortDescription}
+          {singleProductData.desc}
         </Typography>
         <Stack
           direction="row"

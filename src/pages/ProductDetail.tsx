@@ -2,14 +2,16 @@ import { Box, Stack } from "@mui/material";
 import ProductHero from "../components/ProductHero";
 import ProductDetails from "../components/ProductDetails";
 import BestProducts from "../components/BestProducts";
-import image1 from "../assets/images/company1.png";
-import image2 from "../assets/images/company2.png";
-import image3 from "../assets/images/company3.png";
-import image4 from "../assets/images/company4.png";
-import image5 from "../assets/images/company5.png";
-import image6 from "../assets/images/company6.png";
+import { assets } from "../assets";
 
-const companies = [image1, image2, image3, image4, image5, image6];
+const companies = [
+  `${assets.images.Company1Img}`,
+  `${assets.images.Company2Img}`,
+  `${assets.images.Company3Img}`,
+  `${assets.images.Company4Img}`,
+  `${assets.images.Company5Img}`,
+  `${assets.images.Company6Img}`,
+];
 const ProductDetail = () => {
   return (
     <Box sx={{ backgroundColor: "#fafafa", minHeight: "100vh", p: 2 }}>

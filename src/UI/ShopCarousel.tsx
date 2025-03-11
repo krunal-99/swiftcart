@@ -11,73 +11,8 @@ import {
   setBrands,
   setCategory,
 } from "../store/productSlice";
-import { assets } from "../assets";
-
-const responsive = {
-  desktop: {
-    breakpoint: { max: 3000, min: 1280 },
-    items: 5,
-    slidesToSlide: 1,
-  },
-  laptop: {
-    breakpoint: { max: 1280, min: 1024 },
-    items: 4,
-    slidesToSlide: 1,
-  },
-  tablet: {
-    breakpoint: { max: 1024, min: 640 },
-    items: 3,
-    slidesToSlide: 1,
-  },
-  mobile: {
-    breakpoint: { max: 640, min: 0 },
-    items: 1,
-    slidesToSlide: 1,
-  },
-};
-
-const shopCardItems = [
-  {
-    id: 1,
-    image: `${assets.images.Shop3Img}`,
-    category: "Men's clothing",
-  },
-  {
-    id: 2,
-    image: `${assets.images.Shop6Img}`,
-    category: "Women's clothing",
-  },
-  {
-    id: 3,
-    image: `${assets.images.Shop2Img}`,
-    category: "Kid's clothing",
-  },
-  {
-    id: 4,
-    image: `${assets.images.NikeImg}`,
-    category: "Footwear",
-  },
-  {
-    id: 5,
-    image: `${assets.images.RolexImg}`,
-    category: "Watches",
-  },
-  {
-    id: 6,
-    image: `${assets.images.AppleImg}`,
-    category: "Electronics",
-  },
-  {
-    id: 7,
-    image: `${assets.images.NecklaceImg}`,
-    category: "Jewellery",
-  },
-  {
-    id: 8,
-    image: `${assets.images.Shop5Img}`,
-    category: "Hand bags",
-  },
-];
+import { shopCardItems } from "../data/data";
+import { shopCarouselResponsive } from "../data/data";
 
 const ShopCarousel = () => {
   const filteredProducts = useSelector(selectFilteredProducts);
@@ -129,7 +64,7 @@ const ShopCarousel = () => {
           swipeable
           draggable
           showDots={false}
-          responsive={responsive}
+          responsive={shopCarouselResponsive}
           ssr={true}
           infinite={true}
           autoPlaySpeed={2000}

@@ -1,11 +1,5 @@
 import { Container, Stack, Typography } from "@mui/material";
-
-const usersInfo = [
-  { number: "15K", tag: "Happy Customers" },
-  { number: "150K", tag: "Monthly Visitors" },
-  { number: "15", tag: "Countries Worldwide" },
-  { number: "100+", tag: "Top Partners" },
-];
+import { usersInfo } from "../data/data";
 
 const UsersInfo = () => {
   return (

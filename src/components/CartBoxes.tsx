@@ -15,6 +15,11 @@ const CartBoxes = () => {
     dispatch(getTotals());
     dispatch(getListTotal());
   }, [cart, dispatch]);
+  const cartFinances = [
+    { label: "Subtotal", value: `₹ ${cart.totalCartAmount}` },
+    { label: "Shipping", value: "₹ 0" },
+    { label: "Total", value: `₹ ${cart.totalCartAmount}` },
+  ];
   return (
     <>
       <Box
@@ -26,11 +31,7 @@ const CartBoxes = () => {
         margin="auto"
         mt={4}
       >
-        {[
-          { label: "Subtotal", value: `₹ ${cart.totalCartAmount}` },
-          { label: "Shipping", value: "₹ 0" },
-          { label: "Total", value: `₹ ${cart.totalCartAmount}` },
-        ].map((item, index) => (
+        {cartFinances.map((item, index) => (
           <Stack
             key={index}
             width={{ xs: "100%", sm: "90%", md: "220px", lg: "32%" }}

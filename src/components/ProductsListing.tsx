@@ -13,9 +13,8 @@ import FilterSidebar from "./FilterSideBar";
 import ShopHero from "./ShopHero";
 import CardComponent from "../UI/CardComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../main";
 import { useLocation } from "react-router-dom";
-import { FilterState, SortOption } from "../data/types";
+import { SortOption } from "../data/types";
 import {
   selectFilteredProducts,
   selectFilters,

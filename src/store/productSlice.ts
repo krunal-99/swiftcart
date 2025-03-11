@@ -1,11 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SortOption, ProductState } from "../data/types";
 import { products } from "../data/productData";
+import { getMaxPrice } from "../utils/utils";
 import { RootState } from "../main";
-
-const getMaxPrice = () => {
-  return Math.max(...products.map((p) => p.originalPrice));
-};
 
 const initialState: ProductState = {
   items: products,

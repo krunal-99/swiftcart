@@ -40,7 +40,6 @@ const FeaturedPosts: React.FC = () => {
         Problems trying to resolve the conflict between the two major realms of
         Classic physics: Newton mechanics
       </Typography>
-
       <Grid container spacing={3} justifyContent="center" sx={{ mt: 4 }}>
         {posts.map((post) => (
           <Grid item xs={12} sm={6} md={4} key={post.id}>

@@ -164,3 +164,93 @@ export const team = [
     profession: "Software Developer",
   },
 ];
+
+export const singleProductData = {
+  imageUrl: products[35].imageUrls[0],
+  title: products[35].title,
+  desc: products[35].shortDescription,
+};
+
+export const usersInfo = [
+  { number: "15K", tag: "Happy Customers" },
+  { number: "150K", tag: "Monthly Visitors" },
+  { number: "15", tag: "Countries Worldwide" },
+  { number: "100+", tag: "Top Partners" },
+];
+
+export const shopCardItems = [
+  {
+    id: 1,
+    image: `${assets.images.Shop3Img}`,
+    category: "Men's clothing",
+  },
+  {
+    id: 2,
+    image: `${assets.images.Shop6Img}`,
+    category: "Women's clothing",
+  },
+  {
+    id: 3,
+    image: `${assets.images.Shop2Img}`,
+    category: "Kid's clothing",
+  },
+  {
+    id: 4,
+    image: `${assets.images.NikeImg}`,
+    category: "Footwear",
+  },
+  {
+    id: 5,
+    image: `${assets.images.RolexImg}`,
+    category: "Watches",
+  },
+  {
+    id: 6,
+    image: `${assets.images.AppleImg}`,
+    category: "Electronics",
+  },
+  {
+    id: 7,
+    image: `${assets.images.NecklaceImg}`,
+    category: "Jewellery",
+  },
+  {
+    id: 8,
+    image: `${assets.images.Shop5Img}`,
+    category: "Hand bags",
+  },
+];
+
+export const shopCarouselResponsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 1280 },
+    items: 5,
+    slidesToSlide: 1,
+  },
+  laptop: {
+    breakpoint: { max: 1280, min: 1024 },
+    items: 4,
+    slidesToSlide: 1,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 640 },
+    items: 3,
+    slidesToSlide: 1,
+  },
+  mobile: {
+    breakpoint: { max: 640, min: 0 },
+    items: 1,
+    slidesToSlide: 1,
+  },
+};
+
+export const contactFormData = [
+  { label: "Your Name", field: "name" },
+  { label: "Email Address", field: "email" },
+  { label: "Phone Number", field: "phone" },
+  { label: "Subject", field: "subject" },
+];
+
+export const registerFormFields = [{ id: "username" }, { id: "email" }];
+
+export const navLinks = ["HOME", "SHOP", "ABOUT", "CONTACT"];

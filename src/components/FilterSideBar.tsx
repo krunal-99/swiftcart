@@ -12,6 +12,7 @@ import {
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { FilterSidebarProps } from "../data/types";
 import { categories } from "../data/data";
+import { getMaxPrice } from "../utils/utils";
 
 const FilterSidebar: React.FC<FilterSidebarProps> = ({
   isMobile,
@@ -29,28 +30,19 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
       selectedCategory === "All Categories"
         ? products
         : products.filter((p) => p.category === selectedCategory);
-
     return Array.from(new Set(filteredProducts.map((p) => p.brand))).sort();
   };
-
-  const getMaxPrice = () => {
-    return Math.max(...products.map((p) => p.originalPrice));
-  };
-
   const availableBrands = getAvailableBrands();
   const maxPrice = getMaxPrice();
-
   const handlePriceChange = (_event: Event, newValue: number | number[]) => {
     onPriceChange(newValue as [number, number]);
   };
-
   const handleBrandToggle = (brand: string) => {
     const newBrands = selectedBrands.includes(brand)
       ? selectedBrands.filter((b) => b !== brand)
       : [...selectedBrands, brand];
     onBrandChange(newBrands);
   };
-
   return (
     <Box
       sx={{
@@ -74,11 +66,9 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
           <Typography variant="subtitle1">Back</Typography>
         </Box>
       )}
-
       <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
         Filter by
       </Typography>
-
       <List disablePadding>
         {categories.map((category) => (
           <ListItem
@@ -104,13 +94,10 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
           </ListItem>
         ))}
       </List>
-
       <Divider sx={{ my: 2 }} />
-
       <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
         Price
       </Typography>
-
       <Slider
         value={priceRange}
         onChange={handlePriceChange}
@@ -134,20 +121,16 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
           },
         }}
       />
-
       <Box
         sx={{ display: "flex", justifyContent: "space-between", mt: 1, mb: 2 }}
       >
         <Typography variant="body2">₹ {priceRange[0]}</Typography>
         <Typography variant="body2">₹ {priceRange[1]}</Typography>
       </Box>
-
       <Divider sx={{ my: 2 }} />
-
       <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
         Brands
       </Typography>
-
       <List disablePadding>
         {availableBrands.map((brand) => (
           <ListItem key={brand} disablePadding sx={{ py: 0.5 }}>

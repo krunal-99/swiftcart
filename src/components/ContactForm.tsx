@@ -1,16 +1,8 @@
-import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  Container,
-  Paper,
-  Grid,
-} from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
+import { Box, Typography, Container, Paper, Grid } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
+import ContactFormField from "../forms/ContactFormField";
 
 const ContactForm: React.FC = () => {
   return (
@@ -43,7 +35,6 @@ const ContactForm: React.FC = () => {
               answer all your questions.
             </Typography>
           </Box>
-
           <Paper
             elevation={0}
             sx={{ p: 3, bgcolor: "background.default", borderRadius: 2 }}
@@ -79,7 +70,6 @@ const ContactForm: React.FC = () => {
                 </Typography>
               </Box>
             </Box>
-
             <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
               <Box
                 sx={{
@@ -111,7 +101,6 @@ const ContactForm: React.FC = () => {
                 </Typography>
               </Box>
             </Box>
-
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Box
                 sx={{
@@ -145,7 +134,6 @@ const ContactForm: React.FC = () => {
             </Box>
           </Paper>
         </Grid>
-
         <Grid item xs={12} md={7}>
           <Paper
             elevation={3}
@@ -158,95 +146,7 @@ const ContactForm: React.FC = () => {
               boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
             }}
           >
-            <form action="https://formspree.io/f/mjkgngyk" method="POST">
-              <Grid container spacing={3}>
-                <Grid item xs={12}>
-                  <Typography
-                    variant="h5"
-                    component="h2"
-                    gutterBottom
-                    sx={{ fontWeight: 600, color: "#252b42" }}
-                  >
-                    Send Us A Message
-                  </Typography>
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Your Name"
-                    name="name"
-                    variant="outlined"
-                    required
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Email Address"
-                    name="email"
-                    type="email"
-                    variant="outlined"
-                    required
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Phone Number (Optional)"
-                    name="phone"
-                    variant="outlined"
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    label="Subject"
-                    name="phone"
-                    variant="outlined"
-                    required
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Your Message"
-                    name="message"
-                    multiline
-                    rows={4}
-                    variant="outlined"
-                    required
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    size="large"
-                    endIcon={<SendIcon />}
-                    sx={{
-                      py: 1.5,
-                      px: 4,
-                      borderRadius: 2,
-                      background:
-                        "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
-                      boxShadow: "0 3px 5px 2px rgba(33, 203, 243, .3)",
-                      "&:hover": {
-                        background:
-                          "linear-gradient(45deg, #1976D2 30%, #2196F3 90%)",
-                      },
-                    }}
-                  >
-                    Send Message
-                  </Button>
-                </Grid>
-              </Grid>
-            </form>
+            <ContactFormField />
           </Paper>
         </Grid>
       </Grid>

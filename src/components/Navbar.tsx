@@ -4,12 +4,7 @@ import {
   Box,
   Button,
   Container,
-  Drawer,
   IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Stack,
   MenuItem,
   Menu,
@@ -18,7 +13,6 @@ import {
   Typography,
   Badge,
 } from "@mui/material";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MenuIcon from "@mui/icons-material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -30,26 +24,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../main";
 import { getTotals } from "../store/cartSlice";
 import { getListTotal } from "../store/wishListSlice";
-import {
-  StyledDrawerNavLink,
-  DrawerHeader,
-  StyledNavLink,
-} from "../themes/ComponentThemes";
+import { StyledNavLink } from "../themes/ComponentThemes";
+import { navLinks } from "../data/data";
+import NavbarDrawer from "./NavbarDrawer";
 
-const navLinks = ["HOME", "SHOP", "ABOUT", "CONTACT"];
 const settings = ["REGISTER", "LOGIN"];
 
 const Navbar = () => {
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isFixed, setIsFixed] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const location = useLocation();
   const cart = useSelector((state: RootState) => state.cart);
-
-  const toggleDrawer = (open: boolean) => () => {
-    setDrawerOpen(open);
-  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -78,12 +65,12 @@ const Navbar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleDrawerClose = () => {
-    setDrawerOpen(false);
-  };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const toggleDrawer = (open: boolean) => () => {
+    setDrawerOpen(open);
   };
 
   const isActiveLink = (path: string): boolean => {
@@ -120,7 +107,6 @@ const Navbar = () => {
                 Swiftcart
               </Typography>
             </NavLink>
-
             <Box
               sx={{ ml: 10, flexGrow: 1, display: { xs: "none", md: "flex" } }}
             >
@@ -235,99 +221,7 @@ const Navbar = () => {
           </Toolbar>
         </Container>
       </AppBar>
-      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose} sx={{ position: "relative" }}>
-            <ChevronRightIcon
-              sx={{
-                width: "40px",
-                height: "40px",
-                position: "absolute",
-                right: "230px",
-              }}
-            />
-          </IconButton>
-        </DrawerHeader>
-
-        <Box
-          sx={{ width: 300, p: 2 }}
-          role="presentation"
-          onClick={toggleDrawer(false)}
-        >
-          <List>
-            {navLinks.map((navLink) => (
-              <ListItem key={navLink} disablePadding>
-                <StyledDrawerNavLink
-                  key={navLink}
-                  to={navLink === "HOME" ? "/" : `${navLink.toLowerCase()}`}
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  <ListItemButton>
-                    <ListItemText
-                      primary={navLink}
-                      sx={{
-                        textAlign: "center",
-                        fontWeight: "bold",
-                        color: "#737373",
-                      }}
-                    />
-                  </ListItemButton>
-                </StyledDrawerNavLink>
-              </ListItem>
-            ))}
-            <ListItem disablePadding>
-              <ListItemButton
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  backgroundColor: isActiveLink("/cart")
-                    ? "rgba(35, 166, 240, 0.08)"
-                    : "transparent",
-                  borderRadius: "8px",
-                }}
-              >
-                <NavLink
-                  to="/cart"
-                  style={{
-                    textDecoration: "none",
-                    color: "#23a6f0",
-                  }}
-                >
-                  <Stack direction="row" alignItems="center" spacing={1}>
-                    <Badge
-                      style={{ color: "#23a6f0" }}
-                      badgeContent={cart.totalCartQuantity}
-                      color="error"
-                    >
-                      <ShoppingCartIcon />
-                    </Badge>
-                  </Stack>
-                </NavLink>
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  backgroundColor: isActiveLink("/wishlist")
-                    ? "rgba(35, 166, 240, 0.08)"
-                    : "transparent",
-                  borderRadius: "8px",
-                }}
-              >
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Badge badgeContent={wishlist.listQuantity} color="error">
-                    <NavLink style={{ color: "#23a6f0" }} to="/wishlist">
-                      <FavoriteBorderIcon />
-                    </NavLink>
-                  </Badge>
-                </Stack>
-              </ListItemButton>
-            </ListItem>
-          </List>
-        </Box>
-      </Drawer>
+      <NavbarDrawer />
     </>
   );
 };

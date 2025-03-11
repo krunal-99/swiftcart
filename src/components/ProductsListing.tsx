@@ -61,8 +61,8 @@ const ProductsListing: React.FC = () => {
 
   const handleCategoryChange = (category: string) => {
     dispatch(setCategory(category));
-    handleFilterToggle();
     setPage(1);
+    isMobile ? handleFilterToggle() : "";
   };
 
   const handleBrandChange = (brands: string[]) => {

@@ -5,6 +5,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
 import "./toast.css";
+import { Analytics } from "@vercel/analytics/react";
 import { useEffect } from "react";
 const AppLayout = () => {
   const { pathname } = useLocation();
@@ -15,6 +16,7 @@ const AppLayout = () => {
   return (
     <>
       <SocialBar />
+      <Analytics />
       <ToastContainer
         position="top-right"
         autoClose={3000}

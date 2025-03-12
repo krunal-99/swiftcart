@@ -16,7 +16,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { RootState } from "../main";
 import { useSelector } from "react-redux";
-import { TabPanel } from "../UI/TabPanel";
+import { TabPanel } from "../components/TabPanel";
 import AdditionalInfo from "./AdditionalInfo";
 
 const ProductDetails = () => {

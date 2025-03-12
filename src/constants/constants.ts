@@ -1,0 +1,9 @@
+export const HomePath = "/";
+export const ContactPath = "/contact";
+export const RegisterPath = "/register";
+export const LoginPath = "/login";
+export const CartPath = "/cart";
+export const AboutPath = "/about";
+export const ProductPath = "/product/:id";
+export const ShopPath = "/shop";
+export const WishlistPath = "/wishlist";

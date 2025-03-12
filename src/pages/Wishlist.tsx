@@ -1,7 +1,7 @@
 import { Box, Grid2, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../main";
-import WishListCard from "../UI/WishListCard";
+import WishListCard from "../components/WishListCard";
 
 const Wishlist = () => {
   const wishlist = useSelector((state: RootState) => state.wishlist.list);

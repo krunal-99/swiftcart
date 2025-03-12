@@ -1,5 +1,5 @@
-import CartItems from "../components/CartItems";
-import CartBoxes from "../components/CartBoxes";
+import CartItems from "../sections/CartItems";
+import CartBoxes from "../sections/CartBoxes";
 import { Box } from "@mui/material";
 
 const Cart = () => {

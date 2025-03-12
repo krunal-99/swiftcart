@@ -1,9 +1,9 @@
-import HeroSection from "../components/HeroSection";
-import Catergories from "../components/Catergories";
-import Products from "../components/Products";
-import AdvertisementSection from "../components/AdvertisementSection";
-import SingleProductComponent from "../components/SingleProductComponent";
-import FeaturedPosts from "../components/FeaturedPosts";
+import HeroSection from "../sections/HeroSection";
+import Catergories from "../sections/Catergories";
+import Products from "../sections/Products";
+import AdvertisementSection from "../sections/AdvertisementSection";
+import SingleProductComponent from "../sections/SingleProductComponent";
+import FeaturedPosts from "../sections/FeaturedPosts";
 
 const Home = () => {
   return (

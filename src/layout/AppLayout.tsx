@@ -1,6 +1,6 @@
-import SocialBar from "../components/SocialBar";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import SocialBar from "../sections/SocialBar";
+import Navbar from "../sections/Navbar";
+import Footer from "../sections/Footer";
 import { Outlet, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";

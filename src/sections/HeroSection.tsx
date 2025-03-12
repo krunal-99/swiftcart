@@ -1,4 +1,4 @@
-import CarouselComponent from "../UI/CarouselComponent";
+import CarouselComponent from "../components/CarouselComponent";
 import { heroCarouselData } from "../data/data";
 
 const HeroSection = () => {

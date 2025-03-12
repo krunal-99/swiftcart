@@ -1,7 +1,7 @@
 import { Box, Stack } from "@mui/material";
-import ProductHero from "../components/ProductHero";
-import ProductDetails from "../components/ProductDetails";
-import BestProducts from "../components/BestProducts";
+import ProductHero from "../sections/ProductHero";
+import ProductDetails from "../sections/ProductDetails";
+import BestProducts from "../sections/BestProducts";
 import { assets } from "../assets";
 
 const companies = [

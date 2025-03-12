@@ -1,4 +1,4 @@
-import CarouselComponent from "../UI/CarouselComponent";
+import CarouselComponent from "../components/CarouselComponent";
 import { adData } from "../data/data";
 
 const AdvertisementSection = () => {

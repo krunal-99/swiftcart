@@ -22,36 +22,38 @@ const CartBoxes = () => {
   ];
   return (
     <>
-      <Box
-        display="flex"
-        flexWrap="wrap"
-        justifyContent="center"
-        maxWidth={{ xs: "100%", sm: "90%", md: "80%" }}
-        gap={2}
-        margin="auto"
-        mt={4}
-      >
-        {cartFinances.map((item, index) => (
-          <Stack
-            key={index}
-            width={{ xs: "100%", sm: "90%", md: "220px", lg: "32%" }}
-            justifyContent="space-between"
-            border="2px solid #d5d2d2"
-            borderRadius={2}
-            direction="row"
-            padding={2}
-            boxShadow={3}
-            sx={{
-              backgroundColor: "#fafafa",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <Typography fontWeight={600}>{item.label}</Typography>
-            <Typography fontWeight={700}>{item.value}</Typography>
-          </Stack>
-        ))}
-      </Box>
+      {cart.cartItems.length > 0 && (
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          justifyContent="center"
+          maxWidth={{ xs: "100%", sm: "90%", md: "80%" }}
+          gap={2}
+          margin="auto"
+          mt={4}
+        >
+          {cartFinances.map((item, index) => (
+            <Stack
+              key={index}
+              width={{ xs: "100%", sm: "90%", md: "220px", lg: "32%" }}
+              justifyContent="space-between"
+              border="2px solid #d5d2d2"
+              borderRadius={2}
+              direction="row"
+              padding={2}
+              boxShadow={3}
+              sx={{
+                backgroundColor: "#fafafa",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Typography fontWeight={600}>{item.label}</Typography>
+              <Typography fontWeight={700}>{item.value}</Typography>
+            </Stack>
+          ))}
+        </Box>
+      )}
       <Stack
         direction="row"
         display="flex"

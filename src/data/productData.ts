@@ -3827,7 +3827,7 @@ export const products: Product[] = [
       },
     ],
     imageUrls: [
-      "https://imperialtime.co.uk/media/  catalog/product/cache/d5aad5f722d05c93b59d23ee81aaf26b/u/n/untitled_design_10__1.png",
+      "https://www.luxafrique.boutique/cdn/shop/products/2054564.jpg?v=1665333512",
       "https://i.pinimg.com/736x/2c/23/79/2c2379ab7c6201de045fe658b2917399.jpg",
       "https://imperialtime.co.uk/media/catalog/product/cache/d5aad5f722d05c93b59d23ee81aaf26b/i/m/img_2041_3.jpg",
     ],

@@ -14,6 +14,17 @@ import Login from "./pages/Login";
 import Shop from "./pages/Shop";
 import ErrorPage from "./pages/ErrorPage";
 import Wishlist from "./pages/Wishlist";
+import {
+  AboutPath,
+  CartPath,
+  ContactPath,
+  HomePath,
+  LoginPath,
+  ProductPath,
+  RegisterPath,
+  ShopPath,
+  WishlistPath,
+} from "./constants/constants";
 
 const theme = createTheme({
   typography: {
@@ -24,40 +35,40 @@ const theme = createTheme({
 function App() {
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: HomePath,
       element: <AppLayout />,
       errorElement: <ErrorPage />,
       children: [
         {
-          path: "/",
+          path: HomePath,
           element: <Home />,
         },
         {
-          path: "/contact",
+          path: ContactPath,
           element: <Contact />,
         },
         {
-          path: "/register",
+          path: RegisterPath,
           element: <Register />,
         },
         {
-          path: "/login",
+          path: LoginPath,
           element: <Login />,
         },
         {
-          path: "/cart",
+          path: CartPath,
           element: <Cart />,
         },
         {
-          path: "/about",
+          path: AboutPath,
           element: <About />,
         },
         {
-          path: "/product/:id",
+          path: ProductPath,
           element: <ProductDetail />,
         },
-        { path: "/shop", element: <Shop /> },
-        { path: "/wishlist", element: <Wishlist /> },
+        { path: ShopPath, element: <Shop /> },
+        { path: WishlistPath, element: <Wishlist /> },
       ],
     },
   ]);

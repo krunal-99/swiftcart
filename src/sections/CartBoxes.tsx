@@ -72,13 +72,15 @@ const CartBoxes = () => {
             Continue Shopping
           </NavLink>
         </Button>
-        <Button
-          variant="contained"
-          endIcon={<ShoppingCartCheckoutIcon />}
-          sx={{ backgroundColor: "#252b42", fontWeight: 700 }}
-        >
-          Checkout
-        </Button>
+        {cart.cartItems.length > 0 && (
+          <Button
+            variant="contained"
+            endIcon={<ShoppingCartCheckoutIcon />}
+            sx={{ backgroundColor: "#252b42", fontWeight: 700 }}
+          >
+            Checkout
+          </Button>
+        )}
       </Stack>
     </>
   );

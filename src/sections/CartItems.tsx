@@ -49,35 +49,37 @@ const CartItems = () => {
         >
           Shopping Cart
         </Typography>
-        <Button
-          variant="contained"
-          color="error"
-          onClick={() => dispatch(clearCart())}
-          sx={{
-            fontWeight: 700,
-            width: { xs: "50px", sm: "200px" },
-            minHeight: "40px",
-            padding: { xs: "10px", sm: "10px 20px" },
-            borderRadius: "25px",
-            background: "linear-gradient(90deg, #ff4d4f 0%, #ff7875 100%)",
-            boxShadow: "0 4px 12px rgba(255, 77, 79, 0.3)",
-            textTransform: "uppercase",
-            letterSpacing: "1px",
-            fontSize: { xs: "0.8rem", sm: "1rem" },
-            transition: "all 0.3s ease-in-out",
-            "&:hover": {
-              background: "linear-gradient(90deg, #ff7875 0%, #ff4d4f 100%)",
-              transform: "translateY(-3px)",
-              boxShadow: "0 6px 16px rgba(255, 77, 79, 0.5)",
-            },
-            "&:active": {
-              transform: "translateY(0)",
-              boxShadow: "0 2px 8px rgba(255, 77, 79, 0.2)",
-            },
-          }}
-        >
-          {!isMobile ? "Clear Cart" : <DeleteIcon />}{" "}
-        </Button>
+        {cart.cartItems.length > 0 && (
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => dispatch(clearCart())}
+            sx={{
+              fontWeight: 700,
+              width: { xs: "50px", sm: "200px" },
+              minHeight: "40px",
+              padding: { xs: "10px", sm: "10px 20px" },
+              borderRadius: "25px",
+              background: "linear-gradient(90deg, #ff4d4f 0%, #ff7875 100%)",
+              boxShadow: "0 4px 12px rgba(255, 77, 79, 0.3)",
+              textTransform: "uppercase",
+              letterSpacing: "1px",
+              fontSize: { xs: "0.8rem", sm: "1rem" },
+              transition: "all 0.3s ease-in-out",
+              "&:hover": {
+                background: "linear-gradient(90deg, #ff7875 0%, #ff4d4f 100%)",
+                transform: "translateY(-3px)",
+                boxShadow: "0 6px 16px rgba(255, 77, 79, 0.5)",
+              },
+              "&:active": {
+                transform: "translateY(0)",
+                boxShadow: "0 2px 8px rgba(255, 77, 79, 0.2)",
+              },
+            }}
+          >
+            {!isMobile ? "Clear Cart" : <DeleteIcon />}{" "}
+          </Button>
+        )}
       </Stack>
 
       {cart.cartItems?.length === 0 ? <EmptyCart /> : <CartTable />}

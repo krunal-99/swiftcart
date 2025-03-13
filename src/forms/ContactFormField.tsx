@@ -1,10 +1,34 @@
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import { contactFormData } from "../data/data";
 import SendIcon from "@mui/icons-material/Send";
+import { FormEvent, useRef } from "react";
+import emailjs from "@emailjs/browser";
+import { toast } from "react-toastify";
 
 const ContactFormField = () => {
+  const form = useRef<HTMLFormElement>(null);
+
+  const sendEmail = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!form.current) return;
+
+    emailjs
+      .sendForm("service_mxzjcq2", "template_t3vxl2n", form.current, {
+        publicKey: "DvAb6YOP1k4gB4O1R",
+      })
+      .then(
+        () => {
+          toast.success("Mail Sent successfully.");
+          form.current?.reset();
+        },
+        (error) => {
+          toast.error("FAILED...", error.text);
+        }
+      );
+  };
   return (
-    <form action="https://formspree.io/f/mjkgngyk" method="POST">
+    <form ref={form} onSubmit={sendEmail}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Typography

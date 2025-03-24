@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Grid2, Paper, Typography } from "@mui/material";
 
 const AdditionalInfo = () => {
-  const { id } = useParams();
+  const { id } = useParams<string>();
   const products = useSelector((state: RootState) => state.products.items);
   const product = products.find((item) => item.id === Number(id));
   const infoItems = product?.additionalInformation

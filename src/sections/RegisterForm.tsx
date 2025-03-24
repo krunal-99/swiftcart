@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import {
   Box,
   Button,
@@ -10,12 +10,14 @@ import {
   Checkbox,
   FormControlLabel,
   IconButton,
+  Avatar,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { Link } from "react-router-dom";
 import { registerFormFields } from "../data/data";
 
@@ -25,9 +27,66 @@ export const iconMap: { [key: string]: React.ElementType } = {
 };
 const RegisterForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   return (
     <Box component="form" noValidate>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          mb: 3,
+        }}
+      >
+        <Box sx={{ position: "relative" }}>
+          <Avatar
+            src={imagePreview || undefined}
+            sx={{
+              width: 100,
+              height: 100,
+              mb: 2,
+              bgcolor: "grey.200",
+            }}
+          >
+            {!imagePreview && (
+              <AccountCircleIcon sx={{ width: 60, height: 60 }} />
+            )}
+          </Avatar>
+          <IconButton
+            component="label"
+            sx={{
+              position: "absolute",
+              bottom: 10,
+              right: -10,
+              bgcolor: "primary.main",
+              color: "white",
+              "&:hover": {
+                bgcolor: "primary.dark",
+              },
+            }}
+          >
+            <input
+              type="file"
+              hidden
+              accept="image/*"
+              onChange={handleImageChange}
+            />
+            <AddAPhotoIcon />
+          </IconButton>
+        </Box>
+      </Box>
       {registerFormFields.map((field) => (
         <TextField
           margin="normal"

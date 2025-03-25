@@ -251,6 +251,6 @@ export const contactFormData = [
   { label: "Subject", field: "subject" },
 ];
 
-export const registerFormFields = [{ id: "username" }, { id: "email" }];
+export const registerFormFields = [{ id: "name" }, { id: "email" }];
 
 export const navLinks = ["HOME", "SHOP", "ABOUT", "CONTACT"];

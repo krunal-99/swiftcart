@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -7,10 +7,10 @@ import {
   InputAdornment,
   Divider,
   Link as MuiLink,
-  Checkbox,
-  FormControlLabel,
   IconButton,
   Avatar,
+  Fade,
+  CircularProgress,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -18,20 +18,33 @@ import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { registerFormFields } from "../data/data";
+import { handleError, handleSuccess } from "../utils/utils";
 
 export const iconMap: { [key: string]: React.ElementType } = {
-  username: AccountCircleIcon,
+  name: AccountCircleIcon,
   email: EmailIcon,
 };
+
 const RegisterForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setSelectedFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
@@ -40,8 +53,78 @@ const RegisterForm: React.FC = () => {
     }
   };
 
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setUserInfo((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const uploadImageToCloudinary = async (file: File) => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "swiftcart");
+    data.append("cloud_name", "dq0x26dcc");
+
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/dq0x26dcc/image/upload",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+    const result = await res.json();
+    return result.url;
+  };
+
+  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const { name, email, password } = userInfo;
+
+    if (!name || !email || !password) {
+      return handleError("All fields are required");
+    }
+
+    if (!selectedFile) {
+      return handleError("Please select an image");
+    }
+
+    try {
+      setIsLoading(true);
+      const imageUrl = await uploadImageToCloudinary(selectedFile);
+
+      const url = "http://localhost:4000/api/auth/register";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...userInfo, imageUrl }),
+      });
+
+      const result = await response.json();
+      const { status, data } = result;
+
+      if (status === "failed") {
+        handleError(`${data}`);
+      } else if (status === "success") {
+        handleSuccess(`${data}`);
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+        formRef.current?.reset();
+        setUserInfo({ name: "", email: "", password: "" });
+        setImagePreview(null);
+        setSelectedFile(null);
+      }
+    } catch (error) {
+      handleError("An error occurred during registration");
+      console.error("Registration error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <Box component="form" noValidate>
+    <Box component="form" ref={formRef} noValidate onSubmit={handleFormSubmit}>
       <Box
         sx={{
           display: "flex",
@@ -51,21 +134,52 @@ const RegisterForm: React.FC = () => {
         }}
       >
         <Box sx={{ position: "relative" }}>
-          <Avatar
-            src={imagePreview || undefined}
+          <Box
             sx={{
+              position: "relative",
               width: 100,
               height: 100,
-              mb: 2,
-              bgcolor: "grey.200",
+              borderRadius: "50%",
+              overflow: "hidden",
+              transition: "opacity 0.3s ease-in-out",
+              opacity: isLoading ? 0.7 : 1,
             }}
           >
-            {!imagePreview && (
-              <AccountCircleIcon sx={{ width: 60, height: 60 }} />
-            )}
-          </Avatar>
+            <Avatar
+              src={imagePreview || undefined}
+              sx={{
+                width: "100%",
+                height: "100%",
+                mb: 2,
+                bgcolor: "grey.200",
+              }}
+            >
+              {!imagePreview && (
+                <AccountCircleIcon sx={{ width: 60, height: 60 }} />
+              )}
+            </Avatar>
+            <Fade in={isLoading}>
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  bgcolor: "rgba(0, 0, 0, 0.3)",
+                }}
+              >
+                <CircularProgress size={40} sx={{ color: "common.white" }} />
+              </Box>
+            </Fade>
+          </Box>
+
           <IconButton
             component="label"
+            disabled={isLoading}
             sx={{
               position: "absolute",
               bottom: 10,
@@ -82,21 +196,26 @@ const RegisterForm: React.FC = () => {
               hidden
               accept="image/*"
               onChange={handleImageChange}
+              disabled={isLoading}
             />
             <AddAPhotoIcon />
           </IconButton>
         </Box>
       </Box>
-      {registerFormFields.map((field) => (
+
+      {registerFormFields.map((field, idx) => (
         <TextField
+          key={field.id}
           margin="normal"
+          onChange={handleChange}
+          value={userInfo[field.id as keyof typeof userInfo]}
           required
           fullWidth
           id={field.id}
-          label={field.id.slice(0, 1).toUpperCase() + field.id.slice(1)}
+          label={field.id.charAt(0).toUpperCase() + field.id.slice(1)}
           name={field.id}
           autoComplete={field.id}
-          autoFocus
+          autoFocus={idx === 0}
           slotProps={{
             input: {
               startAdornment: iconMap[field.id] ? (
@@ -111,6 +230,8 @@ const RegisterForm: React.FC = () => {
       ))}
 
       <TextField
+        onChange={handleChange}
+        value={userInfo.password}
         margin="normal"
         required
         fullWidth
@@ -142,16 +263,8 @@ const RegisterForm: React.FC = () => {
         sx={{ mb: 2 }}
       />
 
-      <FormControlLabel
-        control={<Checkbox color="primary" />}
-        label={
-          <Typography variant="body2">
-            I agree to the Terms of Service and Privacy Policy
-          </Typography>
-        }
-      />
-
       <Button
+        disabled={isLoading}
         type="submit"
         fullWidth
         variant="contained"

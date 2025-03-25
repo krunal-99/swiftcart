@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Wishlist, wishListType } from "../data/types";
-import { toast } from "react-toastify";
+import { handleError, handleSuccess } from "../utils/utils";
 
 const storedWishlist = localStorage.getItem("wishlist");
 const parsedWishlist: Wishlist[] = storedWishlist
@@ -19,14 +19,14 @@ const wishListSlice = createSlice({
     addToList(state, action) {
       state.list.push(action.payload);
       state.listQuantity = state.list.length;
-      toast.success(`${action.payload.title} added to Wishlist successfully.`);
+      handleSuccess(`${action.payload.title} added to Wishlist successfully.`);
       localStorage.setItem("wishlist", JSON.stringify(state.list));
     },
     removeFromList(state, action) {
       state.list = state.list.filter((item) => item.id !== action.payload.id);
       state.listQuantity = state.list.length;
       localStorage.setItem("wishlist", JSON.stringify(state.list));
-      toast.error(
+      handleError(
         `${action.payload.title} removed from Wishlist successfully.`
       );
     },

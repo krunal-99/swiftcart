@@ -3,7 +3,7 @@ import { contactFormData } from "../data/data";
 import SendIcon from "@mui/icons-material/Send";
 import { FormEvent, useRef } from "react";
 import emailjs from "@emailjs/browser";
-import { toast } from "react-toastify";
+import { handleError, handleSuccess } from "../utils/utils";
 
 const ContactFormField = () => {
   const form = useRef<HTMLFormElement>(null);
@@ -19,11 +19,11 @@ const ContactFormField = () => {
       })
       .then(
         () => {
-          toast.success("Mail Sent successfully.");
+          handleSuccess("Mail Sent successfully.");
           form.current?.reset();
         },
         (error) => {
-          toast.error("FAILED...", error.text);
+          handleError(`Failed: ${error.text}`);
         }
       );
   };

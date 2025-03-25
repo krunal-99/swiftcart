@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { cartItemsSchema } from "../data/types";
-import { toast } from "react-toastify";
+import { handleError, handleInfo, handleSuccess } from "../utils/utils";
 
 const initialState: cartItemsSchema = {
   cartItems: localStorage.getItem("cartItems")
@@ -21,14 +21,14 @@ const cartSlice = createSlice({
       );
       if (itemIndex >= 0) {
         if (state.cartItems[itemIndex].cartQuantity >= 5) {
-          toast.error(`${title}'s quantity cannot exceed 5.`);
+          handleError(`${title}'s quantity cannot exceed 5.`);
           return;
         }
         state.cartItems[itemIndex].cartQuantity += 1;
-        toast.info(`${title}'s quantity increased in cart.`);
+        handleInfo(`${title}'s quantity increased in cart.`);
       } else {
         state.cartItems.push(action.payload);
-        toast.success(`${action.payload.title} added to cart successfully.`);
+        handleSuccess(`${action.payload.title} added to cart successfully.`);
       }
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
@@ -38,7 +38,7 @@ const cartSlice = createSlice({
         (item) => !(item.id === id && item.color === color)
       );
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
-      toast.error(`${title} removed from cart successfully.`);
+      handleError(`${title} removed from cart successfully.`);
     },
     decreaseQuantity(state, action) {
       const { id, title, color } = action.payload;
@@ -49,10 +49,10 @@ const cartSlice = createSlice({
       if (itemIndex >= 0) {
         if (state.cartItems[itemIndex].cartQuantity > 1) {
           state.cartItems[itemIndex].cartQuantity -= 1;
-          toast.info(`${title}'s quantity decreased in cart.`);
+          handleInfo(`${title}'s quantity decreased in cart.`);
         } else {
           state.cartItems.splice(itemIndex, 1);
-          toast.error(
+          handleSuccess(
             `${action.payload.title} removed from cart successfully.`
           );
         }
@@ -62,7 +62,7 @@ const cartSlice = createSlice({
     clearCart(state) {
       state.cartItems = [];
       localStorage.removeItem("cartItems");
-      toast.error("Cart cleared successfully.");
+      handleSuccess("Cart cleared successfully.");
     },
     getTotals(state) {
       let { total, quantity } = state.cartItems.reduce(

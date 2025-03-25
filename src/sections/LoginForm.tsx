@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, FormEvent, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -13,14 +13,62 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { handleError, handleSuccess } from "../utils/utils";
 
 const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
+  const formRef = useRef<HTMLFormElement>(null);
+  const navigate = useNavigate();
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setLoginInfo((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const { email, password } = loginInfo;
+
+    if (!email || !password) {
+      return handleError("All fields are required");
+    }
+
+    try {
+      const url = "http://localhost:4000/api/auth/login";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...loginInfo }),
+      });
+
+      const result = await response.json();
+      const { status, data } = result;
+
+      if (status === "failed") {
+        handleError(`${data}`);
+      } else if (status === "success") {
+        handleSuccess(`${data}`);
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+        formRef.current?.reset();
+        setLoginInfo({ email: "", password: "" });
+      }
+    } catch (error) {
+      handleError("An error occurred during login");
+      console.error("Login error:", error);
+    }
+  };
   return (
-    <Box component="form" noValidate>
+    <Box component="form" ref={formRef} onSubmit={handleFormSubmit} noValidate>
       <TextField
         margin="normal"
+        onChange={handleChange}
+        value={loginInfo.email}
         required
         fullWidth
         id="email"
@@ -42,6 +90,8 @@ const LoginForm: React.FC = () => {
 
       <TextField
         margin="normal"
+        onChange={handleChange}
+        value={loginInfo.password}
         required
         fullWidth
         name="password"
@@ -72,11 +122,11 @@ const LoginForm: React.FC = () => {
         sx={{ mb: 2 }}
       />
 
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+      {/* <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
         <MuiLink component={Link} to="/forgot-password" variant="body2">
           Forgot password?
         </MuiLink>
-      </Box>
+      </Box> */}
 
       <Button
         type="submit"

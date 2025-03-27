@@ -59,13 +59,13 @@ const LoginForm: React.FC = () => {
       }
 
       const result = await response.json();
-      const { status, data, token, imageUrl } = result;
+      const { status, data, token, imageUrl, name } = result;
 
       if (status === "failed") {
         handleError(`${data}`);
       } else if (status === "success") {
         handleSuccess(`${data}`);
-        dispatch(login({ user: { email, imageUrl }, token }));
+        dispatch(login({ user: { email, imageUrl, name }, token }));
         navigate("/", { replace: true });
         formRef.current?.reset();
         setLoginInfo({ email: "", password: "" });

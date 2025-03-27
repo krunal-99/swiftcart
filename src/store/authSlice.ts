@@ -15,6 +15,7 @@ const loadStateFromStorage = (): AuthState => {
   const token = localStorage.getItem("access_token");
   const userImg = localStorage.getItem("userImg");
   const userEmail = localStorage.getItem("userEmail");
+  const userName = localStorage.getItem("userName");
 
   if (token && userEmail) {
     return {
@@ -23,6 +24,7 @@ const loadStateFromStorage = (): AuthState => {
       user: {
         email: userEmail,
         imageUrl: userImg || undefined,
+        name: userName || undefined,
       },
     };
   }
@@ -50,6 +52,9 @@ const authSlice = createSlice({
       localStorage.setItem("userEmail", action.payload.user?.email || "");
       if (action.payload.user?.imageUrl) {
         localStorage.setItem("userImg", action.payload.user.imageUrl);
+      }
+      if (action.payload.user?.name) {
+        localStorage.setItem("userName", action.payload.user?.name);
       }
     },
     logout: (state) => {

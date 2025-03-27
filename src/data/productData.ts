@@ -519,7 +519,7 @@ export const products: Product[] = [
     title: "Premium Cotton Slim Fit Shirt",
     type: "Clothing",
     category: "Men's clothing",
-    brand: "Allen Solly",
+    brand: "Tom Ford",
     originalPrice: 2499,
     salePrice: 1799,
     rating: 8.7,

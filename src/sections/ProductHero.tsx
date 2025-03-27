@@ -29,6 +29,7 @@ import {
 import { addToList, removeFromList } from "../store/wishListSlice";
 import { useEffect, useState } from "react";
 import NoProductFound from "./NoProductFound";
+import { handleError } from "../utils/utils";
 
 const ProductHero = () => {
   const { id } = useParams();
@@ -47,6 +48,8 @@ const ProductHero = () => {
   const isInCart = Boolean(cartItem);
   const listItem = wishlist.find((item) => item.id === Number(id));
   const isInWishList = Boolean(listItem);
+
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
 
   const handleAddToCart = (product: Product) => {
     if (!product) return;
@@ -349,7 +352,13 @@ const ProductHero = () => {
                 </Box>
               ) : (
                 <Button
-                  onClick={() => handleAddToCart(product)}
+                  onClick={() =>
+                    isAuthenticated
+                      ? handleAddToCart(product)
+                      : handleError(
+                          "Login is required for adding a product to cart"
+                        )
+                  }
                   variant="contained"
                   sx={{
                     backgroundColor: "#23a6f0",
@@ -366,7 +375,11 @@ const ProductHero = () => {
                   onClick={() =>
                     isInWishList
                       ? dispatch(removeFromList(product))
-                      : handleAddToList(product)
+                      : isAuthenticated
+                      ? handleAddToList(product)
+                      : handleError(
+                          "Login is required to add product to wishlist"
+                        )
                   }
                   sx={{ p: 0 }}
                   disableRipple

@@ -4,9 +4,27 @@ import SendIcon from "@mui/icons-material/Send";
 import { FormEvent, useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { handleError, handleSuccess } from "../utils/utils";
+import { useSelector } from "react-redux";
+import { RootState } from "../main";
 
 const ContactFormField = () => {
   const form = useRef<HTMLFormElement>(null);
+  const { isAuthenticated, user } = useSelector(
+    (state: RootState) => state.auth
+  ) as { isAuthenticated: boolean; user: User | null };
+
+  type User = {
+    name?: string;
+    email?: string;
+    phone?: number;
+    subject?: string;
+    message?: string;
+  };
+
+  const isValidField = (field: string): field is keyof User =>
+    user !== null && field in user;
+
+  console.log(user);
 
   const sendEmail = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,6 +61,11 @@ const ContactFormField = () => {
         {contactFormData.map((contact) => (
           <Grid item xs={12} sm={6}>
             <TextField
+              value={
+                isAuthenticated && user && isValidField(contact.field)
+                  ? user[contact.field as keyof User] ?? ""
+                  : ""
+              }
               fullWidth
               label={contact.label}
               name={contact.field}

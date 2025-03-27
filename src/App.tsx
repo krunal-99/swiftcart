@@ -25,7 +25,7 @@ import {
   ShopPath,
   WishlistPath,
 } from "./constants/constants";
-import { AuthRoute } from "./components/PrivateRoute";
+import PrivateRoute, { AuthRoute } from "./components/PrivateRoute";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const theme = createTheme({
@@ -67,7 +67,11 @@ function App() {
         },
         {
           path: CartPath,
-          element: <Cart />,
+          element: (
+            <PrivateRoute>
+              <Cart />
+            </PrivateRoute>
+          ),
         },
         {
           path: AboutPath,
@@ -78,7 +82,14 @@ function App() {
           element: <ProductDetail />,
         },
         { path: ShopPath, element: <Shop /> },
-        { path: WishlistPath, element: <Wishlist /> },
+        {
+          path: WishlistPath,
+          element: (
+            <PrivateRoute>
+              <Wishlist />
+            </PrivateRoute>
+          ),
+        },
       ],
     },
   ]);

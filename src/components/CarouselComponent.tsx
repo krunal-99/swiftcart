@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../main";
 import { CarouselComponentProps, Product } from "../data/types";
 import { addToCart } from "../store/cartSlice";
+import { handleError } from "../utils/utils";
 
 const responsive = {
   desktop: { breakpoint: { max: 3000, min: 1024 }, items: 1 },
@@ -48,6 +49,8 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
 
   const CustomDot = ({ onClick, active }: any) => {
     return (
@@ -181,7 +184,11 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({
                 <Button
                   onClick={() => {
                     if (item.price !== "") {
-                      handleAddToCart(products[item.id]);
+                      isAuthenticated
+                        ? handleAddToCart(products[item.id])
+                        : handleError(
+                            "Login is required to add product to cart"
+                          );
                     }
                   }}
                   sx={{

@@ -14,9 +14,11 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useDispatch, useSelector } from "react-redux";
 import { addToList, removeFromList } from "../store/wishListSlice";
 import { RootState } from "../main";
+import { handleError } from "../utils/utils";
 
 const CardComponent: React.FC<ProductCardProps> = (props) => {
   const wishlist = useSelector((state: RootState) => state.wishlist.list);
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const listItem = wishlist.find(
     (item) => item.id === Number(props.product.id)
   );
@@ -49,7 +51,9 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
         onClick={() =>
           isInWishList
             ? dispatch(removeFromList(props.product))
-            : handleAddToList(props.product)
+            : isAuthenticated
+            ? handleAddToList(props.product)
+            : handleError("Login is required to add product to wishlist ")
         }
         sx={{
           position: "absolute",

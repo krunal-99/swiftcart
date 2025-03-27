@@ -1,31 +1,31 @@
 import { products } from "./productData";
 import { assets } from "../assets";
 
-export const categoriesData = [
-  {
-    label: "MEN",
-    category: "Men's clothing",
-    image:
-      "https://img.freepik.com/free-photo/portrait-man-going-out-shopping-various-consumer-goods_23-2151669766.jpg?t=st=1741668300~exp=1741671900~hmac=ebbfbf58b335eaa3f7c34205ef29dc85d217870ff31ae462d7e44c4d1ffd9049&w=740",
-  },
-  {
-    label: "WOMEN",
-    category: "Women's clothing",
-    image: `${assets.images.Shop7Img}`,
-  },
-  {
-    label: "JEWELLERY",
-    category: "Jewellery",
-    image:
-      "https://img.freepik.com/free-photo/portrait-short-hair-brunette-woman-with-chain-neck-accessories-green-lace-lingerie-outside-villa_343596-397.jpg?t=st=1741668034~exp=1741671634~hmac=bb62ece7b388819ac6c93b239cbd57365d48e9b3dba8e726cd61c083a8b52a77&w=1380",
-  },
-  {
-    label: "KIDS",
-    category: "Kid's clothing",
-    image:
-      "https://images.unsplash.com/photo-1586738730873-bdd59a596a2d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-];
+// export const categoriesData = [
+//   {
+//     label: "MEN",
+//     category: "Men's clothing",
+//     image:
+//       "https://img.freepik.com/free-photo/portrait-man-going-out-shopping-various-consumer-goods_23-2151669766.jpg?t=st=1741668300~exp=1741671900~hmac=ebbfbf58b335eaa3f7c34205ef29dc85d217870ff31ae462d7e44c4d1ffd9049&w=740",
+//   },
+//   {
+//     label: "WOMEN",
+//     category: "Women's clothing",
+//     image: `${assets.images.Shop7Img}`,
+//   },
+//   {
+//     label: "JEWELLERY",
+//     category: "Jewellery",
+//     image:
+//       "https://img.freepik.com/free-photo/portrait-short-hair-brunette-woman-with-chain-neck-accessories-green-lace-lingerie-outside-villa_343596-397.jpg?t=st=1741668034~exp=1741671634~hmac=bb62ece7b388819ac6c93b239cbd57365d48e9b3dba8e726cd61c083a8b52a77&w=1380",
+//   },
+//   {
+//     label: "KIDS",
+//     category: "Kid's clothing",
+//     image:
+//       "https://images.unsplash.com/photo-1586738730873-bdd59a596a2d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+//   },
+// ];
 
 export const adData = [
   {
@@ -35,7 +35,7 @@ export const adData = [
     tagline: `${products[45].shortDescription}`,
     price: `${products[45].salePrice}`,
     buttonText: "ADD TO CART",
-    path: "/cart",
+    path: "",
   },
   {
     id: 87,
@@ -44,7 +44,7 @@ export const adData = [
     tagline: `${products[87].shortDescription}`,
     price: `${products[87].salePrice}`,
     buttonText: "ADD TO CART",
-    path: "/cart",
+    path: "",
   },
 ];
 

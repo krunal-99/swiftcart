@@ -28,3 +28,9 @@ export const handleError = (msg: string | string[]) => {
 export const handleInfo = (msg: string) => {
   toast.info(msg);
 };
+
+export const getCategories = async () => {
+  const response = await fetch("http://localhost:4000/categories");
+  const result = await response.json();
+  return result;
+};

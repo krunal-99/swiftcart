@@ -4,7 +4,8 @@ import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setBrands, setCategory } from "../store/productSlice";
 import { CategoryItem } from "../themes/ComponentThemes";
-import { categoriesData } from "../data/data";
+import { getCategories } from "../utils/utils";
+import { useQuery } from "@tanstack/react-query";
 
 const Categories: React.FC = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,15 @@ const Categories: React.FC = () => {
     dispatch(setCategory(category));
     dispatch(setBrands([]));
   };
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {"Something went wrong"}</div>;
+
   return (
     <Box sx={{ pt: 10, background: "#fafafa", textAlign: "center", pb: 15 }}>
       <Typography variant="h4" fontWeight={700} color="#252b42" gutterBottom>
@@ -33,27 +43,17 @@ const Categories: React.FC = () => {
       >
         <Grid2 columns={{ xs: 12, md: 6, sm: 4 }} sx={{ height: 500 }}>
           <NavLink to="/shop">
-            <CategoryItem
-              onClick={() => handleCategoryClick(categoriesData[0].category)}
-            >
-              <img
-                src={categoriesData[0].image}
-                alt={categoriesData[0].label}
-              />
-              <span className="label">{categoriesData[0].label}</span>
+            <CategoryItem onClick={() => handleCategoryClick(data[0].name)}>
+              <img src={data[0].imageUrl} alt={data[0].label} />
+              <span className="label">{data[0].label}</span>
             </CategoryItem>
           </NavLink>
         </Grid2>
         <Grid2 columns={{ xs: 12, md: 6, sm: 4 }} sx={{ height: 500 }}>
           <NavLink to="/shop">
-            <CategoryItem
-              onClick={() => handleCategoryClick(categoriesData[1].category)}
-            >
-              <img
-                src={categoriesData[1].image}
-                alt={categoriesData[1].label}
-              />
-              <span className="label">{categoriesData[1].label}</span>
+            <CategoryItem onClick={() => handleCategoryClick(data[1].name)}>
+              <img src={data[1].imageUrl} alt={data[1].label} />
+              <span className="label">{data[1].label}</span>
             </CategoryItem>
           </NavLink>
         </Grid2>
@@ -61,31 +61,17 @@ const Categories: React.FC = () => {
           <Grid2 container direction="column" spacing={2}>
             <Grid2 sx={{ height: 240 }}>
               <NavLink to="/shop">
-                <CategoryItem
-                  onClick={() =>
-                    handleCategoryClick(categoriesData[2].category)
-                  }
-                >
-                  <img
-                    src={categoriesData[2].image}
-                    alt={categoriesData[2].label}
-                  />
-                  <span className="label">{categoriesData[2].label}</span>
+                <CategoryItem onClick={() => handleCategoryClick(data[2].name)}>
+                  <img src={data[2].imageUrl} alt={data[2].label} />
+                  <span className="label">{data[2].label}</span>
                 </CategoryItem>
               </NavLink>
             </Grid2>
             <Grid2 sx={{ height: 240 }}>
               <NavLink to="/shop">
-                <CategoryItem
-                  onClick={() =>
-                    handleCategoryClick(categoriesData[3].category)
-                  }
-                >
-                  <img
-                    src={categoriesData[3].image}
-                    alt={categoriesData[3].label}
-                  />
-                  <span className="label">{categoriesData[3].label}</span>
+                <CategoryItem onClick={() => handleCategoryClick(data[3].name)}>
+                  <img src={data[3].imageUrl} alt={data[3].label} />
+                  <span className="label">{data[3].label}</span>
                 </CategoryItem>
               </NavLink>
             </Grid2>

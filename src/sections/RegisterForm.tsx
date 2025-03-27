@@ -107,9 +107,7 @@ const RegisterForm: React.FC = () => {
         handleError(`${data}`);
       } else if (status === "success") {
         handleSuccess(`${data}`);
-        setTimeout(() => {
-          navigate("/login");
-        }, 1000);
+        navigate("/login");
         formRef.current?.reset();
         setUserInfo({ name: "", email: "", password: "" });
         setImagePreview(null);
@@ -264,7 +262,6 @@ const RegisterForm: React.FC = () => {
       />
 
       <Button
-        disabled={isLoading}
         type="submit"
         fullWidth
         variant="contained"
@@ -278,7 +275,11 @@ const RegisterForm: React.FC = () => {
           },
         }}
       >
-        Create Account
+        {isLoading ? (
+          <CircularProgress sx={{ color: "white" }} size="30px" />
+        ) : (
+          "Create Account"
+        )}
       </Button>
 
       <Divider sx={{ my: 2 }}>

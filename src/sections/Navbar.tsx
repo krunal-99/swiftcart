@@ -36,7 +36,7 @@ import {
 } from "../themes/ComponentThemes";
 import { navLinks } from "../data/data";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-const settings = ["REGISTER", "LOGIN"];
+import { logout } from "../store/authSlice";
 
 const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -44,6 +44,10 @@ const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const location = useLocation();
   const cart = useSelector((state: RootState) => state.cart);
+
+  const { isAuthenticated, user } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,6 +58,7 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const settings = isAuthenticated ? ["LOGOUT"] : ["REGISTER", "LOGIN"];
   const handleDrawerClose = () => {
     setDrawerOpen(false);
   };
@@ -69,7 +74,12 @@ const Navbar = () => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (setting?: string) => {
+    if (setting === "LOGOUT") {
+      dispatch(logout());
+      localStorage.clear();
+      window.location.href = "/login";
+    }
     setAnchorElUser(null);
   };
 
@@ -163,7 +173,16 @@ const Navbar = () => {
                       bgcolor: "#23a6f0",
                     }}
                   >
-                    <Person2Icon />
+                    {isAuthenticated && user?.imageUrl ? (
+                      <Box
+                        component="img"
+                        src={`${user.imageUrl}`}
+                        width={40}
+                        height={40}
+                      ></Box>
+                    ) : (
+                      <Person2Icon />
+                    )}
                   </Avatar>
                 </IconButton>
               </Tooltip>
@@ -178,12 +197,12 @@ const Navbar = () => {
                   horizontal: "right",
                 }}
                 open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
+                onClose={() => handleCloseUserMenu()}
               >
                 {settings.map((setting) => (
                   <MenuItem
                     key={setting}
-                    onClick={handleCloseUserMenu}
+                    onClick={() => handleCloseUserMenu(setting)}
                     sx={{
                       backgroundColor: isActiveLink(`/${setting.toLowerCase()}`)
                         ? "rgba(35, 166, 240, 0.08)"

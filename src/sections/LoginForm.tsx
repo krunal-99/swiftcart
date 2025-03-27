@@ -8,6 +8,7 @@ import {
   IconButton,
   Divider,
   Link as MuiLink,
+  CircularProgress,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -15,24 +16,32 @@ import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import { Link, useNavigate } from "react-router-dom";
 import { handleError, handleSuccess } from "../utils/utils";
+import { useDispatch } from "react-redux";
+import { login } from "../store/authSlice";
 
 const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
   const formRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setLoginInfo((prev) => ({ ...prev, [name]: value }));
   };
 
+  const dispatch = useDispatch();
+
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true);
     const { email, password } = loginInfo;
 
     if (!email || !password) {
-      return handleError("All fields are required");
+      handleError("All fields are required");
+      setIsLoading(false);
+      return;
     }
 
     try {
@@ -45,16 +54,19 @@ const LoginForm: React.FC = () => {
         body: JSON.stringify({ ...loginInfo }),
       });
 
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
       const result = await response.json();
-      const { status, data } = result;
+      const { status, data, token, imageUrl } = result;
 
       if (status === "failed") {
         handleError(`${data}`);
       } else if (status === "success") {
         handleSuccess(`${data}`);
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
+        dispatch(login({ user: { email, imageUrl }, token }));
+        navigate("/", { replace: true });
         formRef.current?.reset();
         setLoginInfo({ email: "", password: "" });
       }
@@ -62,6 +74,7 @@ const LoginForm: React.FC = () => {
       handleError("An error occurred during login");
       console.error("Login error:", error);
     }
+    setIsLoading(false);
   };
   return (
     <Box component="form" ref={formRef} onSubmit={handleFormSubmit} noValidate>
@@ -129,6 +142,7 @@ const LoginForm: React.FC = () => {
       </Box> */}
 
       <Button
+        disabled={isLoading}
         type="submit"
         fullWidth
         variant="contained"
@@ -142,7 +156,11 @@ const LoginForm: React.FC = () => {
           },
         }}
       >
-        Sign In
+        {isLoading ? (
+          <CircularProgress sx={{ color: "white" }} size="30px" />
+        ) : (
+          "Sign In"
+        )}
       </Button>
 
       <Divider sx={{ my: 2 }}>

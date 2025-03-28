@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, Grid2 } from "@mui/material";
+import { Box, Typography, Grid, Skeleton } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setBrands, setCategory } from "../store/productSlice";
@@ -19,7 +19,6 @@ const Categories: React.FC = () => {
     queryFn: getCategories,
   });
 
-  if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: {"Something went wrong"}</div>;
 
   return (
@@ -35,49 +34,89 @@ const Categories: React.FC = () => {
       >
         Select the right category for you.
       </Typography>
-      <Grid2
+      <Grid
         container
         spacing={3}
         justifyContent="center"
         sx={{ width: "70%", margin: "auto", pt: 5 }}
       >
-        <Grid2 columns={{ xs: 12, md: 6, sm: 4 }} sx={{ height: 500 }}>
-          <NavLink to="/shop">
-            <CategoryItem onClick={() => handleCategoryClick(data[0].name)}>
-              <img src={data[0].imageUrl} alt={data[0].label} />
-              <span className="label">{data[0].label}</span>
-            </CategoryItem>
-          </NavLink>
-        </Grid2>
-        <Grid2 columns={{ xs: 12, md: 6, sm: 4 }} sx={{ height: 500 }}>
-          <NavLink to="/shop">
-            <CategoryItem onClick={() => handleCategoryClick(data[1].name)}>
-              <img src={data[1].imageUrl} alt={data[1].label} />
-              <span className="label">{data[1].label}</span>
-            </CategoryItem>
-          </NavLink>
-        </Grid2>
-        <Grid2 columns={{ xs: 12, md: 6, sm: 4 }}>
-          <Grid2 container direction="column" spacing={2}>
-            <Grid2 sx={{ height: 240 }}>
-              <NavLink to="/shop">
-                <CategoryItem onClick={() => handleCategoryClick(data[2].name)}>
-                  <img src={data[2].imageUrl} alt={data[2].label} />
-                  <span className="label">{data[2].label}</span>
-                </CategoryItem>
-              </NavLink>
-            </Grid2>
-            <Grid2 sx={{ height: 240 }}>
-              <NavLink to="/shop">
-                <CategoryItem onClick={() => handleCategoryClick(data[3].name)}>
-                  <img src={data[3].imageUrl} alt={data[3].label} />
-                  <span className="label">{data[3].label}</span>
-                </CategoryItem>
-              </NavLink>
-            </Grid2>
-          </Grid2>
-        </Grid2>
-      </Grid2>
+        <Grid item xs={12} sm={6} md={4} sx={{ height: 500 }}>
+          {isLoading ? (
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              height="100%"
+              animation="wave"
+            />
+          ) : data && data[0] ? (
+            <NavLink to="/shop">
+              <CategoryItem onClick={() => handleCategoryClick(data[0].name)}>
+                <img src={data[0].imageUrl} alt={data[0].label} />
+                <span className="label">{data[0].label}</span>
+              </CategoryItem>
+            </NavLink>
+          ) : null}
+        </Grid>
+        <Grid item xs={12} sm={6} md={4} sx={{ height: 500 }}>
+          {isLoading ? (
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              height="100%"
+              animation="wave"
+            />
+          ) : data && data[1] ? (
+            <NavLink to="/shop">
+              <CategoryItem onClick={() => handleCategoryClick(data[1].name)}>
+                <img src={data[1].imageUrl} alt={data[1].label} />
+                <span className="label">{data[1].label}</span>
+              </CategoryItem>
+            </NavLink>
+          ) : null}
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <Grid container direction="column" spacing={2}>
+            <Grid item sx={{ height: 240 }}>
+              {isLoading ? (
+                <Skeleton
+                  variant="rectangular"
+                  width="100%"
+                  height="100%"
+                  animation="wave"
+                />
+              ) : data && data[2] ? (
+                <NavLink to="/shop">
+                  <CategoryItem
+                    onClick={() => handleCategoryClick(data[2].name)}
+                  >
+                    <img src={data[2].imageUrl} alt={data[2].label} />
+                    <span className="label">{data[2].label}</span>
+                  </CategoryItem>
+                </NavLink>
+              ) : null}
+            </Grid>
+            <Grid item sx={{ height: 240 }}>
+              {isLoading ? (
+                <Skeleton
+                  variant="rectangular"
+                  width="100%"
+                  height="100%"
+                  animation="wave"
+                />
+              ) : data && data[3] ? (
+                <NavLink to="/shop">
+                  <CategoryItem
+                    onClick={() => handleCategoryClick(data[3].name)}
+                  >
+                    <img src={data[3].imageUrl} alt={data[3].label} />
+                    <span className="label">{data[3].label}</span>
+                  </CategoryItem>
+                </NavLink>
+              ) : null}
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

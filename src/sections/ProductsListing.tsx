@@ -24,7 +24,6 @@ import {
   setSortBy,
   selectAllProducts,
 } from "../store/productSlice";
-import { useQuery } from "@tanstack/react-query";
 
 const ProductsListing: React.FC = () => {
   const dispatch = useDispatch();
@@ -48,19 +47,6 @@ const ProductsListing: React.FC = () => {
     firstProductIndex,
     lastProductIndex
   );
-
-  const getAllProducts = async () => {
-    const products = await fetch("http://localhost:4000/products");
-    const response = await products.json();
-    return products.status === 200 ? response : [];
-  };
-
-  const { data } = useQuery({
-    queryKey: ["products"],
-    queryFn: getAllProducts,
-  });
-
-  console.log(data);
 
   const handleFilterToggle = () => {
     setMobileFilterOpen((prev) => !prev);
@@ -180,7 +166,7 @@ const ProductsListing: React.FC = () => {
                 display="flex"
                 justifyContent="center"
               >
-                <CardComponent product={product} />
+                <CardComponent isLoading={false} product={product} />
               </Grid2>
             ))}
           </Grid2>

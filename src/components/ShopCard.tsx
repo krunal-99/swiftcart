@@ -1,7 +1,18 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 import { ShopCardProps } from "../data/types";
 
-const ShopCard: React.FC<ShopCardProps> = ({ data, onClick }) => {
+const ShopCard: React.FC<ShopCardProps> = ({ data, onClick, isLoading }) => {
+  if (isLoading) {
+    return (
+      <Skeleton
+        variant="rectangular"
+        width="210px"
+        height="220px"
+        animation="wave"
+        sx={{ mx: "auto" }}
+      />
+    );
+  }
   return (
     <Box
       component="button"
@@ -12,7 +23,7 @@ const ShopCard: React.FC<ShopCardProps> = ({ data, onClick }) => {
         width: "210px",
         height: "220px",
         objectFit: "cover",
-        backgroundImage: `url(${data.image})`,
+        backgroundImage: `url(${data?.imageUrl})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         display: "flex",
@@ -34,7 +45,7 @@ const ShopCard: React.FC<ShopCardProps> = ({ data, onClick }) => {
     >
       <Box sx={{ position: "relative", zIndex: 1 }}>
         <Typography variant="h6" fontWeight="bold">
-          {data.category}
+          {data?.name}
         </Typography>
       </Box>
     </Box>

@@ -30,7 +30,51 @@ export const handleInfo = (msg: string) => {
 };
 
 export const getCategories = async () => {
-  const response = await fetch("http://localhost:4000/categories");
-  const result = await response.json();
-  return result;
+  try {
+    const response = await fetch("http://localhost:4000/categories");
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+};
+
+export const getAllProducts = async () => {
+  try {
+    const products = await fetch("http://localhost:4000/products");
+    const response = await products.json();
+    return response.data;
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+};
+
+export const getFeaturedProducts = async () => {
+  try {
+    const response = await fetch("http://localhost:4000/products/featured");
+    const result = await response.json();
+    return result.data;
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+};
+
+export const getAdProducts = async () => {
+  try {
+    const response = await fetch("http://localhost:4000/products/ad");
+    const result = await response.json();
+    return result.data;
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+};
+
+export const getProductById = async (id: number) => {
+  try {
+    const response = await fetch(`http://localhost:4000/products/${id}`);
+    const result = await response.json();
+    return result.data;
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
 };

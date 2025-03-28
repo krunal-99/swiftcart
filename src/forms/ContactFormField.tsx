@@ -24,8 +24,6 @@ const ContactFormField = () => {
   const isValidField = (field: string): field is keyof User =>
     user !== null && field in user;
 
-  console.log(user);
-
   const sendEmail = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 

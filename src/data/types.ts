@@ -113,29 +113,20 @@ export interface wishListType {
 
 export interface ProductCardProps {
   product: Product;
-}
-
-export interface CarouselComponentProps {
-  carouselData: {
-    id: number;
-    imageUrl: string;
-    collection: string;
-    price: string;
-    tagline: string;
-    buttonText: string;
-    path: string;
-  }[];
+  isLoading: Boolean;
 }
 
 export interface shopCardData {
   id: number;
-  image: string;
-  category: string;
+  name: string;
+  label: string;
+  imageUrl: string;
 }
 
 export interface ShopCardProps {
-  data: shopCardData;
+  data: shopCardData | null;
   onClick: () => void;
+  isLoading: Boolean;
 }
 
 export interface ListCardProps {

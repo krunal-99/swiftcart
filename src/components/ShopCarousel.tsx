@@ -11,8 +11,10 @@ import {
   setBrands,
   setCategory,
 } from "../store/productSlice";
-import { shopCardItems } from "../data/data";
 import { shopCarouselResponsive } from "../data/data";
+import { useQuery } from "@tanstack/react-query";
+import { getCategories } from "../utils/utils";
+import { shopCardData } from "../data/types";
 
 const ShopCarousel = () => {
   const filteredProducts = useSelector(selectFilteredProducts);
@@ -27,6 +29,15 @@ const ShopCarousel = () => {
     dispatch(setCategory(category));
     dispatch(setBrands([]));
   };
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  });
+
+  if (isError) return <div>Error: {"Something went wrong"}</div>;
+
+  const skeletonItems = Array(5).fill(null);
 
   return (
     <Box width="100%" padding="30px 0" position="relative">
@@ -55,7 +66,7 @@ const ShopCarousel = () => {
           }}
         >
           <ArrowBackIosIcon
-            sx={{ fontSize: { lg: "25px", sm: "18px", xs: "14px" } }}
+            sx={{ fontSize: { lg: "25px", sm: "18px", xs: "14px" }, ml: "6px" }}
           />
         </Paper>
       </IconButton>
@@ -76,13 +87,23 @@ const ShopCarousel = () => {
           ref={carouselRef}
           arrows={false}
         >
-          {shopCardItems.map((item) => (
-            <ShopCard
-              key={item.id}
-              data={item}
-              onClick={() => handleCategoryClick(item.category)}
-            />
-          ))}
+          {isLoading
+            ? skeletonItems.map((_, index) => (
+                <ShopCard
+                  key={`skeleton-${index}`}
+                  isLoading={true}
+                  data={null}
+                  onClick={() => {}}
+                />
+              ))
+            : data?.map((item: shopCardData) => (
+                <ShopCard
+                  isLoading={false}
+                  key={item.id}
+                  data={item}
+                  onClick={() => handleCategoryClick(item.name)}
+                />
+              ))}
         </Carousel>
       </Container>
       <IconButton

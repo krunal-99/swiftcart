@@ -5,11 +5,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../main";
-import { CarouselComponentProps, Product } from "../data/types";
-import { addToCart } from "../store/cartSlice";
-import { handleError } from "../utils/utils";
+import { Product } from "../data/types";
 
 const responsive = {
   desktop: { breakpoint: { max: 3000, min: 1024 }, items: 1 },
@@ -17,25 +13,14 @@ const responsive = {
   mobile: { breakpoint: { max: 768, min: 0 }, items: 1 },
 };
 
+interface CarouselComponentProps {
+  carouselData: Product[];
+}
+
 const CarouselComponent: React.FC<CarouselComponentProps> = ({
-  carouselData,
+  carouselData = [],
 }) => {
   const [isSwipeable, setIsSwipeable] = useState(true);
-  const products = useSelector((state: RootState) => state?.products.items);
-  const dispatch = useDispatch();
-
-  const handleAddToCart = (product: Product) => {
-    if (!product) return;
-    const cartData = {
-      id: product.id,
-      imageUrl: product.imageUrls[0],
-      title: product.title,
-      color: product.colors[0],
-      price: product.salePrice,
-      cartQuantity: 1,
-    };
-    dispatch(addToCart(cartData));
-  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -49,9 +34,6 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-
   const CustomDot = ({ onClick, active }: any) => {
     return (
       <Box
@@ -120,7 +102,7 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({
           sx={{
             width: "100%",
             height: "92vh",
-            backgroundImage: `url(${item.imageUrl})`,
+            backgroundImage: `url(${item.imageUrls[3]})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -149,7 +131,7 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({
                 textAlign: { xs: "center", md: "left" },
               }}
             >
-              {item.collection}
+              {item.title}
             </Typography>
             <Typography
               variant="body1"
@@ -160,55 +142,38 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({
                 mx: { xs: "auto", md: "0" },
               }}
             >
-              {item.tagline}
+              {item.shortDescription}
             </Typography>
-            <Stack
-              direction={{ xs: "column", sm: "row" }}
-              spacing={3}
-              sx={{
-                py: "25px",
-                mx: { xs: "auto", md: "0" },
-                alignItems: "center",
-              }}
-            >
-              {item.price && (
-                <Typography
-                  variant="h5"
-                  fontWeight={700}
-                  fontSize={{ xs: "20px", sm: "22px", md: "24px" }}
-                >
-                  ₹ {item.price}
-                </Typography>
-              )}
-              <NavLink to={item.path}>
-                <Button
-                  onClick={() => {
-                    if (item.price !== "") {
-                      isAuthenticated
-                        ? handleAddToCart(products[item.id])
-                        : handleError(
-                            "Login is required to add product to cart"
-                          );
-                    }
-                  }}
-                  sx={{
-                    backgroundColor: "#2dc071",
-                    fontWeight: 700,
-                    fontSize: { xs: "14px", sm: "16px", md: "18px" },
-                    boxShadow: "none",
-                    width: { xs: "150px", sm: "170px", md: "200px" },
-                    height: { xs: "40px", sm: "45px", md: "50px" },
-                    "&:hover": {
-                      backgroundColor: "#28a961",
-                    },
-                  }}
-                  size="large"
-                  variant="contained"
-                >
-                  {item.buttonText}
-                </Button>
-              </NavLink>
-            </Stack>
+            {item.salePrice && (
+              <Typography
+                variant="h5"
+                fontWeight={700}
+                fontSize={{ xs: "20px", sm: "22px", md: "24px" }}
+                my="15px"
+              >
+                ₹ {item.salePrice}
+              </Typography>
+            )}
+            <NavLink to="/shop">
+              <Button
+                sx={{
+                  backgroundColor: "#2dc071",
+                  mt: "20px",
+                  fontWeight: 700,
+                  fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                  boxShadow: "none",
+                  width: { xs: "150px", sm: "170px", md: "200px" },
+                  height: { xs: "40px", sm: "45px", md: "50px" },
+                  "&:hover": {
+                    backgroundColor: "#28a961",
+                  },
+                }}
+                size="large"
+                variant="contained"
+              >
+                SHOP NOW
+              </Button>
+            </NavLink>
           </Stack>
         </Box>
       ))}

@@ -48,11 +48,11 @@ const Categories: React.FC = () => {
               height="100%"
               animation="wave"
             />
-          ) : data && data[0] ? (
+          ) : data && data[1] ? (
             <NavLink to="/shop">
-              <CategoryItem onClick={() => handleCategoryClick(data[0].name)}>
-                <img src={data[0].imageUrl} alt={data[0].label} />
-                <span className="label">{data[0].label}</span>
+              <CategoryItem onClick={() => handleCategoryClick(data[1].name)}>
+                <img src={data[1].imageUrl} alt={data[1].label} />
+                <span className="label">{data[1].label}</span>
               </CategoryItem>
             </NavLink>
           ) : null}
@@ -65,11 +65,11 @@ const Categories: React.FC = () => {
               height="100%"
               animation="wave"
             />
-          ) : data && data[1] ? (
+          ) : data && data[2] ? (
             <NavLink to="/shop">
-              <CategoryItem onClick={() => handleCategoryClick(data[1].name)}>
-                <img src={data[1].imageUrl} alt={data[1].label} />
-                <span className="label">{data[1].label}</span>
+              <CategoryItem onClick={() => handleCategoryClick(data[2].name)}>
+                <img src={data[2].imageUrl} alt={data[2].label} />
+                <span className="label">{data[2].label}</span>
               </CategoryItem>
             </NavLink>
           ) : null}
@@ -84,13 +84,13 @@ const Categories: React.FC = () => {
                   height="100%"
                   animation="wave"
                 />
-              ) : data && data[2] ? (
+              ) : data && data[3] ? (
                 <NavLink to="/shop">
                   <CategoryItem
-                    onClick={() => handleCategoryClick(data[2].name)}
+                    onClick={() => handleCategoryClick(data[3].name)}
                   >
-                    <img src={data[2].imageUrl} alt={data[2].label} />
-                    <span className="label">{data[2].label}</span>
+                    <img src={data[3].imageUrl} alt={data[3].label} />
+                    <span className="label">{data[3].label}</span>
                   </CategoryItem>
                 </NavLink>
               ) : null}

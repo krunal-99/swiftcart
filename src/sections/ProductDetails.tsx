@@ -11,24 +11,128 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  Skeleton,
 } from "@mui/material";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { RootState } from "../main";
-import { useSelector } from "react-redux";
 import { TabPanel } from "../components/TabPanel";
 import AdditionalInfo from "./AdditionalInfo";
+import { useQuery } from "@tanstack/react-query";
+import { Product } from "../data/types";
+import { getProductById } from "../utils/utils";
+
+const ProductDetailsSkeleton = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  return (
+    <Box sx={{ bgcolor: "white", paddingTop: "20px" }}>
+      <Container maxWidth="lg">
+        <Box sx={{ borderBottom: 1, borderColor: "divider", p: 2 }}>
+          <Stack
+            direction="row"
+            spacing={2}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Skeleton variant="rounded" width={100} height={40} />
+            <Skeleton variant="rounded" width={150} height={40} />
+            <Skeleton variant="rounded" width={120} height={40} />
+          </Stack>
+        </Box>
+
+        <Box sx={{ mt: 4 }}>
+          <Grid2 container spacing={4} sx={{ p: 2 }}>
+            <Grid2
+              columns={{ xs: 12, md: 6 }}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              <Skeleton
+                variant="rectangular"
+                width={isMobile ? "90%" : 450}
+                height={450}
+                sx={{ borderRadius: "8px" }}
+              />
+            </Grid2>
+            <Grid2 columns={{ xs: 12, md: 6 }}>
+              <Stack spacing={2} sx={{ py: 10, px: 4 }}>
+                <Skeleton variant="text" width="450px" height={40} />
+                <Skeleton variant="text" width="450px" />
+                <Skeleton variant="text" width="450px" />
+                <Skeleton variant="text" width="450px" />
+                <Skeleton variant="text" width="450px" />
+                <Skeleton variant="text" width="450px" />
+              </Stack>
+            </Grid2>
+          </Grid2>
+        </Box>
+
+        <Box sx={{ mt: 4, display: "none" }}>
+          <Stack spacing={3} sx={{ p: 2 }}>
+            {[1, 2, 3].map((_, index) => (
+              <Paper
+                key={index}
+                sx={{ p: 2, border: "1px solid rgba(0, 0, 0, 0.12)" }}
+              >
+                <Stack direction="row" spacing={2} mb={2}>
+                  <Skeleton variant="circular" width={48} height={48} />
+                  <Box sx={{ flexGrow: 1 }}>
+                    <Skeleton variant="text" width="40%" height={24} />
+                    <Skeleton variant="text" width="60%" height={20} />
+                  </Box>
+                </Stack>
+                <Skeleton variant="text" width="100%" />
+                <Skeleton variant="text" width="80%" />
+              </Paper>
+            ))}
+          </Stack>
+        </Box>
+
+        <Box sx={{ mt: 4, display: "none" }}>
+          <Stack spacing={2} sx={{ p: 2 }}>
+            <Skeleton variant="text" width="40%" height={40} />
+            <Skeleton variant="rectangular" width="100%" height={200} />
+          </Stack>
+        </Box>
+      </Container>
+    </Box>
+  );
+};
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const products = useSelector((state: RootState) => state.products.items);
-  const product = products.find((item) => item.id === Number(id));
   const [value, setValue] = useState(0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const {
+    data: product,
+    isLoading,
+    isError,
+    error,
+  } = useQuery<Product, Error>({
+    queryKey: ["productDetails", id],
+    queryFn: () => getProductById(Number(id)),
+    enabled: !!id && !isNaN(Number(id)),
+    retry: 1,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  if (isLoading) {
+    return <ProductDetailsSkeleton />;
+  }
+
+  if (isError) {
+    return (
+      <Container>
+        <Typography color="error">
+          Error loading product: {error.message}
+        </Typography>
+      </Container>
+    );
+  }
 
   return (
     <Box sx={{ bgcolor: "white", paddingTop: "20px" }}>
@@ -68,9 +172,10 @@ const ProductDetails = () => {
           >
             <Tab label="Description" />
             <Tab label="Additional Information" />
-            <Tab label={`Reviews (${product?.reviews.length})`} />
+            <Tab label={`Reviews (${product?.reviews.length ?? 0})`} />
           </Tabs>
         </Box>
+
         <TabPanel value={value} index={0}>
           <Grid2
             container
@@ -122,6 +227,7 @@ const ProductDetails = () => {
             </Grid2>
           </Grid2>
         </TabPanel>
+
         <TabPanel value={value} index={1}>
           <Box sx={{ p: { xs: 1, sm: 2 } }}>
             <Typography
@@ -139,6 +245,7 @@ const ProductDetails = () => {
             <AdditionalInfo />
           </Box>
         </TabPanel>
+
         <TabPanel value={value} index={2}>
           <Stack spacing={{ xs: 2, sm: 3 }}>
             {product?.reviews.map((review, index) => (

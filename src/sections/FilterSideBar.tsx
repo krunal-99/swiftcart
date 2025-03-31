@@ -8,16 +8,29 @@ import {
   Slider,
   FormControlLabel,
   Divider,
+  Skeleton,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { FilterSidebarProps } from "../data/types";
-import { categories } from "../data/data";
-import { getMaxPrice } from "../utils/utils";
+import { getAllBrands, getCategories, getMaxPrice } from "../utils/utils";
+import { useQuery } from "@tanstack/react-query";
 
+interface Brand {
+  id: number;
+  name: string;
+  categoryId: number;
+}
+interface Categories {
+  id: number;
+  name: string;
+  label: string;
+  imageUrl: string;
+  brands: Brand[];
+}
 const FilterSidebar: React.FC<FilterSidebarProps> = ({
   isMobile,
   onClose,
-  products,
+  // products,
   selectedCategory,
   selectedBrands,
   priceRange,
@@ -25,14 +38,26 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
   onBrandChange,
   onPriceChange,
 }) => {
-  const getAvailableBrands = () => {
-    const filteredProducts =
-      selectedCategory === "All Categories"
-        ? products
-        : products.filter((p) => p.category === selectedCategory);
-    return Array.from(new Set(filteredProducts.map((p) => p.brand))).sort();
-  };
-  const availableBrands = getAvailableBrands();
+  const {
+    data: categories,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  });
+
+  if (isError) return <div>Something went wrong..!!</div>;
+
+  console.log(categories);
+  // const getAvailableBrands = () => {
+  //   const filteredProducts =
+  //     selectedCategory === "All Categories"
+  //       ? products
+  //       : products.filter((p) => p.category === selectedCategory);
+  //   return Array.from(new Set(filteredProducts.map((p) => p.brand))).sort();
+  // };
+  // const availableBrands = getAvailableBrands();
   const maxPrice = getMaxPrice();
   const handlePriceChange = (_event: Event, newValue: number | number[]) => {
     onPriceChange(newValue as [number, number]);
@@ -43,6 +68,21 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
       : [...selectedBrands, brand];
     onBrandChange(newBrands);
   };
+
+  const {
+    data: brands,
+    isLoading: brandsLoading,
+    isError: brandsError,
+  } = useQuery({
+    queryKey: ["brands"],
+    queryFn: getAllBrands,
+  });
+
+  console.log("brands", brands);
+
+  if (brandsError) return <div>Something went wrong</div>;
+
+  const skeletonItems = Array(9).fill(null);
   return (
     <Box
       sx={{
@@ -70,29 +110,41 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
         Filter by
       </Typography>
       <List disablePadding>
-        {categories.map((category) => (
-          <ListItem
-            key={category}
-            disablePadding
-            sx={{
-              py: 0.5,
-              color: selectedCategory === category ? "#23a6f0" : "inherit",
-              cursor: "pointer",
-            }}
-            onClick={() => onCategoryChange(category)}
-          >
-            {category === "All Categories" && <ArrowBackIosIcon />}
-            <ListItemText
-              primary={category}
-              sx={{
-                "& .MuiTypography-root": {
-                  fontSize: "0.9rem",
-                  fontWeight: selectedCategory === category ? "bold" : "normal",
-                },
-              }}
-            />
-          </ListItem>
-        ))}
+        {isLoading
+          ? skeletonItems.map((_, idx) => (
+              <Skeleton
+                sx={{ my: 2 }}
+                variant="rectangular"
+                key={idx}
+                width="90%"
+              />
+            ))
+          : categories &&
+            categories.map((category: Categories) => (
+              <ListItem
+                key={category.id}
+                disablePadding
+                sx={{
+                  py: 0.5,
+                  color:
+                    selectedCategory === category.name ? "#23a6f0" : "inherit",
+                  cursor: "pointer",
+                }}
+                onClick={() => onCategoryChange(category.name)}
+              >
+                {category.name === "All Categories" && <ArrowBackIosIcon />}
+                <ListItemText
+                  primary={category.name}
+                  sx={{
+                    "& .MuiTypography-root": {
+                      fontSize: "0.9rem",
+                      fontWeight:
+                        selectedCategory === category.name ? "bold" : "normal",
+                    },
+                  }}
+                />
+              </ListItem>
+            ))}
       </List>
       <Divider sx={{ my: 2 }} />
       <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
@@ -132,27 +184,37 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
         Brands
       </Typography>
       <List disablePadding>
-        {availableBrands.map((brand) => (
-          <ListItem key={brand} disablePadding sx={{ py: 0.5 }}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={selectedBrands.includes(brand)}
-                  onChange={() => handleBrandToggle(brand)}
-                  size="small"
-                  sx={{
-                    color: "#23a6f0",
-                    "&.Mui-checked": {
-                      color: "#23a6f0",
-                    },
-                  }}
+        {brandsLoading
+          ? skeletonItems.map((_, idx) => (
+              <Skeleton
+                sx={{ my: 2 }}
+                variant="rectangular"
+                key={idx}
+                width="90%"
+              />
+            ))
+          : brands &&
+            brands.map((brand: Brand) => (
+              <ListItem key={brand.id} disablePadding sx={{ py: 0.5 }}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={selectedBrands.includes(brand.name)}
+                      onChange={() => handleBrandToggle(brand.name)}
+                      size="small"
+                      sx={{
+                        color: "#23a6f0",
+                        "&.Mui-checked": {
+                          color: "#23a6f0",
+                        },
+                      }}
+                    />
+                  }
+                  label={<Typography variant="body2">{brand.name}</Typography>}
+                  sx={{ width: "100%" }}
                 />
-              }
-              label={<Typography variant="body2">{brand}</Typography>}
-              sx={{ width: "100%" }}
-            />
-          </ListItem>
-        ))}
+              </ListItem>
+            ))}
       </List>
     </Box>
   );

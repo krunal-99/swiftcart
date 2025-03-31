@@ -51,7 +51,7 @@ const SingleProductComponent = () => {
         ) : (
           <Box
             component="img"
-            src={`${data[0].imageUrls?.[0]}`}
+            src={`${data.imageUrls?.[0]}`}
             alt="Product Image"
             sx={{
               maxWidth: {
@@ -94,7 +94,7 @@ const SingleProductComponent = () => {
               lineHeight: { xs: "40px", md: "50px" },
             }}
           >
-            {data[0].title}
+            {data.title}
           </Typography>
         )}
         {isLoading ? (
@@ -112,7 +112,7 @@ const SingleProductComponent = () => {
               maxWidth: "400px",
             }}
           >
-            {data[0].shortDescription}
+            {data.shortDescription}
           </Typography>
         )}
         <Stack

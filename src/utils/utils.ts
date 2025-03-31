@@ -72,6 +72,35 @@ export const getAdProducts = async () => {
 export const getProductById = async (id: number) => {
   try {
     const response = await fetch(`http://localhost:4000/products/${id}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch product: ${response.statusText}`);
+    }
+    const result = await response.json();
+    return result.data[0];
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+};
+
+export const getBrandByCategoryId = async (id: number) => {
+  try {
+    const response = await fetch(`http://localhost:4000/brands/${id}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch product: ${response.statusText}`);
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+};
+
+export const getAllBrands = async () => {
+  try {
+    const response = await fetch(`http://localhost:4000/brands`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch product: ${response.statusText}`);
+    }
     const result = await response.json();
     return result.data;
   } catch (error) {

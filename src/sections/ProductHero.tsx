@@ -6,6 +6,7 @@ import {
   Container,
   IconButton,
   Rating,
+  Skeleton,
   Stack,
   Typography,
 } from "@mui/material";
@@ -29,19 +30,132 @@ import {
 import { addToList, removeFromList } from "../store/wishListSlice";
 import { useEffect, useState } from "react";
 import NoProductFound from "./NoProductFound";
-import { handleError } from "../utils/utils";
+import { getProductById, handleError } from "../utils/utils";
+import { useQuery } from "@tanstack/react-query";
+
+const ProductSkeleton = () => {
+  return (
+    <>
+      <Box pt={8} width={{ xs: "100%", sm: "90%", md: "72%" }} margin="auto">
+        <Stack py="30px" direction="row" alignItems="center" flexWrap="wrap">
+          <Skeleton width={60} height={24} />
+          <IconButton disabled>
+            <ArrowForwardIosIcon sx={{ width: "15px", color: "#e0e0e0" }} />
+          </IconButton>
+          <Skeleton width={40} height={24} />
+        </Stack>
+      </Box>
+      <Container sx={{ pb: "50px" }}>
+        <Stack direction={{ xs: "column", md: "row" }} gap={3}>
+          <Stack alignItems="center" width={{ xs: "100%", md: "50%" }}>
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              sx={{
+                borderRadius: "10px",
+                height: { xs: 250, sm: 350, md: 450 },
+              }}
+            />
+            <Stack
+              mt="10px"
+              direction="row"
+              spacing={1}
+              flexWrap="wrap"
+              justifyContent="center"
+            >
+              {[1, 2, 3, 4].map((idx) => (
+                <Skeleton
+                  key={idx}
+                  variant="rectangular"
+                  width={80}
+                  height={60}
+                />
+              ))}
+            </Stack>
+          </Stack>
+          <Stack
+            spacing={2}
+            px={{ xs: 2, sm: 0 }}
+            width={{ xs: "100%", md: "50%" }}
+          >
+            <Skeleton variant="text" height={40} width="80%" />
+            <Stack
+              direction="row"
+              py="15px"
+              alignItems="center"
+              justifyContent={{ xs: "center", md: "flex-start" }}
+              gap={1}
+            >
+              <Skeleton variant="rectangular" width={150} height={30} />
+              <Skeleton variant="text" width={80} height={24} />
+            </Stack>
+            <Skeleton variant="text" height={40} width={120} />
+            <Skeleton variant="text" height={100} width="100%" />
+            <Stack
+              direction="row"
+              spacing={2}
+              pb="30px"
+              justifyContent={{ xs: "center", md: "flex-start" }}
+            >
+              {[1, 2, 3].map((idx) => (
+                <Skeleton key={idx} variant="circular" width={30} height={30} />
+              ))}
+            </Stack>
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={2}
+              alignItems={{ xs: "center", sm: "flex-start" }}
+              justifyContent={{ xs: "center", md: "flex-start" }}
+            >
+              <Skeleton
+                variant="rectangular"
+                width={200}
+                height={50}
+                sx={{ borderRadius: "4px" }}
+              />
+              <Skeleton variant="circular" width={40} height={40} />
+            </Stack>
+          </Stack>
+        </Stack>
+      </Container>
+    </>
+  );
+};
 
 const ProductHero = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch();
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedColor, setSelectedColor] = useState("");
 
-  const products = useSelector((state: RootState) => state.products?.items);
   const cart = useSelector((state: RootState) => state.cart.cartItems);
   const wishlist = useSelector((state: RootState) => state.wishlist.list);
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
 
-  const product = products.find((item) => item.id === Number(id));
-  const [selectedColor, setSelectedColor] = useState(product?.colors[0] || "");
+  const {
+    data: product,
+    isLoading,
+    isError,
+    error,
+  } = useQuery<Product, Error>({
+    queryKey: ["productDetails", id],
+    queryFn: () => getProductById(Number(id)),
+    enabled: !!id && !isNaN(Number(id)),
+    retry: 1,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  useEffect(() => {
+    if (isError) console.error("Query error:", error);
+    if (product) console.log("Fetched product:", product);
+  }, [product, isError, error]);
+
+  useEffect(() => {
+    if (product?.colors?.length) {
+      setSelectedColor(product.colors[0]);
+    }
+  }, [product]);
+
   const cartItem = cart.find(
     (item) => item.id === Number(id) && item.color === selectedColor
   );
@@ -49,19 +163,16 @@ const ProductHero = () => {
   const listItem = wishlist.find((item) => item.id === Number(id));
   const isInWishList = Boolean(listItem);
 
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-
   const handleAddToCart = (product: Product) => {
     if (!product) return;
     const cartData = {
       id: product.id,
       imageUrl: product.imageUrls[0],
       title: product.title,
-      color: selectedColor,
+      color: selectedColor || product.colors[0],
       price: product.salePrice,
       cartQuantity: 1,
     };
-
     dispatch(addToCart(cartData));
   };
 
@@ -79,21 +190,15 @@ const ProductHero = () => {
     dispatch(addToList(listData));
   };
 
-  useEffect(() => {
-    if (product) {
-      setSelectedColor(product.colors[0] || "");
-    }
-  }, [product]);
-
   const handleRemoveFromCart = () => {
     if (cartItem) {
       dispatch(removeFromCart(cartItem));
     }
   };
 
-  if (!product) {
-    return <NoProductFound />;
-  }
+  if (isLoading) return <ProductSkeleton />;
+  if (isError || !product) return <NoProductFound />;
+
   return (
     <>
       <Box pt={8} width={{ xs: "100%", sm: "90%", md: "72%" }} margin="auto">
@@ -134,10 +239,6 @@ const ProductHero = () => {
                       height: "50px",
                       backgroundColor: "rgba(0, 0, 0, 0.5)",
                       borderRadius: "50%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      transition: "background-color 0.3s ease",
                       "&:hover": {
                         backgroundColor: "rgba(0, 0, 0, 0.8)",
                       },
@@ -163,10 +264,6 @@ const ProductHero = () => {
                       height: "50px",
                       backgroundColor: "rgba(0, 0, 0, 0.5)",
                       borderRadius: "50%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      transition: "background-color 0.3s ease",
                       "&:hover": {
                         backgroundColor: "rgba(0, 0, 0, 0.8)",
                       },
@@ -179,7 +276,7 @@ const ProductHero = () => {
                 )
               }
             >
-              {product.imageUrls.map((image: string, idx: number) => (
+              {product?.imageUrls?.map((image: string, idx: number) => (
                 <Box
                   key={idx}
                   sx={{
@@ -193,6 +290,7 @@ const ProductHero = () => {
                   <Box
                     component="img"
                     src={image}
+                    alt={`${product.title} - image ${idx + 1}`}
                     sx={{
                       maxWidth: "100%",
                       maxHeight: "100%",
@@ -211,7 +309,7 @@ const ProductHero = () => {
               flexWrap="wrap"
               justifyContent="center"
             >
-              {product.imageUrls.map((image: string, idx: number) => (
+              {product.imageUrls?.map((image: string, idx: number) => (
                 <Box
                   onClick={() => setSelectedIndex(idx)}
                   component="img"
@@ -225,7 +323,7 @@ const ProductHero = () => {
                     border:
                       selectedIndex === idx ? "2px solid #007bff" : "none",
                   }}
-                ></Box>
+                />
               ))}
             </Stack>
           </Stack>
@@ -273,7 +371,7 @@ const ProductHero = () => {
               pb="30px"
               justifyContent={{ xs: "center", md: "flex-start" }}
             >
-              {product.colors.map((color: string, index: number) => (
+              {product.colors?.map((color: string, index: number) => (
                 <Box
                   component="button"
                   onClick={() => setSelectedColor(color)}

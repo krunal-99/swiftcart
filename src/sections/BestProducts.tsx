@@ -1,13 +1,24 @@
 import { Box, Grid2, Typography } from "@mui/material";
 import CardComponent from "../components/CardComponent";
-import { getRandomProducts } from "../utils/utils";
-import { useSelector } from "react-redux";
-import { RootState } from "../main";
+import { getAllProducts, getRandomProducts } from "../utils/utils";
+import { useQuery } from "@tanstack/react-query";
+import { Product } from "../data/types";
 
 const BestProducts = () => {
-  const products = useSelector((state: RootState) => state.products.items);
+  const {
+    data: products,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["products"],
+    queryFn: getAllProducts,
+  });
+
+  if (isError) return <div>Error: {"Something went wrong."}</div>;
+
   const bestProducts =
-    products.length > 8 ? getRandomProducts(products, 8) : products;
+    products && products.length > 8 ? getRandomProducts(products, 8) : products;
+
   return (
     <Box width="88%" margin="auto" sx={{ mt: "100px" }}>
       <Typography
@@ -20,16 +31,30 @@ const BestProducts = () => {
         BEST PRODUCTS
       </Typography>
       <Grid2 container spacing={3} justifyContent="center" alignItems="center">
-        {bestProducts.slice(0, 8).map((product, index) => (
-          <Grid2
-            columns={{ xs: 12, sm: 6, md: 4, lg: 3 }}
-            key={index}
-            display="flex"
-            justifyContent="center"
-          >
-            <CardComponent key={index} product={product} />
-          </Grid2>
-        ))}
+        {isLoading
+          ? Array.from(new Array(8)).map((_, index) => (
+              <Grid2
+                columns={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                key={index}
+                display="flex"
+                justifyContent="center"
+              >
+                <CardComponent
+                  isLoading={true}
+                  product={{ id: index } as Product}
+                />
+              </Grid2>
+            ))
+          : bestProducts?.slice(0, 8).map((data: Product, index: number) => (
+              <Grid2
+                columns={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                key={index}
+                display="flex"
+                justifyContent="center"
+              >
+                <CardComponent isLoading={isLoading} product={data} />
+              </Grid2>
+            ))}
       </Grid2>
     </Box>
   );

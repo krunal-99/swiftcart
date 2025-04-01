@@ -12,43 +12,26 @@ import {
 import FilterSidebar from "./FilterSideBar";
 import ShopHero from "./ShopHero";
 import CardComponent from "../components/CardComponent";
-import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Product, SortOption } from "../data/types";
-import {
-  selectFilteredProducts,
-  selectFilters,
-  setCategory,
-  setBrands,
-  setPriceRange,
-  setSortBy,
-  selectAllProducts,
-} from "../store/productSlice";
 import { useQuery } from "@tanstack/react-query";
-import { getAllProducts } from "../utils/utils";
+import { getCategories, getFilteredProducts } from "../utils/utils";
+import { Categories } from "../data/types";
 
 const ProductsListing: React.FC = () => {
-  const dispatch = useDispatch();
-  const filteredProducts = useSelector(selectFilteredProducts);
-  const filters = useSelector(selectFilters);
-  // const products = useSelector(selectAllProducts);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [selectedCategory, setSelectedCategory] = useState<number>(1);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000000]);
+  const [sortBy, setSortBy] = useState<SortOption>("popularity");
+
   const appTheme = useTheme();
   const isMobile = useMediaQuery(appTheme.breakpoints.down("md"));
-  const [page, setPage] = useState<number>(1);
-  const [productsPerPage] = useState<number>(9);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const searchTerm = queryParams.get("search")?.toLowerCase() || "";
   const productSectionRef = useRef<HTMLDivElement>(null);
-
-  const totalProducts = filteredProducts.length;
-  const lastProductIndex = page * productsPerPage;
-  const firstProductIndex = lastProductIndex - productsPerPage;
-  const currentProducts = filteredProducts.slice(
-    firstProductIndex,
-    lastProductIndex
-  );
 
   const handleFilterToggle = () => {
     setMobileFilterOpen((prev) => !prev);
@@ -58,28 +41,29 @@ const ProductsListing: React.FC = () => {
     _event: React.ChangeEvent<unknown>,
     value: number
   ) => {
-    setPage(value);
+    setPageNumber(value);
   };
 
-  const handleCategoryChange = (category: string) => {
-    dispatch(setCategory(category));
-    setPage(1);
+  const handleCategoryChange = (category: number) => {
+    setSelectedCategory(category);
+    setSelectedBrands([]);
+    setPageNumber(1);
     isMobile ? handleFilterToggle() : "";
   };
 
   const handleBrandChange = (brands: string[]) => {
-    dispatch(setBrands(brands));
-    setPage(1);
+    setSelectedBrands(brands);
+    setPageNumber(1);
   };
 
   const handlePriceChange = (priceRange: [number, number]) => {
-    dispatch(setPriceRange(priceRange));
-    setPage(1);
+    setPriceRange(priceRange);
+    setPageNumber(1);
   };
 
   const handleSortChange = (sortBy: SortOption) => {
-    dispatch(setSortBy(sortBy));
-    setPage(1);
+    setSortBy(sortBy);
+    setPageNumber(1);
   };
 
   useEffect(() => {
@@ -90,22 +74,64 @@ const ProductsListing: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo({ top: 450, behavior: "smooth" });
-  }, [page]);
+  }, [pageNumber]);
 
   const {
-    data: products,
-    isLoading,
-    isError,
+    data: productsData,
+    isLoading: productsLoading,
+    isError: productsError,
   } = useQuery({
-    queryKey: ["products"],
-    queryFn: getAllProducts,
+    queryKey: [
+      "products",
+      pageNumber,
+      searchTerm,
+      selectedCategory,
+      selectedBrands,
+      priceRange,
+      sortBy,
+    ],
+    queryFn: () =>
+      getFilteredProducts({
+        page: pageNumber,
+        search: searchTerm,
+        category: selectedCategory,
+        brands: selectedBrands,
+        priceRange,
+        sortBy,
+      }),
   });
 
-  console.log("Backend products", products);
+  const {
+    data: categories,
+    isLoading: categoriesLoading,
+    isError: categoriesError,
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  });
 
-  if (isError) return <div>Error fetching products</div>;
+  const products = productsData?.products || [];
+  const totalProducts = productsData?.total || "";
+  const categoryName =
+    categories && selectedCategory > 0 && categories.length > selectedCategory
+      ? categories[
+          selectedCategory === 1
+            ? 0
+            : categories.findIndex((c: Categories) => c.id === selectedCategory)
+        ].name
+      : "All Products";
+
+  if (categoriesError) return <Typography>Error loading categories</Typography>;
+  if (productsError) return <Typography>Error loading products</Typography>;
+
   return (
-    <Box width="80%" py="30px" margin="auto" sx={{ display: "flex" }}>
+    <Box
+      width="80%"
+      py="30px"
+      margin="auto"
+      sx={{ display: "flex" }}
+      ref={productSectionRef}
+    >
       {!isMobile && (
         <Box
           component="nav"
@@ -117,10 +143,11 @@ const ProductsListing: React.FC = () => {
         >
           <FilterSidebar
             isMobile={false}
-            products={products}
-            selectedCategory={filters.category}
-            selectedBrands={filters.brands}
-            priceRange={filters.priceRange}
+            categories={categories || []}
+            isLoading={categoriesLoading}
+            selectedCategory={selectedCategory}
+            selectedBrands={selectedBrands}
+            priceRange={priceRange}
             onCategoryChange={handleCategoryChange}
             onBrandChange={handleBrandChange}
             onPriceChange={handlePriceChange}
@@ -142,10 +169,11 @@ const ProductsListing: React.FC = () => {
         <FilterSidebar
           isMobile={true}
           onClose={handleFilterToggle}
-          products={products}
-          selectedCategory={filters.category}
-          selectedBrands={filters.brands}
-          priceRange={filters.priceRange}
+          categories={categories || []}
+          isLoading={categoriesLoading}
+          selectedCategory={selectedCategory}
+          selectedBrands={selectedBrands}
+          priceRange={priceRange}
           onCategoryChange={handleCategoryChange}
           onBrandChange={handleBrandChange}
           onPriceChange={handlePriceChange}
@@ -160,10 +188,10 @@ const ProductsListing: React.FC = () => {
         }}
       >
         <ShopHero
-          title={filters.category}
+          title={categoryName}
           subtitle={`${totalProducts} products available`}
           onFilterClick={handleFilterToggle}
-          sortBy={filters.sortBy}
+          sortBy={sortBy}
           onSortChange={handleSortChange}
         />
 
@@ -173,37 +201,48 @@ const ProductsListing: React.FC = () => {
           justifyContent="center"
           alignItems="center"
         >
-          {isLoading
-            ? Array.from(new Array(9)).map((_, index) => (
-                <Grid2
-                  columns={{ xs: 12, sm: 6, md: 4, lg: 3 }}
-                  key={index}
-                  display="flex"
-                  justifyContent="center"
-                >
-                  <CardComponent
-                    isLoading={true}
-                    product={{ id: index } as Product}
-                  />
-                </Grid2>
-              ))
-            : products.map((product: Product) => (
-                <Grid2
-                  columns={{ xs: 12, md: 6, sm: 4 }}
-                  key={product.id}
-                  display="flex"
-                  justifyContent="center"
-                >
-                  <CardComponent isLoading={false} product={product} />
-                </Grid2>
-              ))}
+          {productsLoading ? (
+            Array.from(new Array(9)).map((_, index) => (
+              <Grid2
+                columns={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                key={index}
+                display="flex"
+                justifyContent="center"
+              >
+                <CardComponent
+                  isLoading={true}
+                  product={{ id: index } as Product}
+                />
+              </Grid2>
+            ))
+          ) : products.length > 0 ? (
+            products.map((product: Product) => (
+              <Grid2
+                columns={{ xs: 12, md: 6, sm: 4 }}
+                key={product.id}
+                display="flex"
+                justifyContent="center"
+              >
+                <CardComponent isLoading={false} product={product} />
+              </Grid2>
+            ))
+          ) : (
+            <Box py={5} textAlign="center" width="100%">
+              <Typography variant="h5">
+                No products found matching your criteria
+              </Typography>
+              <Typography variant="body1" color="text.secondary" mt={2}>
+                Try adjusting your filters or search term
+              </Typography>
+            </Box>
+          )}
         </Grid2>
         {totalProducts > 0 && (
           <Box display="flex" justifyContent="center" mt={3}>
             <Stack spacing={2} alignItems="center">
               <Pagination
-                count={Math.ceil(totalProducts / productsPerPage)}
-                page={page}
+                count={Math.ceil(totalProducts / 9)}
+                page={pageNumber}
                 onChange={handlePageChange}
                 variant="outlined"
                 shape="rounded"

@@ -18,6 +18,7 @@ const Categories: React.FC = () => {
     queryKey: ["categories"],
     queryFn: getCategories,
   });
+  console.log("categories", data);
 
   if (isError) return <div>Error: {"Something went wrong"}</div>;
 
@@ -103,13 +104,13 @@ const Categories: React.FC = () => {
                   height="100%"
                   animation="wave"
                 />
-              ) : data && data[3] ? (
+              ) : data && data[4] ? (
                 <NavLink to="/shop">
                   <CategoryItem
-                    onClick={() => handleCategoryClick(data[3].name)}
+                    onClick={() => handleCategoryClick(data[4].name)}
                   >
-                    <img src={data[3].imageUrl} alt={data[3].label} />
-                    <span className="label">{data[3].label}</span>
+                    <img src={data[4].imageUrl} alt={data[4].label} />
+                    <span className="label">{data[4].label}</span>
                   </CategoryItem>
                 </NavLink>
               ) : null}

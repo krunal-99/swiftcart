@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface Review {
   username: string;
   rating: number;
@@ -60,11 +62,12 @@ export type SortOption =
 export interface FilterSidebarProps {
   isMobile: boolean;
   onClose?: () => void;
-  products: Product[];
-  selectedCategory: string;
+  categories: Categories[];
+  isLoading: Boolean;
+  selectedCategory: number;
   selectedBrands: string[];
   priceRange: [number, number];
-  onCategoryChange: (category: string) => void;
+  onCategoryChange: (category: number) => void;
   onBrandChange: (brands: string[]) => void;
   onPriceChange: (range: [number, number]) => void;
 }
@@ -83,6 +86,7 @@ export interface TabPanelProps {
 export interface ShopHeroProps {
   title: string;
   subtitle: string;
+  // selectedCategory: number;
   onFilterClick?: () => void;
   sortBy: string;
   onSortChange: (value: SortOption) => void;
@@ -131,4 +135,46 @@ export interface ShopCardProps {
 
 export interface ListCardProps {
   product: Wishlist;
+}
+
+export interface FilterParams {
+  page?: number;
+  search?: string;
+  category?: number;
+  priceRange?: [number, number];
+  brands?: string[];
+  sortBy?: SortOption;
+}
+
+export interface CarouselComponentProps {
+  carouselData: Product[];
+}
+
+export interface PrivateRouteProps {
+  children: ReactNode;
+  redirectTo?: string;
+}
+
+export interface Brand {
+  id: number;
+  name: string;
+  categoryId: number;
+}
+export interface Categories {
+  id: number;
+  name: string;
+  label: string;
+  imageUrl: string;
+  brands: Brand[];
+}
+
+export interface AuthState {
+  isAuthenticated: boolean;
+  user: {
+    id?: number;
+    name?: string;
+    email?: string;
+    imageUrl?: string;
+  } | null;
+  token: string | null;
 }

@@ -12,25 +12,16 @@ import {
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { FilterSidebarProps } from "../data/types";
-import { getAllBrands, getCategories, getMaxPrice } from "../utils/utils";
+import { getAvailableBrands, getMaxPrice } from "../utils/utils";
 import { useQuery } from "@tanstack/react-query";
+import { Categories, Brand } from "../data/types";
+import { useEffect, useState } from "react";
 
-interface Brand {
-  id: number;
-  name: string;
-  categoryId: number;
-}
-interface Categories {
-  id: number;
-  name: string;
-  label: string;
-  imageUrl: string;
-  brands: Brand[];
-}
 const FilterSidebar: React.FC<FilterSidebarProps> = ({
   isMobile,
   onClose,
-  // products,
+  categories,
+  isLoading,
   selectedCategory,
   selectedBrands,
   priceRange,
@@ -38,30 +29,26 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
   onBrandChange,
   onPriceChange,
 }) => {
-  const {
-    data: categories,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["categories"],
-    queryFn: getCategories,
+  const [localMaxPrice, setLocalMaxPrice] = useState<number>(1000000);
+
+  const { data: maxPriceData } = useQuery({
+    queryKey: ["maxPrice"],
+    queryFn: getMaxPrice,
+    onSuccess: (data) => {
+      setLocalMaxPrice(data || 100000);
+    },
   });
 
-  if (isError) return <div>Something went wrong..!!</div>;
+  useEffect(() => {
+    if (maxPriceData) {
+      setLocalMaxPrice(maxPriceData);
+    }
+  }, [maxPriceData]);
 
-  console.log(categories);
-  // const getAvailableBrands = () => {
-  //   const filteredProducts =
-  //     selectedCategory === "All Categories"
-  //       ? products
-  //       : products.filter((p) => p.category === selectedCategory);
-  //   return Array.from(new Set(filteredProducts.map((p) => p.brand))).sort();
-  // };
-  // const availableBrands = getAvailableBrands();
-  const maxPrice = getMaxPrice();
   const handlePriceChange = (_event: Event, newValue: number | number[]) => {
     onPriceChange(newValue as [number, number]);
   };
+
   const handleBrandToggle = (brand: string) => {
     const newBrands = selectedBrands.includes(brand)
       ? selectedBrands.filter((b) => b !== brand)
@@ -74,13 +61,11 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
     isLoading: brandsLoading,
     isError: brandsError,
   } = useQuery({
-    queryKey: ["brands"],
-    queryFn: getAllBrands,
+    queryKey: ["brands", selectedCategory],
+    queryFn: () => getAvailableBrands(selectedCategory),
   });
 
-  console.log("brands", brands);
-
-  if (brandsError) return <div>Something went wrong</div>;
+  if (brandsError) return <div>Something went wrong loading brands.</div>;
 
   const skeletonItems = Array(9).fill(null);
   return (
@@ -127,10 +112,10 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
                 sx={{
                   py: 0.5,
                   color:
-                    selectedCategory === category.name ? "#23a6f0" : "inherit",
+                    selectedCategory === category.id ? "#23a6f0" : "inherit",
                   cursor: "pointer",
                 }}
-                onClick={() => onCategoryChange(category.name)}
+                onClick={() => onCategoryChange(category.id)}
               >
                 {category.name === "All Categories" && <ArrowBackIosIcon />}
                 <ListItemText
@@ -139,7 +124,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
                     "& .MuiTypography-root": {
                       fontSize: "0.9rem",
                       fontWeight:
-                        selectedCategory === category.name ? "bold" : "normal",
+                        selectedCategory === category.id ? "bold" : "normal",
                     },
                   }}
                 />
@@ -155,7 +140,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
         onChange={handlePriceChange}
         valueLabelDisplay="off"
         min={0}
-        max={maxPrice}
+        max={localMaxPrice}
         sx={{
           width: "90%",
           mx: "auto",

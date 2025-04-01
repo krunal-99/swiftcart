@@ -1,12 +1,7 @@
-import { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../main";
 import { Navigate } from "react-router-dom";
-
-interface PrivateRouteProps {
-  children: ReactNode;
-  redirectTo?: string;
-}
+import { PrivateRouteProps } from "../data/types";
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({
   children,

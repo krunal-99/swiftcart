@@ -22,7 +22,6 @@ const ShopHero: React.FC<ShopHeroProps> = ({
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-
   const handleChange = (event: SelectChangeEvent) => {
     onSortChange(event.target.value as SortOption);
   };

@@ -5,17 +5,13 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Product } from "../data/types";
+import { CarouselComponentProps } from "../data/types";
 
 const responsive = {
   desktop: { breakpoint: { max: 3000, min: 1024 }, items: 1 },
   tablet: { breakpoint: { max: 1024, min: 768 }, items: 1 },
   mobile: { breakpoint: { max: 768, min: 0 }, items: 1 },
 };
-
-interface CarouselComponentProps {
-  carouselData: Product[];
-}
 
 const CarouselComponent: React.FC<CarouselComponentProps> = ({
   carouselData = [],

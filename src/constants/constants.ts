@@ -7,3 +7,5 @@ export const AboutPath = "/about";
 export const ProductPath = "/product/:id";
 export const ShopPath = "/shop";
 export const WishlistPath = "/wishlist";
+export const ProfilePath = "/profile";
+export const CheckOutPath = "/checkout";

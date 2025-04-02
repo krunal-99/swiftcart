@@ -185,3 +185,18 @@ export type contactUser = {
   subject?: string;
   message?: string;
 };
+
+export interface ProfileInfoProps {
+  user: {
+    name: string;
+    email: string;
+    imageUrl: string;
+    address?: {
+      street: string;
+      city: string;
+      state: string;
+      pincode: string;
+      country: string;
+    };
+  };
+}

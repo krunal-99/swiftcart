@@ -117,32 +117,6 @@ export const getFilteredProducts = async ({
   }
 };
 
-export const getBrandByCategoryId = async (id: number) => {
-  try {
-    const response = await fetch(`${API_URL}/brands/${id}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch product: ${response.statusText}`);
-    }
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    throw new Error(`${error}`);
-  }
-};
-
-export const getAllBrands = async () => {
-  try {
-    const response = await fetch(`${API_URL}/brands`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch product: ${response.statusText}`);
-    }
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    throw new Error(`${error}`);
-  }
-};
-
 export const getAvailableBrands = async (categoryId: number) => {
   try {
     const response = await fetch(`${API_URL}/brands?category=${categoryId}`);

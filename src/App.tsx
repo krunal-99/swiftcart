@@ -17,16 +17,20 @@ import Wishlist from "./pages/Wishlist";
 import {
   AboutPath,
   CartPath,
+  CheckOutPath,
   ContactPath,
   HomePath,
   LoginPath,
   ProductPath,
+  ProfilePath,
   RegisterPath,
   ShopPath,
   WishlistPath,
 } from "./constants/constants";
 import PrivateRoute, { AuthRoute } from "./components/PrivateRoute";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Profile from "./pages/Profile";
+import Checkout from "./pages/CheckOut";
 
 const theme = createTheme({
   typography: {
@@ -90,6 +94,11 @@ function App() {
             </PrivateRoute>
           ),
         },
+        {
+          path: ProfilePath,
+          element: <Profile />,
+        },
+        { path: CheckOutPath, element: <Checkout /> },
       ],
     },
   ]);

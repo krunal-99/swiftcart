@@ -14,7 +14,7 @@ import ShopHero from "./ShopHero";
 import CardComponent from "../components/CardComponent";
 import { useLocation } from "react-router-dom";
 import { Product, SortOption } from "../data/types";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCategories, getFilteredProducts } from "../utils/utils";
 import { Categories } from "../data/types";
 
@@ -25,6 +25,7 @@ const ProductsListing: React.FC = () => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000000]);
   const [sortBy, setSortBy] = useState<SortOption>("popularity");
+  const queryClient = useQueryClient();
 
   const appTheme = useTheme();
   const isMobile = useMediaQuery(appTheme.breakpoints.down("md"));
@@ -64,6 +65,7 @@ const ProductsListing: React.FC = () => {
   const handleSortChange = (sortBy: SortOption) => {
     setSortBy(sortBy);
     setPageNumber(1);
+    queryClient.invalidateQueries(["products"]);
   };
 
   useEffect(() => {

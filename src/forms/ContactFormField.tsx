@@ -6,22 +6,15 @@ import emailjs from "@emailjs/browser";
 import { handleError, handleSuccess } from "../utils/utils";
 import { useSelector } from "react-redux";
 import { RootState } from "../main";
+import { contactUser } from "../data/types";
 
 const ContactFormField = () => {
   const form = useRef<HTMLFormElement>(null);
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
-  ) as { isAuthenticated: boolean; user: User | null };
+  ) as { isAuthenticated: boolean; user: contactUser | null };
 
-  type User = {
-    name?: string;
-    email?: string;
-    phone?: number;
-    subject?: string;
-    message?: string;
-  };
-
-  const isValidField = (field: string): field is keyof User =>
+  const isValidField = (field: string): field is keyof contactUser =>
     user !== null && field in user;
 
   const sendEmail = (e: FormEvent<HTMLFormElement>) => {
@@ -61,7 +54,7 @@ const ContactFormField = () => {
             <TextField
               value={
                 isAuthenticated && user && isValidField(contact.field)
-                  ? user[contact.field as keyof User] ?? ""
+                  ? user[contact.field as keyof contactUser] ?? ""
                   : ""
               }
               fullWidth

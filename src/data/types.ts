@@ -86,7 +86,6 @@ export interface TabPanelProps {
 export interface ShopHeroProps {
   title: string;
   subtitle: string;
-  // selectedCategory: number;
   onFilterClick?: () => void;
   sortBy: string;
   onSortChange: (value: SortOption) => void;
@@ -178,3 +177,11 @@ export interface AuthState {
   } | null;
   token: string | null;
 }
+
+export type contactUser = {
+  name?: string;
+  email?: string;
+  phone?: number;
+  subject?: string;
+  message?: string;
+};

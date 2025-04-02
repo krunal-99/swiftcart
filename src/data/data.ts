@@ -1,4 +1,3 @@
-import { products } from "./productData";
 import { assets } from "../assets";
 
 export const companies = [
@@ -43,18 +42,6 @@ export const posts = [
   },
 ];
 
-export const categories = [
-  "All Categories",
-  "Men's clothing",
-  "Women's clothing",
-  "Kid's clothing",
-  "Footwear",
-  "Watches",
-  "Electronics",
-  "Jewellery",
-  "Hand bags",
-];
-
 export const footerLinks = [
   {
     title: "Company Info",
@@ -97,12 +84,6 @@ export const team = [
   },
 ];
 
-export const singleProductData = {
-  imageUrl: products[35].imageUrls[0],
-  title: products[35].title,
-  desc: products[35].shortDescription,
-};
-
 export const usersInfo = [
   { number: "15K", tag: "Happy Customers" },
   { number: "150K", tag: "Monthly Visitors" },
@@ -131,6 +112,12 @@ export const shopCarouselResponsive = {
     items: 1,
     slidesToSlide: 1,
   },
+};
+
+export const carouselResponsive = {
+  desktop: { breakpoint: { max: 3000, min: 1024 }, items: 1 },
+  tablet: { breakpoint: { max: 1024, min: 768 }, items: 1 },
+  mobile: { breakpoint: { max: 768, min: 0 }, items: 1 },
 };
 
 export const contactFormData = [

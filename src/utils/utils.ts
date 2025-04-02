@@ -90,6 +90,7 @@ export const getFilteredProducts = async ({
   brands = [],
   sortBy = "popularity",
 }: FilterParams) => {
+  console.log("Sorting By:", sortBy);
   const query = new URLSearchParams({
     page: page.toString(),
     limit: "9",
@@ -158,7 +159,7 @@ export const getAvailableBrands = async (categoryId: number) => {
 
 export const getMaxPrice = async () => {
   try {
-    const response = await fetch(`${API_URL}/max-price`);
+    const response = await fetch(`${API_URL}/products/max-price`);
     if (!response.ok) {
       throw new Error(`Failed to fetch max price: ${response.statusText}`);
     }

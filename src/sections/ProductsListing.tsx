@@ -17,64 +17,24 @@ import { Product, SortOption } from "../data/types";
 import { useQuery } from "@tanstack/react-query";
 import { getCategories, getFilteredProducts } from "../utils/utils";
 import { Categories } from "../data/types";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCategory, setCategory } from "../store/productSlice";
 
 const ProductsListing: React.FC = () => {
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [pageNumber, setPageNumber] = useState<number>(1);
-  const [selectedCategory, setSelectedCategory] = useState<number>(1);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000000]);
   const [sortBy, setSortBy] = useState<SortOption>("popularity");
 
+  const selectedCategory = useSelector(selectCategory);
+  const dispatch = useDispatch();
   const appTheme = useTheme();
   const isMobile = useMediaQuery(appTheme.breakpoints.down("md"));
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const searchTerm = queryParams.get("search")?.toLowerCase() || "";
   const productSectionRef = useRef<HTMLDivElement>(null);
-
-  const handleFilterToggle = () => {
-    setMobileFilterOpen((prev) => !prev);
-  };
-
-  const handlePageChange = (
-    _event: React.ChangeEvent<unknown>,
-    value: number
-  ) => {
-    setPageNumber(value);
-  };
-
-  const handleCategoryChange = (category: number) => {
-    setSelectedCategory(category);
-    setSelectedBrands([]);
-    setPageNumber(1);
-    isMobile ? handleFilterToggle() : "";
-  };
-
-  const handleBrandChange = (brands: string[]) => {
-    setSelectedBrands(brands);
-    setPageNumber(1);
-  };
-
-  const handlePriceChange = (priceRange: [number, number]) => {
-    setPriceRange(priceRange);
-    setPageNumber(1);
-  };
-
-  const handleSortChange = (sortBy: SortOption) => {
-    setSortBy(sortBy);
-    setPageNumber(1);
-  };
-
-  useEffect(() => {
-    if (searchTerm && productSectionRef.current) {
-      productSectionRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [searchTerm]);
-
-  useEffect(() => {
-    window.scrollTo({ top: 450, behavior: "smooth" });
-  }, [pageNumber]);
 
   const {
     data: productsData,
@@ -119,11 +79,45 @@ const ProductsListing: React.FC = () => {
             ? 0
             : categories.findIndex((c: Categories) => c.id === selectedCategory)
         ].name
-      : "All Products";
+      : "Hand Bags";
 
+  const handleFilterToggle = () => {
+    setMobileFilterOpen((prev) => !prev);
+  };
+
+  const handlePageChange = (
+    _event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPageNumber(value);
+  };
+
+  const handleBrandChange = (brands: string[]) => {
+    setSelectedBrands(brands);
+    setPageNumber(1);
+  };
+
+  const handlePriceChange = (priceRange: [number, number]) => {
+    setPriceRange(priceRange);
+    setPageNumber(1);
+  };
+
+  const handleSortChange = (sortBy: SortOption) => {
+    setSortBy(sortBy);
+    setPageNumber(1);
+  };
+
+  useEffect(() => {
+    if (searchTerm && productSectionRef.current) {
+      productSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [searchTerm]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 450, behavior: "smooth" });
+  }, [pageNumber, categoryName]);
   if (categoriesError) return <Typography>Error loading categories</Typography>;
   if (productsError) return <Typography>Error loading products</Typography>;
-
   return (
     <Box
       width="80%"
@@ -148,7 +142,7 @@ const ProductsListing: React.FC = () => {
             selectedCategory={selectedCategory}
             selectedBrands={selectedBrands}
             priceRange={priceRange}
-            onCategoryChange={handleCategoryChange}
+            onCategoryChange={(category) => dispatch(setCategory(category))}
             onBrandChange={handleBrandChange}
             onPriceChange={handlePriceChange}
           />
@@ -174,7 +168,7 @@ const ProductsListing: React.FC = () => {
           selectedCategory={selectedCategory}
           selectedBrands={selectedBrands}
           priceRange={priceRange}
-          onCategoryChange={handleCategoryChange}
+          onCategoryChange={(category) => dispatch(setCategory(category))}
           onBrandChange={handleBrandChange}
           onPriceChange={handlePriceChange}
         />

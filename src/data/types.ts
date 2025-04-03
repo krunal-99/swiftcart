@@ -18,13 +18,9 @@ export interface Cart {
 
 export interface Wishlist {
   id: number;
-  imageUrl: string;
-  title: string;
-  type: string;
-  originalPrice: number;
-  salePrice: number;
-  colors: string[];
-  listQuantity: number;
+  product: Product;
+  productId: number;
+  userId: number;
 }
 
 export interface Product {
@@ -104,14 +100,9 @@ export interface cartItemsSchema {
 }
 
 export interface ProductState {
-  items: Product[];
-  filters: FilterState;
-  searchTerm: string;
-}
-
-export interface wishListType {
-  list: Wishlist[];
-  listQuantity: number;
+  category: number;
+  brands: string[];
+  filteredProducts: Product[];
 }
 
 export interface ProductCardProps {
@@ -133,7 +124,7 @@ export interface ShopCardProps {
 }
 
 export interface ListCardProps {
-  product: Wishlist;
+  item?: Wishlist;
 }
 
 export interface FilterParams {
@@ -187,7 +178,7 @@ export type contactUser = {
 };
 
 export interface ProfileInfoProps {
-  user: {
+  userData: {
     name: string;
     email: string;
     imageUrl: string;
@@ -199,4 +190,13 @@ export interface ProfileInfoProps {
       country: string;
     };
   };
+}
+
+export interface JWTPayload {
+  id: string;
+  name: string;
+  email: string;
+  imageUrl: string;
+  iat: number;
+  exp: number;
 }

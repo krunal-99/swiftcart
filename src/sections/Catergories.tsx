@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const Categories: React.FC = () => {
   const dispatch = useDispatch();
-  const handleCategoryClick = (category: string) => {
+  const handleCategoryClick = (category: number) => {
     dispatch(setCategory(category));
     dispatch(setBrands([]));
   };
@@ -18,7 +18,6 @@ const Categories: React.FC = () => {
     queryKey: ["categories"],
     queryFn: getCategories,
   });
-  console.log("categories", data);
 
   if (isError) return <div>Error: {"Something went wrong"}</div>;
 

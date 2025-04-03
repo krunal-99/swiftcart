@@ -4,31 +4,17 @@ import ShopCard from "./ShopCard";
 import { Box, Container, IconButton, Paper } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectFilteredProducts,
-  setBrands,
-  setCategory,
-} from "../store/productSlice";
+import { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { setBrands, setCategory } from "../store/productSlice";
 import { shopCarouselResponsive } from "../data/data";
 import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "../utils/utils";
 import { shopCardData } from "../data/types";
 
 const ShopCarousel = () => {
-  const filteredProducts = useSelector(selectFilteredProducts);
-  useEffect(() => {
-    window.scrollTo({ top: 450, behavior: "smooth" });
-  }, [filteredProducts]);
-
   const carouselRef = useRef<any>(null);
   const dispatch = useDispatch();
-
-  const handleCategoryClick = (category: string) => {
-    dispatch(setCategory(category));
-    dispatch(setBrands([]));
-  };
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["categories"],
@@ -36,8 +22,12 @@ const ShopCarousel = () => {
   });
 
   if (isError) return <div>Error: {"Something went wrong"}</div>;
-
   const skeletonItems = Array(5).fill(null);
+
+  const handleCategoryClick = (category: number) => {
+    dispatch(setCategory(category));
+    dispatch(setBrands([]));
+  };
 
   return (
     <Box width="100%" padding="30px 0" position="relative">
@@ -101,7 +91,7 @@ const ShopCarousel = () => {
                   isLoading={false}
                   key={item.id}
                   data={item}
-                  onClick={() => handleCategoryClick(item.name)}
+                  onClick={() => handleCategoryClick(item.id)}
                 />
               ))}
         </Carousel>

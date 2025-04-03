@@ -25,7 +25,6 @@ interface Summary {
   items: SummaryItem[];
   subtotal: number;
   shipping: number;
-  tax: number;
   total: number;
 }
 
@@ -36,7 +35,7 @@ const OrderSummary = ({
   summary: Summary;
   loading: boolean;
 }) => {
-  const { items, subtotal, shipping, tax, total } = summary;
+  const { items, subtotal, shipping, total } = summary;
 
   return (
     <Card
@@ -126,10 +125,6 @@ const OrderSummary = ({
               <TableRow>
                 <TableCell>Shipping</TableCell>
                 <TableCell align="right">${shipping.toFixed(2)}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Tax</TableCell>
-                <TableCell align="right">${tax.toFixed(2)}</TableCell>
               </TableRow>
             </TableBody>
             <TableFooter>

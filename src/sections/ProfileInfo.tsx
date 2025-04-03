@@ -21,25 +21,29 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+import { RootState } from "../main";
 
-const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
+const ProfileInfo: React.FC<ProfileInfoProps> = ({ userData }) => {
   const [formData, setFormData] = useState({
-    name: user.name,
-    email: user.email,
+    name: userData.name,
+    email: userData.email,
     password: "",
     confirmPassword: "",
-    street: user.address?.street || "",
-    city: user.address?.city || "",
-    state: user.address?.state || "",
-    pincode: user.address?.pincode || "",
-    country: user.address?.country || "India",
+    street: userData.address?.street || "",
+    city: userData.address?.city || "",
+    state: userData.address?.state || "",
+    pincode: userData.address?.pincode || "",
+    country: userData.address?.country || "India",
   });
   const [editMode, setEditMode] = useState(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string>(user.imageUrl);
+  const [imagePreview, setImagePreview] = useState<string>(userData.imageUrl);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isUploading, setIsUploading] = useState<Boolean>(false);
+
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -124,13 +128,21 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
           </Box>
           <Box mb={4} display="flex" flexDirection="column" alignItems="center">
             <Box position="relative">
-              <Avatar
-                src={imagePreview}
-                alt={formData.name}
-                sx={{ width: 96, height: 96, marginBottom: 2 }}
-              >
-                {formData.name.charAt(0)}
-              </Avatar>
+              {user?.imageUrl ? (
+                <Avatar
+                  src={`${user.imageUrl}`}
+                  alt={user?.name}
+                  sx={{ width: 120, height: 120, mb: 2 }}
+                ></Avatar>
+              ) : (
+                <Avatar
+                  src={imagePreview}
+                  alt={formData.name}
+                  sx={{ width: 96, height: 96, mb: 2 }}
+                >
+                  {formData.name.charAt(0)}
+                </Avatar>
+              )}
               {isUploading && (
                 <Box
                   position="absolute"
@@ -166,7 +178,11 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
               variant="body2"
               sx={{ color: "grey.500", marginTop: 1 }}
             >
-              {editMode ? "JPG, PNG or GIF (max. 2MB)" : "Profile Picture"}
+              {editMode
+                ? "JPG, PNG or GIF (max. 2MB)"
+                : user?.name
+                ? user.name
+                : "Profile Picture"}
             </Typography>
           </Box>
           <Box
@@ -183,7 +199,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
               <TextField
                 id="name"
                 name="name"
-                value={formData.name}
+                value={user?.name ? user.name : formData.name}
                 onChange={handleInputChange}
                 required
                 disabled={!editMode}
@@ -200,7 +216,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ user }) => {
                 id="email"
                 name="email"
                 type="email"
-                value={formData.email}
+                value={user?.email ? user.email : formData.email}
                 onChange={handleInputChange}
                 required
                 disabled={!editMode}

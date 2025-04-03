@@ -90,7 +90,6 @@ export const getFilteredProducts = async ({
   brands = [],
   sortBy = "popularity",
 }: FilterParams) => {
-  console.log("Sorting By:", sortBy);
   const query = new URLSearchParams({
     page: page.toString(),
     limit: "9",
@@ -126,7 +125,6 @@ export const getAvailableBrands = async (categoryId: number) => {
     const result = await response.json();
     return result.data;
   } catch (error) {
-    console.log("Error fetching brands: ", error);
     throw error;
   }
 };
@@ -142,5 +140,18 @@ export const getMaxPrice = async () => {
   } catch (error) {
     console.error("Error fetching max price:", error);
     return 100000;
+  }
+};
+
+export const getWishListItems = async (userId: number) => {
+  try {
+    const response = await fetch(`${API_URL}/wishlist/${userId}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch wishlist: ${response.statusText}`);
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (error) {
+    console.error("Error fetching wishlist items");
   }
 };

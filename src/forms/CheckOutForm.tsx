@@ -10,10 +10,7 @@ import {
   FormControlLabel,
   Collapse,
 } from "@mui/material";
-import {
-  LocalShipping as TruckIcon,
-  LocationOn as MapPinIcon,
-} from "@mui/icons-material";
+import { LocalShipping as TruckIcon } from "@mui/icons-material";
 
 interface CheckoutFormProps {
   onSubmit: (formData: Record<string, any>) => void;
@@ -22,23 +19,13 @@ interface CheckoutFormProps {
 
 const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
   const [formData, setFormData] = useState({
-    email: "",
-    phone: "",
     firstName: "",
     lastName: "",
     address: "",
     city: "",
     state: "",
-    zipCode: "",
+    pincode: "",
     country: "",
-    sameAsShipping: true,
-    billingAddress: "",
-    billingCity: "",
-    billingState: "",
-    billingZipCode: "",
-    billingCountry: "",
-    notes: "",
-    saveInformation: false,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +49,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
         display: "flex",
         flexDirection: "column",
         gap: 3,
-        maxWidth: 600,
+        maxWidth: 700,
         mx: "auto",
         p: 3,
         bgcolor: "background.paper",
@@ -70,32 +57,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
         boxShadow: 3,
       }}
     >
-      <Card sx={{ borderRadius: 2, boxShadow: 2 }}>
-        <CardHeader
-          title="Contact Information"
-          subheader="How can we reach you regarding your order?"
-          avatar={<MapPinIcon color="primary" />}
-        />
-        <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <TextField
-            label="Email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            fullWidth
-            required
-          />
-          <TextField
-            label="Phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            fullWidth
-            required
-          />
-        </CardContent>
-      </Card>
-
       <Card sx={{ borderRadius: 2, boxShadow: 2 }}>
         <CardHeader
           title="Shipping Information"
@@ -136,18 +97,18 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
               required
             />
             <TextField
-              label="State/Province"
-              name="state"
-              value={formData.state}
+              label="Pincode"
+              name="pinode"
+              value={formData.pincode}
               onChange={handleChange}
               required
             />
           </Box>
           <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 2 }}>
             <TextField
-              label="Zip Code"
-              name="zipCode"
-              value={formData.zipCode}
+              label="State"
+              name="state"
+              value={formData.state}
               onChange={handleChange}
               required
             />
@@ -159,25 +120,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
               required
             />
           </Box>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={formData.sameAsShipping}
-                onChange={handleChange}
-                name="sameAsShipping"
-              />
-            }
-            label="Billing address is the same as shipping address"
-          />
-          <Collapse in={!formData.sameAsShipping}>
-            <TextField
-              label="Billing Address"
-              name="billingAddress"
-              value={formData.billingAddress}
-              onChange={handleChange}
-              fullWidth
-            />
-          </Collapse>
         </CardContent>
       </Card>
 

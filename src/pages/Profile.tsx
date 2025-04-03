@@ -21,12 +21,14 @@ import PersonIcon from "@mui/icons-material/Person";
 import { handleSuccess } from "../utils/utils";
 import ProfileInfo from "../sections/ProfileInfo";
 import OrderHistory from "../sections/OrderHistory";
+import { useSelector } from "react-redux";
+import { RootState } from "../main";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
   const isMobile = useMediaQuery("(max-width:640px)");
 
-  const user = {
+  const userData = {
     name: "Krunal Pokar",
     email: "kp488680@gmail.com",
     imageUrl:
@@ -40,6 +42,8 @@ const Profile = () => {
   const handleLogout = () => {
     handleSuccess("Logout successfully.");
   };
+
+  const { user } = useSelector((state: RootState) => state.auth);
   return (
     <Container maxWidth="lg" sx={{ py: 4, minHeight: "100vh", mt: "60px" }}>
       <NavLink
@@ -69,8 +73,8 @@ const Profile = () => {
             gap={2}
           >
             <Avatar
-              src={user.imageUrl}
-              alt={user.name}
+              src={user?.imageUrl}
+              alt={user?.name}
               sx={{
                 width: 80,
                 height: 80,
@@ -80,10 +84,10 @@ const Profile = () => {
             />
             <Box color="white" textAlign={{ xs: "center", sm: "left" }}>
               <Typography variant="h4" fontWeight="bold" mb={1}>
-                {user.name}
+                {user?.name}
               </Typography>
               <Typography variant="body1" sx={{ opacity: 0.9 }} mb={2}>
-                {user.email}
+                {user?.email}
               </Typography>
             </Box>
           </Box>
@@ -112,7 +116,7 @@ const Profile = () => {
         </Box>
       </Box>
       <div role="tabpanel" hidden={activeTab !== 0}>
-        {activeTab === 0 && <ProfileInfo user={user} />}
+        {activeTab === 0 && <ProfileInfo userData={userData} />}
       </div>
       <div role="tabpanel" hidden={activeTab !== 1}>
         {activeTab === 1 && <OrderHistory />}

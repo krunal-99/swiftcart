@@ -24,14 +24,13 @@ const LoginForm: React.FC = () => {
   const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
   const formRef = useRef<HTMLFormElement>(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setLoginInfo((prev) => ({ ...prev, [name]: value }));
   };
-
-  const dispatch = useDispatch();
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -59,13 +58,12 @@ const LoginForm: React.FC = () => {
       }
 
       const result = await response.json();
-      const { status, data, token, imageUrl, name } = result;
 
-      if (status === "failed") {
-        handleError(`${data}`);
-      } else if (status === "success") {
-        handleSuccess(`${data}`);
-        dispatch(login({ user: { email, imageUrl, name }, token }));
+      if (result.status === "failed") {
+        handleError(`${result.data}`);
+      } else {
+        handleSuccess(`${result.data}`);
+        dispatch(login({ user: result.user, token: result.token }));
         navigate("/", { replace: true });
         formRef.current?.reset();
         setLoginInfo({ email: "", password: "" });

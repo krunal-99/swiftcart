@@ -58,7 +58,9 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const settings = isAuthenticated ? ["LOGOUT"] : ["REGISTER", "LOGIN"];
+  const settings = isAuthenticated
+    ? ["PROFILE", "LOGOUT"]
+    : ["REGISTER", "LOGIN"];
   const handleDrawerClose = () => {
     setDrawerOpen(false);
   };

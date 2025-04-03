@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Wishlist, wishListType } from "../data/types";
+import { Wishlist } from "../data/types";
 import { handleError, handleSuccess } from "../utils/utils";
 
 const storedWishlist = localStorage.getItem("wishlist");
@@ -7,7 +7,7 @@ const parsedWishlist: Wishlist[] = storedWishlist
   ? JSON.parse(storedWishlist)
   : [];
 
-const initialState: wishListType = {
+const initialState = {
   list: parsedWishlist,
   listQuantity: parsedWishlist.length,
 };

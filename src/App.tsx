@@ -30,7 +30,10 @@ import {
 import PrivateRoute, { AuthRoute } from "./components/PrivateRoute";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Profile from "./pages/Profile";
-import Checkout from "./pages/CheckOut";
+import Checkout from "./pages/Checkout";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { restoreUserSession } from "./store/authSlice";
 
 const theme = createTheme({
   typography: {
@@ -39,6 +42,12 @@ const theme = createTheme({
 });
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(restoreUserSession());
+  }, [dispatch]);
+
   const router = createBrowserRouter([
     {
       path: HomePath,
@@ -96,7 +105,11 @@ function App() {
         },
         {
           path: ProfilePath,
-          element: <Profile />,
+          element: (
+            <PrivateRoute>
+              <Profile />,
+            </PrivateRoute>
+          ),
         },
         { path: CheckOutPath, element: <Checkout /> },
       ],

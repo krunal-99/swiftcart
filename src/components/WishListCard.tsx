@@ -10,15 +10,30 @@ import {
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { NavLink } from "react-router-dom";
-import { ListCardProps } from "../data/types";
-import { useDispatch, useSelector } from "react-redux";
+import { ListCardProps, Wishlist } from "../data/types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { removeFromWishlist } from "../utils/utils";
 import { RootState } from "../main";
-import { removeFromList } from "../store/wishListSlice";
+import { useSelector } from "react-redux";
 
 const WishListCard: React.FC<ListCardProps> = (props) => {
-  const wishlist = useSelector((state: RootState) => state.wishlist.list);
-  const listItem = wishlist.find((item) => item.id === Number(props.item?.id));
-  const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.auth);
+  const queryClient = useQueryClient();
+
+  const removeMutation = useMutation({
+    mutationFn: (id: number) => removeFromWishlist(id),
+    onSuccess: (data, id) => {
+      queryClient.setQueryData(
+        ["wishlist", user?.id],
+        (wishlistData: Wishlist[] | undefined) => {
+          if (!wishlistData) return [];
+
+          return wishlistData.filter((item) => item.id !== id);
+        }
+      );
+    },
+  });
+
   return (
     <Card
       sx={{
@@ -32,7 +47,11 @@ const WishListCard: React.FC<ListCardProps> = (props) => {
       {props.item ? (
         <>
           <IconButton
-            onClick={() => dispatch(removeFromList(listItem))}
+            onClick={() => {
+              if (props.item?.id) {
+                removeMutation.mutate(props.item?.id);
+              }
+            }}
             sx={{
               position: "absolute",
               top: 8,

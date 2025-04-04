@@ -18,7 +18,6 @@ const Categories: React.FC = () => {
     queryKey: ["categories"],
     queryFn: getCategories,
   });
-
   if (isError) return <div>Error: {"Something went wrong"}</div>;
 
   return (
@@ -50,7 +49,7 @@ const Categories: React.FC = () => {
             />
           ) : data && data[1] ? (
             <NavLink to="/shop">
-              <CategoryItem onClick={() => handleCategoryClick(data[1].name)}>
+              <CategoryItem onClick={() => handleCategoryClick(data[1].id)}>
                 <img src={data[1].imageUrl} alt={data[1].label} />
                 <span className="label">{data[1].label}</span>
               </CategoryItem>
@@ -67,7 +66,7 @@ const Categories: React.FC = () => {
             />
           ) : data && data[2] ? (
             <NavLink to="/shop">
-              <CategoryItem onClick={() => handleCategoryClick(data[2].name)}>
+              <CategoryItem onClick={() => handleCategoryClick(data[2].id)}>
                 <img src={data[2].imageUrl} alt={data[2].label} />
                 <span className="label">{data[2].label}</span>
               </CategoryItem>
@@ -86,9 +85,7 @@ const Categories: React.FC = () => {
                 />
               ) : data && data[3] ? (
                 <NavLink to="/shop">
-                  <CategoryItem
-                    onClick={() => handleCategoryClick(data[3].name)}
-                  >
+                  <CategoryItem onClick={() => handleCategoryClick(data[3].id)}>
                     <img src={data[3].imageUrl} alt={data[3].label} />
                     <span className="label">{data[3].label}</span>
                   </CategoryItem>
@@ -105,9 +102,7 @@ const Categories: React.FC = () => {
                 />
               ) : data && data[4] ? (
                 <NavLink to="/shop">
-                  <CategoryItem
-                    onClick={() => handleCategoryClick(data[4].name)}
-                  >
+                  <CategoryItem onClick={() => handleCategoryClick(data[4].id)}>
                     <img src={data[4].imageUrl} alt={data[4].label} />
                     <span className="label">{data[4].label}</span>
                   </CategoryItem>

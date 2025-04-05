@@ -65,6 +65,24 @@ const ContactFormField = () => {
             />
           </Grid>
         ))}
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            label="Phone Number"
+            name="phone"
+            variant="outlined"
+            required
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            label="Subject"
+            name="subject"
+            variant="outlined"
+            required
+          />
+        </Grid>
         <Grid item xs={12}>
           <TextField
             fullWidth

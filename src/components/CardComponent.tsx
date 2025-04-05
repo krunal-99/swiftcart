@@ -14,24 +14,28 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useSelector } from "react-redux";
 import { RootState } from "../main";
-import { addToWishlist, getWishListItems } from "../utils/utils";
+import {
+  addToWishlist,
+  getWishListItems,
+  removeFromWishlist,
+} from "../utils/utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const CardComponent: React.FC<ProductCardProps> = (props) => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const { data: wishlist = [] } = useQuery({
-    queryKey: ["wishlist", user?.id],
-    queryFn: () =>
-      user?.id
-        ? getWishListItems(user.id)
-        : Promise.reject("User ID is undefined"),
-    enabled: !!user?.id,
-  });
-  const isInWishlist = wishlist.some(
-    (item: Wishlist) => item.id === props.product.id
-  );
-  console.log(isInWishlist);
   const queryClient = useQueryClient();
+
+  const { data: wishlist = [], isLoading: isWishlistLoading } = useQuery<
+    Wishlist[]
+  >({
+    queryKey: ["wishlist", user?.id],
+    queryFn: () => getWishListItems(user?.id as number),
+  });
+
+  const isInWishList: boolean = wishlist.some(
+    (item) => item.productId === props.product.id
+  );
+
   const addMutation = useMutation({
     mutationFn: ({
       userId,
@@ -40,10 +44,40 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
       userId: number;
       productId: number;
     }) => addToWishlist(userId, productId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["wishlist", user?.id] });
+    onSuccess: (newItem) => {
+      queryClient.setQueryData<Wishlist[]>(
+        ["wishlist", user?.id],
+        (old = []) => [...old, newItem]
+      );
     },
   });
+
+  const removeMutation = useMutation<void, Error, number>({
+    mutationFn: (wishlistId) => removeFromWishlist(wishlistId),
+    onSuccess: () => {
+      queryClient.setQueryData<Wishlist[]>(["wishlist", user?.id], (old = []) =>
+        old.filter((item) => item.productId !== props.product.id)
+      );
+    },
+  });
+
+  const handleWishlistToggle = (): void => {
+    if (user?.id || isInWishList) return;
+
+    if (isInWishList) {
+      const wishlistItem = wishlist.find(
+        (item) => item.productId === props.product.id
+      );
+      if (wishlistItem?.id) {
+        removeMutation.mutate(wishlistItem.id);
+      }
+    } else {
+      addMutation.mutate({
+        userId: user?.id!,
+        productId: props.product.id,
+      });
+    }
+  };
 
   return (
     <Card
@@ -58,14 +92,12 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
     >
       {!props.isLoading && (
         <IconButton
-          onClick={() => {
-            if (user?.id) {
-              addMutation.mutate({
-                userId: user.id,
-                productId: props.product.id,
-              });
-            }
-          }}
+          onClick={handleWishlistToggle}
+          disabled={
+            addMutation.isLoading ||
+            removeMutation.isLoading ||
+            isWishlistLoading
+          }
           sx={{
             position: "absolute",
             top: 8,
@@ -78,7 +110,7 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
             transition: "all 0.2s ease-in-out",
           }}
         >
-          {isInWishlist ? (
+          {isInWishList ? (
             <FavoriteIcon sx={{ color: "#ff0000" }} />
           ) : (
             <FavoriteBorderIcon sx={{ color: "#252b42" }} />

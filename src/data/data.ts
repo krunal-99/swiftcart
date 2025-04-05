@@ -123,8 +123,6 @@ export const carouselResponsive = {
 export const contactFormData = [
   { label: "Your Name", field: "name" },
   { label: "Email Address", field: "email" },
-  { label: "Phone Number", field: "phone" },
-  { label: "Subject", field: "subject" },
 ];
 
 export const registerFormFields = [{ id: "name" }, { id: "email" }];

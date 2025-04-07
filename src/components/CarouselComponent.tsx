@@ -25,6 +25,8 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  console.log("carouselData", carouselData);
   const CustomDot = ({ onClick, active }: any) => {
     return (
       <Box
@@ -145,7 +147,7 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({
                 ₹ {item.salePrice}
               </Typography>
             )}
-            <NavLink to="/shop">
+            <NavLink to={`product/${item.id}`}>
               <Button
                 sx={{
                   backgroundColor: "#2dc071",

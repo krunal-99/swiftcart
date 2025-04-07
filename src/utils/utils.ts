@@ -158,6 +158,10 @@ export const getWishListItems = async (userId: number) => {
 
 export const addToWishlist = async (userId: number, productId: number) => {
   try {
+    if (!userId) {
+      handleError("Please login to add to wishlist");
+      return;
+    }
     const response = await fetch(`${API_URL}/wishlist/add`, {
       method: "POST",
       headers: {
@@ -186,7 +190,7 @@ export const removeFromWishlist = async (wishlistId: number) => {
       throw new Error(`Failed to remove wishlist item: ${response.statusText}`);
     }
     const result = await response.json();
-    handleSuccess(result.data);
+    handleSuccess(result.message);
     return result.data;
   } catch (error) {
     console.error("Error deleting wishlist item.");

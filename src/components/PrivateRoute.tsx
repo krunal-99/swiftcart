@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 import { PrivateRouteProps } from "../data/types";
 import { useEffect, useState } from "react";
 import { logout } from "../store/authSlice";
-import { handleError, handleInfo, handleSuccess } from "../utils/utils";
+import { handleError } from "../utils/utils";
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({
   children,

@@ -37,6 +37,8 @@ import {
 import { navLinks } from "../data/data";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { logout } from "../store/authSlice";
+import { useQuery } from "@tanstack/react-query";
+import { getWishListItems } from "../utils/utils";
 
 const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -53,7 +55,6 @@ const Navbar = () => {
     const handleScroll = () => {
       setIsFixed(window.scrollY > 65);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -65,7 +66,6 @@ const Navbar = () => {
     setDrawerOpen(false);
   };
 
-  const wishlist = useSelector((state: RootState) => state.wishlist);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTotals());
@@ -94,6 +94,15 @@ const Navbar = () => {
     if (path !== "/" && location.pathname.includes(path)) return true;
     return false;
   };
+
+  const { data: wishlist } = useQuery({
+    queryKey: ["wishlist", user?.id],
+    queryFn: () =>
+      user?.id
+        ? getWishListItems(user?.id)
+        : Promise.reject("User ID is undefined"),
+    enabled: !!user?.id,
+  });
 
   return (
     <>
@@ -149,7 +158,7 @@ const Navbar = () => {
             <Stack spacing={1} direction="row" sx={{ ml: "auto" }}>
               <SearchBar />
               <IconButton sx={{ display: { xs: "none", md: "flex" } }}>
-                <Badge badgeContent={wishlist.listQuantity} color="error">
+                <Badge badgeContent={wishlist?.length} color="error">
                   <NavLink style={{ color: "#23a6f0" }} to="/wishlist">
                     <FavoriteBorderIcon />
                   </NavLink>
@@ -308,7 +317,7 @@ const Navbar = () => {
                 sx={{ display: "flex", justifyContent: "center" }}
               >
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <Badge badgeContent={wishlist.listQuantity} color="error">
+                  <Badge badgeContent={wishlist?.length} color="error">
                     <NavLink style={{ color: "#23a6f0" }} to="/wishlist">
                       <FavoriteBorderIcon />
                     </NavLink>

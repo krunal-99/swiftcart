@@ -21,6 +21,7 @@ const Wishlist = () => {
         : Promise.reject("User ID is undefined"),
     enabled: !!user?.id,
   });
+
   if (isError) return <Typography>Error fetching wishlist items.</Typography>;
   return (
     <Box width="88%" margin="auto" sx={{ mt: "100px" }}>

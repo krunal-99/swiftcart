@@ -66,12 +66,12 @@ const WishListCard: React.FC<ListCardProps> = (props) => {
             <FavoriteIcon sx={{ color: "#ff0000" }} />
           </IconButton>
           <NavLink
-            to={`/product/${props.item.product.id}`}
+            to={`/product/${props.item?.productId}`}
             style={{ listStyle: "none", textDecoration: "none" }}
           >
             <CardMedia
               sx={{ height: "430px", objectFit: "cover" }}
-              image={props.item.product.imageUrls[0]}
+              image={props.item.product?.imageUrls[0]}
             />
             <CardContent sx={{ textAlign: "center", mt: "25px" }}>
               <Typography
@@ -79,7 +79,7 @@ const WishListCard: React.FC<ListCardProps> = (props) => {
                 color="#252b42"
                 sx={{ fontWeight: 700, lineHeight: "24px" }}
               >
-                {props.item.product.title}
+                {props.item.product?.title}
               </Typography>
               <Typography
                 my="10px"
@@ -91,7 +91,7 @@ const WishListCard: React.FC<ListCardProps> = (props) => {
                 }}
                 variant="body1"
               >
-                {props.item.product.type}
+                {props.item.product?.type}
               </Typography>
               <Stack
                 direction="row"
@@ -99,10 +99,10 @@ const WishListCard: React.FC<ListCardProps> = (props) => {
                 sx={{ display: "flex", justifyContent: "center" }}
               >
                 <Typography color="#bdbdbd" variant="h6" fontWeight={700}>
-                  ₹{props.item.product.originalPrice}
+                  ₹{props.item.product?.originalPrice}
                 </Typography>
                 <Typography variant="h6" color="#23856d" fontWeight={700}>
-                  ₹{props.item.product.salePrice}
+                  ₹{props.item.product?.salePrice}
                 </Typography>
               </Stack>
               <Stack
@@ -111,7 +111,7 @@ const WishListCard: React.FC<ListCardProps> = (props) => {
                 pt="10px"
                 sx={{ display: "flex", justifyContent: "center" }}
               >
-                {props.item.product.colors.map(
+                {props.item.product?.colors.map(
                   (color: string, index: number) => (
                     <Box
                       key={index}

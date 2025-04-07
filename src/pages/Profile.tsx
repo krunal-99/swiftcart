@@ -21,8 +21,9 @@ import PersonIcon from "@mui/icons-material/Person";
 import { handleSuccess } from "../utils/utils";
 import ProfileInfo from "../sections/ProfileInfo";
 import OrderHistory from "../sections/OrderHistory";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../main";
+import { logout } from "../store/authSlice";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
@@ -39,8 +40,12 @@ const Profile = () => {
     setActiveTab(newValue);
   };
 
+  const dispatch = useDispatch();
+
   const handleLogout = () => {
-    handleSuccess("Logout successfully.");
+    dispatch(logout());
+    localStorage.clear();
+    window.location.href = "/login";
   };
 
   const { user } = useSelector((state: RootState) => state.auth);

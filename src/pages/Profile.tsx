@@ -18,7 +18,6 @@ import {
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
-import { handleSuccess } from "../utils/utils";
 import ProfileInfo from "../sections/ProfileInfo";
 import OrderHistory from "../sections/OrderHistory";
 import { useDispatch, useSelector } from "react-redux";

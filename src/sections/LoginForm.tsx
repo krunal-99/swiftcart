@@ -133,12 +133,6 @@ const LoginForm: React.FC = () => {
         sx={{ mb: 2 }}
       />
 
-      {/* <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
-        <MuiLink component={Link} to="/forgot-password" variant="body2">
-          Forgot password?
-        </MuiLink>
-      </Box> */}
-
       <Button
         disabled={isLoading}
         type="submit"

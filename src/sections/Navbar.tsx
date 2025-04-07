@@ -27,8 +27,6 @@ import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../main";
-import { getTotals } from "../store/cartSlice";
-import { getListTotal } from "../store/wishListSlice";
 import {
   DrawerHeader,
   StyledDrawerNavLink,
@@ -67,10 +65,6 @@ const Navbar = () => {
   };
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getTotals());
-    dispatch(getListTotal());
-  }, [cart, dispatch]);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);

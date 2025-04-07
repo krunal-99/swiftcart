@@ -25,8 +25,6 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  console.log("carouselData", carouselData);
   const CustomDot = ({ onClick, active }: any) => {
     return (
       <Box

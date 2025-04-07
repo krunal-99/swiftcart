@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { cartItemsSchema } from "../data/types";
 import { handleError, handleInfo, handleSuccess } from "../utils/utils";
+import { CartItems } from "../data/types";
 
-const initialState: cartItemsSchema = {
+const initialState = {
   cartItems: localStorage.getItem("cartItems")
     ? JSON.parse(localStorage.getItem("cartItems") as string)
     : [],
@@ -17,7 +17,7 @@ const cartSlice = createSlice({
     addToCart(state, action) {
       const { id, color, title } = action.payload;
       const itemIndex = state.cartItems.findIndex(
-        (item) => item.id === id && item.color === color
+        (item: CartItems) => item.id === id && item.selectedColor === color
       );
       if (itemIndex >= 0) {
         if (state.cartItems[itemIndex].cartQuantity >= 5) {
@@ -35,7 +35,7 @@ const cartSlice = createSlice({
     removeFromCart(state, action) {
       const { id, color, title } = action.payload;
       state.cartItems = state.cartItems.filter(
-        (item) => !(item.id === id && item.color === color)
+        (item: CartItems) => !(item.id === id && item.selectedColor === color)
       );
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
       handleError(`${title} removed from cart successfully.`);
@@ -43,7 +43,7 @@ const cartSlice = createSlice({
     decreaseQuantity(state, action) {
       const { id, title, color } = action.payload;
       const itemIndex = state.cartItems.findIndex(
-        (item) => item.id === id && item.color === color
+        (item: any) => item.id === id && item.color === color
       );
 
       if (itemIndex >= 0) {
@@ -64,19 +64,19 @@ const cartSlice = createSlice({
       localStorage.removeItem("cartItems");
       handleSuccess("Cart cleared successfully.");
     },
-    getTotals(state) {
-      let { total, quantity } = state.cartItems.reduce(
-        (cartTotal, cartItem) => {
-          const { price, cartQuantity } = cartItem;
-          cartTotal.total += price * cartQuantity;
-          cartTotal.quantity += cartQuantity;
-          return cartTotal;
-        },
-        { total: 0, quantity: 0 }
-      );
-      state.totalCartAmount = total;
-      state.totalCartQuantity = quantity;
-    },
+    // getTotals(state) {
+    //   let { total, quantity } = state.cartItems.reduce(
+    //     (cartTotal: number, cartItem: CartItems) => {
+    //       const { price, cartQuantity } = cartItem;
+    //       cartTotal.total += price * cartQuantity;
+    //       cartTotal.quantity += cartQuantity;
+    //       return cartTotal;
+    //     },
+    //     { total: 0, quantity: 0 }
+    //   );
+    //   state.totalCartAmount = total;
+    //   state.totalCartQuantity = quantity;
+    // },
   },
 });
 
@@ -85,6 +85,6 @@ export const {
   removeFromCart,
   decreaseQuantity,
   clearCart,
-  getTotals,
+  // getTotals,
 } = cartSlice.actions;
 export default cartSlice.reducer;

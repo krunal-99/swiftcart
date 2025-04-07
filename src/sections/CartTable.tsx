@@ -11,8 +11,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../main";
+import { useDispatch } from "react-redux";
 import {
   addToCart,
   decreaseQuantity,
@@ -21,12 +20,13 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import { CartData } from "../data/types";
 
 const cartHeading = ["Color", "Price", "Quantity", "Total", "Remove"];
 
-const CartTable = () => {
-  const cart = useSelector((state: RootState) => state.cart);
+const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
   const dispatch = useDispatch();
+
   return (
     <TableContainer
       component={Paper}
@@ -47,20 +47,20 @@ const CartTable = () => {
             <TableCell align="left" sx={{ fontWeight: 600 }}>
               Description
             </TableCell>
-            {cartHeading.map((heading) => (
-              <TableCell align="center" sx={{ fontWeight: 600 }}>
+            {cartHeading.map((heading, idx) => (
+              <TableCell align="center" key={idx} sx={{ fontWeight: 600 }}>
                 {heading}
               </TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {cart.cartItems?.map((item) => (
+          {cart[0]?.items.map((item) => (
             <TableRow key={item.id}>
               <TableCell>
                 <Box
                   component="img"
-                  src={item.imageUrl}
+                  src={item.product.imageUrls[0]}
                   sx={{ height: 80, width: 80, borderRadius: 1 }}
                 />
               </TableCell>
@@ -68,7 +68,7 @@ const CartTable = () => {
                 align="left"
                 sx={{ fontSize: 16, fontWeight: 600, color: "#333" }}
               >
-                {item.title}
+                {item.product.title}
               </TableCell>
               <TableCell align="center">
                 <Box display="flex" justifyContent="center">
@@ -78,14 +78,17 @@ const CartTable = () => {
                     borderRadius="50%"
                     sx={{
                       cursor: "pointer",
-                      backgroundColor: item.color,
+                      backgroundColor: item.selectedColor,
                       border: "1px solid #ddd",
                     }}
                   />
                 </Box>
               </TableCell>
               <TableCell align="center" sx={{ fontWeight: 600 }}>
-                ₹ {item.price.toFixed(2)}
+                ₹{" "}
+                {typeof item.product.salePrice === "string"
+                  ? parseFloat(item.product.salePrice).toFixed(2)
+                  : item.product.salePrice.toFixed(2)}
               </TableCell>
               <TableCell align="center">
                 <ButtonGroup
@@ -103,7 +106,7 @@ const CartTable = () => {
                   >
                     <RemoveIcon sx={{ width: "15px" }} />
                   </Button>
-                  <Button sx={{ fontWeight: 600 }}>{item.cartQuantity}</Button>
+                  <Button sx={{ fontWeight: 600 }}>{item.quantity}</Button>
                   <Button
                     onClick={() => dispatch(addToCart(item))}
                     sx={{
@@ -117,7 +120,12 @@ const CartTable = () => {
                 </ButtonGroup>
               </TableCell>
               <TableCell align="center" sx={{ fontWeight: 600 }}>
-                ₹ {item.price * item.cartQuantity}
+                ₹{" "}
+                {typeof item.product.salePrice === "string"
+                  ? (
+                      parseFloat(item.product.salePrice) * item.quantity
+                    ).toFixed(2)
+                  : (item.product.salePrice * item.quantity).toFixed(2)}
               </TableCell>
               <TableCell>
                 <Box display="flex" justifyContent="center">

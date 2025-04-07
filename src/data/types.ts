@@ -6,14 +6,25 @@ export interface Review {
   comment: string;
 }
 
-export interface Cart {
+export interface CartData {
   id: number;
-  imageUrl: string;
-  title: string;
-  color: string;
-  price: number;
-  cartQuantity: number;
-  total: number;
+  createdAt: string;
+  updatedAt: string;
+  items: CartItems[];
+}
+
+export interface CartProps {
+  cart: {
+    cart: CartData[];
+  };
+}
+
+export interface CartItems {
+  addedAt: string;
+  id: number;
+  product: Product;
+  quantity: number;
+  selectedColor: string;
 }
 
 export interface Wishlist {
@@ -27,18 +38,17 @@ export interface Product {
   id: number;
   title: string;
   type: string;
-  category: string;
-  brand: string;
+  brandId: number;
   originalPrice: number;
-  salePrice: number;
+  salePrice: string | number;
   rating: number;
   reviewCount: number;
   shortDescription: string;
   detailDescription: string;
   additionalInformation: string;
   colors: string[];
-  reviews: Review[];
   imageUrls: string[];
+  reviews: Review[];
 }
 
 export interface FilterState {
@@ -91,12 +101,6 @@ export interface AuthLayoutProps {
   children: React.ReactNode;
   title: string;
   subtitle: string;
-}
-
-export interface cartItemsSchema {
-  cartItems: Cart[];
-  totalCartQuantity: number;
-  totalCartAmount: number;
 }
 
 export interface ProductState {

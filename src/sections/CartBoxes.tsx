@@ -4,25 +4,32 @@ import ReplyAllIcon from "@mui/icons-material/ReplyAll";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTotals } from "../store/cartSlice";
 import { getListTotal } from "../store/wishListSlice";
 import { RootState } from "../main";
+import { useQuery } from "@tanstack/react-query";
+import { getCartItems } from "../utils/utils";
 
 const CartBoxes = () => {
   const dispatch = useDispatch();
-  const cart = useSelector((state: RootState) => state.cart);
+  const { user } = useSelector((state: RootState) => state.auth);
+
+  const userId = user && user?.id;
+  const { data: cart } = useQuery({
+    queryKey: ["cart", userId],
+    queryFn: () =>
+      userId ? getCartItems(userId) : Promise.reject("User ID is undefined"),
+  });
   useEffect(() => {
-    dispatch(getTotals());
     dispatch(getListTotal());
   }, [cart, dispatch]);
-  const cartFinances = [
-    { label: "Subtotal", value: `₹ ${cart.totalCartAmount}` },
-    { label: "Shipping", value: "₹ 0" },
-    { label: "Total", value: `₹ ${cart.totalCartAmount}` },
-  ];
+  // const cartFinances = [
+  //   { label: "Subtotal", value: `₹ ${cart.}` },
+  //   { label: "Shipping", value: "₹ 0" },
+  //   { label: "Total", value: `₹ ${cart.totalCartAmount}` },
+  // ];
   return (
     <>
-      {cart.cartItems.length > 0 && (
+      {/* {cart.cartItems.length > 0 && (
         <Box
           display="flex"
           flexWrap="wrap"
@@ -53,7 +60,7 @@ const CartBoxes = () => {
             </Stack>
           ))}
         </Box>
-      )}
+      )} */}
       <Stack
         direction="row"
         display="flex"
@@ -72,7 +79,7 @@ const CartBoxes = () => {
             Continue Shopping
           </NavLink>
         </Button>
-        {cart.cartItems.length > 0 && (
+        {cart?.totalCount > 0 && (
           <Button
             variant="contained"
             endIcon={<ShoppingCartCheckoutIcon />}

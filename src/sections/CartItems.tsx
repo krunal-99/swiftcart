@@ -7,21 +7,31 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { clearCart, getTotals } from "../store/cartSlice";
+import { clearCart } from "../store/cartSlice";
 import { useEffect } from "react";
 import { getListTotal } from "../store/wishListSlice";
 import EmptyCart from "./EmptyCart";
 import CartTable from "./CartTable";
+import { useQuery } from "@tanstack/react-query";
 import { RootState } from "../main";
+import { getCartItems } from "../utils/utils";
+import { CartTableSkeleton } from "./CartTableSkeleton";
 
 const CartItems = () => {
-  const cart = useSelector((state: RootState) => state.cart);
   const appTheme = useTheme();
   const isMobile = useMediaQuery(appTheme.breakpoints.down("sm"));
   const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.auth);
+
+  const userId = user && user?.id;
+
+  const { data: cart, isLoading } = useQuery({
+    queryKey: ["cart", userId],
+    queryFn: () =>
+      userId ? getCartItems(userId) : Promise.reject("User ID is undefined"),
+  });
 
   useEffect(() => {
-    dispatch(getTotals());
     dispatch(getListTotal());
   }, [cart, dispatch]);
 
@@ -49,7 +59,7 @@ const CartItems = () => {
         >
           Shopping Cart
         </Typography>
-        {cart.cartItems.length > 0 && (
+        {!isLoading && cart && cart.data?.length > 0 && (
           <Button
             variant="contained"
             color="error"
@@ -82,7 +92,13 @@ const CartItems = () => {
         )}
       </Stack>
 
-      {cart.cartItems?.length === 0 ? <EmptyCart /> : <CartTable />}
+      {isLoading ? (
+        <CartTableSkeleton />
+      ) : cart && cart.data?.length === 0 ? (
+        <EmptyCart />
+      ) : (
+        <CartTable cart={cart?.data} />
+      )}
     </>
   );
 };

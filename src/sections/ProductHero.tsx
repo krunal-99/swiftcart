@@ -20,7 +20,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../main";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Product, Wishlist } from "../data/types";
+import { CartItems, Product, Wishlist } from "../data/types";
 import {
   addToCart,
   decreaseQuantity,
@@ -73,7 +73,8 @@ const ProductHero = () => {
   }, [product]);
 
   const cartItem = cart.find(
-    (item) => item.id === Number(id) && item.color === selectedColor
+    (item: CartItems) =>
+      item.id === Number(id) && item.selectedColor === selectedColor
   );
   const isInCart = Boolean(cartItem);
 

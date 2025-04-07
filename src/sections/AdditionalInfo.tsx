@@ -1,15 +1,11 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../main";
-import { useParams } from "react-router-dom";
 import { Grid2, Paper, Typography } from "@mui/material";
 
-const AdditionalInfo = () => {
-  const { id } = useParams<string>();
-  const products = useSelector((state: RootState) => state.products.items);
-  const product = products.find((item) => item.id === Number(id));
-  const infoItems = product?.additionalInformation
-    .split("|")
-    .map((item) => item.trim());
+interface AdditionalInfoProps {
+  info: string;
+}
+
+const AdditionalInfo: React.FC<AdditionalInfoProps> = (props) => {
+  const infoItems = props.info.split("|").map((item) => item.trim());
   return (
     <Grid2 container spacing={2}>
       {infoItems?.map((item, index) => (

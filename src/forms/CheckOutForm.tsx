@@ -6,9 +6,6 @@ import {
   TextField,
   Button,
   Box,
-  Checkbox,
-  FormControlLabel,
-  Collapse,
 } from "@mui/material";
 import { LocalShipping as TruckIcon } from "@mui/icons-material";
 

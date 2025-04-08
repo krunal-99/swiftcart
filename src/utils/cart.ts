@@ -1,4 +1,4 @@
-import { handleSuccess } from "./utils";
+import { handleError, handleSuccess } from "./utils";
 
 const API_URL = "http://localhost:4000";
 
@@ -47,7 +47,11 @@ export const updateCartItem = async (itemId: number, quantity: number) => {
       throw new Error(`Failed to update cart item: ${response.statusText}`);
     }
     const result = await response.json();
-    handleSuccess("Cart updated successfully");
+    if (result.status === "success") {
+      handleSuccess("Cart updated successfully");
+    } else {
+      handleError(`${result.message}`);
+    }
     return result.data;
   } catch (error) {
     console.error("Error updating cart item:", error);
@@ -68,6 +72,30 @@ export const clearCartItems = async (userId: number) => {
     return result.data;
   } catch (error) {
     console.error("Error clearing cart: ", error);
+    throw error;
+  }
+};
+
+export const addToCart = async (
+  userId: number,
+  productId: number,
+  quantity: number = 1,
+  selectedColor: string
+) => {
+  try {
+    const response = await fetch(`${API_URL}/cart`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId, productId, quantity, selectedColor }),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to add item to cart: ${response.statusText}`);
+    }
+    const result = await response.json();
+    handleSuccess("Item added to cart successfully");
+    return result.data;
+  } catch (error) {
+    console.error("Error adding to cart:", error);
     throw error;
   }
 };

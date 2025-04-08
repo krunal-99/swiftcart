@@ -21,11 +21,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../main";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { CartItems, Product, Wishlist } from "../data/types";
-import {
-  addToCart,
-  decreaseQuantity,
-  removeFromCart,
-} from "../store/cartSlice";
 import { useEffect, useState } from "react";
 import NoProductFound from "./NoProductFound";
 import {
@@ -37,14 +32,13 @@ import {
 } from "../utils/utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ProductSkeleton } from "./ProductSkeleton";
+import { addToCart, getCartItems, updateCartItem } from "../utils/cart";
 
 const ProductHero = () => {
   const { id } = useParams<{ id: string }>();
-  const dispatch = useDispatch();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState("");
 
-  const cart = useSelector((state: RootState) => state.cart.cartItems);
   const { user, isAuthenticated } = useSelector(
     (state: RootState) => state.auth
   );
@@ -54,17 +48,18 @@ const ProductHero = () => {
     data: product,
     isLoading,
     isError,
-    error,
   } = useQuery<Product, Error>({
     queryKey: ["productDetails", id],
     queryFn: () => getProductById(Number(id)),
     enabled: !!id && !isNaN(Number(id)),
   });
 
-  useEffect(() => {
-    if (isError) console.error("Query error:", error);
-    if (product) console.log("Fetched product:", product);
-  }, [product, isError, error]);
+  const { data: cartData } = useQuery({
+    queryKey: ["cart", user?.id],
+    queryFn: () =>
+      user?.id ? getCartItems(user.id) : Promise.reject("User ID is required"),
+    enabled: !!user?.id,
+  });
 
   useEffect(() => {
     if (product?.colors?.length) {
@@ -72,28 +67,60 @@ const ProductHero = () => {
     }
   }, [product]);
 
-  const cartItem = cart.find(
+  const cartItem = cartData?.data[0]?.items.find(
     (item: CartItems) =>
-      item.id === Number(id) && item.selectedColor === selectedColor
+      item.product.id === Number(id) && item.selectedColor === selectedColor
   );
-  const isInCart = Boolean(cartItem);
 
-  const handleAddToCart = (product: Product) => {
-    if (!product) return;
-    const cartData = {
-      id: product.id,
-      imageUrl: product.imageUrls[0],
-      title: product.title,
-      color: selectedColor || product.colors[0],
-      price: product.salePrice,
-      cartQuantity: 1,
-    };
-    dispatch(addToCart(cartData));
+  const addToCartMutation = useMutation({
+    mutationFn: ({
+      userId,
+      productId,
+      quantity,
+      selectedColor,
+    }: {
+      userId: number;
+      productId: number;
+      quantity: number;
+      selectedColor: string;
+    }) => addToCart(userId, productId, quantity, selectedColor),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart", user?.id] });
+    },
+    onError: (error) => {
+      handleError("Failed to add item to cart");
+      console.error(error);
+    },
+  });
+
+  const updateQuantityMutation = useMutation({
+    mutationFn: ({ itemId, quantity }: { itemId: number; quantity: number }) =>
+      updateCartItem(itemId, quantity),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart", user?.id] });
+    },
+    onError: (error) => {
+      handleError("Failed to update cart quantity");
+      console.error(error);
+    },
+  });
+
+  const handleAddToCart = () => {
+    if (!product || !user?.id) {
+      handleError("Please login to add item to cart");
+      return;
+    }
+    addToCartMutation.mutate({
+      userId: user.id,
+      productId: product.id,
+      quantity: 1,
+      selectedColor,
+    });
   };
 
-  const handleRemoveFromCart = () => {
-    if (cartItem) {
-      dispatch(removeFromCart(cartItem));
+  const handleQuantityChange = (itemId: number, newQuantity: number) => {
+    if (newQuantity >= 0) {
+      updateQuantityMutation.mutate({ itemId, quantity: newQuantity });
     }
   };
 
@@ -107,7 +134,7 @@ const ProductHero = () => {
     (item) => item?.productId === product?.id
   );
 
-  const addMutation = useMutation({
+  const addWishlistMutation = useMutation({
     mutationFn: ({
       userId,
       productId,
@@ -120,7 +147,7 @@ const ProductHero = () => {
     },
   });
 
-  const removeMutation = useMutation<void, Error, number>({
+  const removeWishlistMutation = useMutation<void, Error, number>({
     mutationFn: (wishlistId) => removeFromWishlist(wishlistId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wishlist", user?.id] });
@@ -133,13 +160,13 @@ const ProductHero = () => {
         (item) => item.productId === product?.id
       );
       if (wishlistItem?.id) {
-        removeMutation.mutate(wishlistItem.id);
+        removeWishlistMutation.mutate(wishlistItem.id);
       }
     } else {
       if (!user?.id) {
         handleError("Please login to add item to wishlist");
       } else {
-        addMutation.mutate({
+        addWishlistMutation.mutate({
           userId: user?.id!,
           productId: product?.id!,
         });
@@ -349,7 +376,7 @@ const ProductHero = () => {
               alignItems={{ xs: "center", sm: "flex-start" }}
               justifyContent={{ xs: "center", md: "flex-start" }}
             >
-              {isInCart ? (
+              {cartItem ? (
                 <Box
                   display="flex"
                   alignItems="center"
@@ -357,42 +384,36 @@ const ProductHero = () => {
                   gap={2}
                   flexDirection={{ xs: "column", sm: "row" }}
                 >
-                  <Button
-                    onClick={handleRemoveFromCart}
-                    variant="contained"
-                    color="error"
-                    sx={{
-                      fontWeight: 700,
-                      width: { xs: "100%", sm: "auto" },
-                    }}
-                    size="large"
-                  >
-                    Remove from Cart
-                  </Button>
                   <ButtonGroup
                     variant="outlined"
                     aria-label="Basic button group"
                   >
                     <Button
-                      onClick={() => dispatch(decreaseQuantity(cartItem))}
+                      onClick={() =>
+                        handleQuantityChange(cartItem.id, cartItem.quantity - 1)
+                      }
                       sx={{
                         backgroundColor: "#252b42",
                         color: "white",
                         borderRadius: 0,
                       }}
+                      disabled={updateQuantityMutation.isLoading}
                     >
                       <RemoveIcon sx={{ width: "15px" }} />
                     </Button>
                     <Button sx={{ fontWeight: 600 }}>
-                      {cartItem?.cartQuantity}
+                      {cartItem.quantity}
                     </Button>
                     <Button
-                      onClick={() => dispatch(addToCart(cartItem))}
+                      onClick={() =>
+                        handleQuantityChange(cartItem.id, cartItem.quantity + 1)
+                      }
                       sx={{
                         backgroundColor: "#fafafa",
                         color: "black",
                         borderRadius: 0,
                       }}
+                      disabled={updateQuantityMutation.isLoading}
                     >
                       <AddIcon sx={{ width: "15px" }} />
                     </Button>
@@ -400,19 +421,14 @@ const ProductHero = () => {
                 </Box>
               ) : (
                 <Button
-                  onClick={() =>
-                    isAuthenticated
-                      ? handleAddToCart(product)
-                      : handleError(
-                          "Login is required for adding a product to cart"
-                        )
-                  }
+                  onClick={handleAddToCart}
                   variant="contained"
                   sx={{
                     backgroundColor: "#23a6f0",
                     fontWeight: 700,
                     width: { xs: "100%", sm: "auto" },
                   }}
+                  disabled={addToCartMutation.isLoading || !isAuthenticated}
                   size="large"
                 >
                   Add To Cart

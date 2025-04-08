@@ -8,6 +8,7 @@ import { getListTotal } from "../store/wishListSlice";
 import { RootState } from "../main";
 import { useQuery } from "@tanstack/react-query";
 import { getCartItems } from "../utils/utils";
+import { CartItems } from "../data/types";
 
 const CartBoxes = () => {
   const dispatch = useDispatch();
@@ -19,17 +20,28 @@ const CartBoxes = () => {
     queryFn: () =>
       userId ? getCartItems(userId) : Promise.reject("User ID is undefined"),
   });
+
+  const totalAmount: number =
+    cart &&
+    cart.data[0].items.reduce((acc: number, item: CartItems) => {
+      const price =
+        typeof item.product.salePrice === "string"
+          ? parseFloat(item.product.salePrice)
+          : item.product.salePrice;
+      return acc + price * item.quantity;
+    }, 0);
+
   useEffect(() => {
     dispatch(getListTotal());
   }, [cart, dispatch]);
-  // const cartFinances = [
-  //   { label: "Subtotal", value: `₹ ${cart.}` },
-  //   { label: "Shipping", value: "₹ 0" },
-  //   { label: "Total", value: `₹ ${cart.totalCartAmount}` },
-  // ];
+  const cartFinances = [
+    { label: "Subtotal", value: `₹ ${totalAmount}` },
+    { label: "Shipping", value: "₹ 0" },
+    { label: "Total", value: `₹ ${totalAmount}` },
+  ];
   return (
     <>
-      {/* {cart.cartItems.length > 0 && (
+      {cart?.data.length > 0 && (
         <Box
           display="flex"
           flexWrap="wrap"
@@ -60,7 +72,7 @@ const CartBoxes = () => {
             </Stack>
           ))}
         </Box>
-      )} */}
+      )}
       <Stack
         direction="row"
         display="flex"

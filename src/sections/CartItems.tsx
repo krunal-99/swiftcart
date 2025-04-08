@@ -5,35 +5,34 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { clearCart } from "../store/cartSlice";
-import { useEffect } from "react";
-import { getListTotal } from "../store/wishListSlice";
 import EmptyCart from "./EmptyCart";
 import CartTable from "./CartTable";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { RootState } from "../main";
-import { getCartItems } from "../utils/cart";
+import { clearCartItems, getCartItems } from "../utils/cart";
 import { CartTableSkeleton } from "./CartTableSkeleton";
 
 const CartItems = () => {
   const appTheme = useTheme();
   const isMobile = useMediaQuery(appTheme.breakpoints.down("sm"));
-  const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
 
   const userId = user && user?.id;
-
+  const queryClient = useQueryClient();
   const { data: cart, isLoading } = useQuery({
     queryKey: ["cart", userId],
     queryFn: () =>
       userId ? getCartItems(userId) : Promise.reject("User ID is undefined"),
   });
 
-  useEffect(() => {
-    dispatch(getListTotal());
-  }, [cart, dispatch]);
+  const clearCartMutation = useMutation({
+    mutationFn: () => clearCartItems(userId!),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart", userId] });
+    },
+  });
 
   return (
     <>
@@ -63,7 +62,7 @@ const CartItems = () => {
           <Button
             variant="contained"
             color="error"
-            onClick={() => dispatch(clearCart())}
+            onClick={() => clearCartMutation.mutate()}
             sx={{
               fontWeight: 700,
               width: { xs: "50px", sm: "200px" },

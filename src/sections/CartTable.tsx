@@ -11,22 +11,29 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart, decreaseQuantity } from "../store/cartSlice";
+import { useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { CartData } from "../data/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { removeFromCart } from "../utils/cart";
+import { removeFromCart, updateCartItem } from "../utils/cart";
 import { RootState } from "../main";
 
 const cartHeading = ["Color", "Price", "Quantity", "Total", "Remove"];
 
 const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
-  const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
+  const items = cart[0]?.items || [];
+
+  const updateMutation = useMutation({
+    mutationFn: ({ itemId, quantity }: { itemId: number; quantity: number }) =>
+      updateCartItem(itemId, quantity),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart", user!.id] });
+    },
+  });
 
   const removeMutation = useMutation({
     mutationFn: (itemId: number) => removeFromCart(itemId),
@@ -34,6 +41,16 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
       queryClient.invalidateQueries({ queryKey: ["cart", user?.id] });
     },
   });
+
+  const handleQuantityChange = (itemId: number, newQuantity: number) => {
+    if (newQuantity >= 0) {
+      updateMutation.mutate({ itemId, quantity: newQuantity });
+    }
+  };
+
+  const handleRemove = (itemId: number) => {
+    removeMutation.mutate(itemId);
+  };
 
   return (
     <TableContainer
@@ -63,7 +80,7 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {cart[0]?.items.map((item) => (
+          {items.map((item) => (
             <TableRow key={item.id}>
               <TableCell>
                 <Box
@@ -105,7 +122,10 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
                   aria-label="Basic button group"
                 >
                   <Button
-                    onClick={() => dispatch(decreaseQuantity(item))}
+                    onClick={() =>
+                      handleQuantityChange(item.id, item.quantity - 1)
+                    }
+                    disabled={updateMutation.isLoading}
                     sx={{
                       backgroundColor: "#252b42",
                       color: "white",
@@ -116,7 +136,10 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
                   </Button>
                   <Button sx={{ fontWeight: 600 }}>{item.quantity}</Button>
                   <Button
-                    onClick={() => dispatch(addToCart(item))}
+                    onClick={() =>
+                      handleQuantityChange(item.id, item.quantity + 1)
+                    }
+                    disabled={updateMutation.isLoading}
                     sx={{
                       backgroundColor: "#fafafa",
                       color: "black",
@@ -138,7 +161,7 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
               <TableCell>
                 <Box display="flex" justifyContent="center">
                   <IconButton
-                    onClick={() => removeMutation.mutate(item.id)}
+                    onClick={() => handleRemove(item.id)}
                     sx={{
                       border: "2px solid #fafafa",
                       borderRadius: 0,

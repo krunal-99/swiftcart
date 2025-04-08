@@ -35,3 +35,39 @@ export const removeFromCart = async (itemId: number) => {
     throw error;
   }
 };
+
+export const updateCartItem = async (itemId: number, quantity: number) => {
+  try {
+    const response = await fetch(`${API_URL}/cart/${itemId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ quantity }),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to update cart item: ${response.statusText}`);
+    }
+    const result = await response.json();
+    handleSuccess("Cart updated successfully");
+    return result.data;
+  } catch (error) {
+    console.error("Error updating cart item:", error);
+    throw error;
+  }
+};
+
+export const clearCartItems = async (userId: number) => {
+  try {
+    const response = await fetch(`${API_URL}/cart/clear/${userId}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to clear cart: ${response.statusText}`);
+    }
+    const result = await response.json();
+    handleSuccess("Cart cleared successfully");
+    return result.data;
+  } catch (error) {
+    console.error("Error clearing cart: ", error);
+    throw error;
+  }
+};

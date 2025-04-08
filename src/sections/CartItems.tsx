@@ -14,7 +14,7 @@ import EmptyCart from "./EmptyCart";
 import CartTable from "./CartTable";
 import { useQuery } from "@tanstack/react-query";
 import { RootState } from "../main";
-import { getCartItems } from "../utils/utils";
+import { getCartItems } from "../utils/cart";
 import { CartTableSkeleton } from "./CartTableSkeleton";
 
 const CartItems = () => {
@@ -94,7 +94,7 @@ const CartItems = () => {
 
       {isLoading ? (
         <CartTableSkeleton />
-      ) : cart && cart.data?.length === 0 ? (
+      ) : cart && cart.data[0].items.length === 0 ? (
         <EmptyCart />
       ) : (
         <CartTable cart={cart?.data} />

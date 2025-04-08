@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getListTotal } from "../store/wishListSlice";
 import { RootState } from "../main";
 import { useQuery } from "@tanstack/react-query";
-import { getCartItems } from "../utils/utils";
+import { getCartItems } from "../utils/cart";
 import { CartItems } from "../data/types";
 
 const CartBoxes = () => {

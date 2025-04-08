@@ -44,11 +44,7 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
       userId: number;
       productId: number;
     }) => addToWishlist(userId, productId),
-    onSuccess: (newItem) => {
-      queryClient.setQueryData<Wishlist[]>(
-        ["wishlist", user?.id],
-        (old = []) => [...old, newItem]
-      );
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wishlist", user?.id] });
     },
   });
@@ -56,9 +52,6 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
   const removeMutation = useMutation<void, Error, number>({
     mutationFn: (wishlistId) => removeFromWishlist(wishlistId),
     onSuccess: () => {
-      queryClient.setQueryData<Wishlist[]>(["wishlist", user?.id], (old = []) =>
-        old.filter((item) => item.productId !== props.product.id)
-      );
       queryClient.invalidateQueries({ queryKey: ["wishlist", user?.id] });
     },
   });

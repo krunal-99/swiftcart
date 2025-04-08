@@ -115,11 +115,7 @@ const ProductHero = () => {
       userId: number;
       productId: number;
     }) => addToWishlist(userId, productId),
-    onSuccess: (newItem) => {
-      queryClient.setQueryData<Wishlist[]>(
-        ["wishlist", user?.id],
-        (old = []) => [...old, newItem]
-      );
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wishlist", user?.id] });
     },
   });
@@ -127,9 +123,6 @@ const ProductHero = () => {
   const removeMutation = useMutation<void, Error, number>({
     mutationFn: (wishlistId) => removeFromWishlist(wishlistId),
     onSuccess: () => {
-      queryClient.setQueryData<Wishlist[]>(["wishlist", user?.id], (old = []) =>
-        old.filter((item) => item?.productId !== product?.id)
-      );
       queryClient.invalidateQueries({ queryKey: ["wishlist", user?.id] });
     },
   });

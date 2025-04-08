@@ -11,21 +11,29 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
-import {
-  addToCart,
-  decreaseQuantity,
-  removeFromCart,
-} from "../store/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, decreaseQuantity } from "../store/cartSlice";
 import CloseIcon from "@mui/icons-material/Close";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { CartData } from "../data/types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { removeFromCart } from "../utils/cart";
+import { RootState } from "../main";
 
 const cartHeading = ["Color", "Price", "Quantity", "Total", "Remove"];
 
 const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.auth);
+  const queryClient = useQueryClient();
+
+  const removeMutation = useMutation({
+    mutationFn: (itemId: number) => removeFromCart(itemId),
+    onSuccess: (_data) => {
+      queryClient.invalidateQueries({ queryKey: ["cart", user?.id] });
+    },
+  });
 
   return (
     <TableContainer
@@ -130,7 +138,7 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
               <TableCell>
                 <Box display="flex" justifyContent="center">
                   <IconButton
-                    onClick={() => dispatch(removeFromCart(item))}
+                    onClick={() => removeMutation.mutate(item.id)}
                     sx={{
                       border: "2px solid #fafafa",
                       borderRadius: 0,

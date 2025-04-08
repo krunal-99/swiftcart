@@ -71,7 +71,7 @@ export const getAdProducts = async () => {
 
 export const getProductById = async (id: number) => {
   try {
-    const response = await fetch(`http://localhost:4000/products/${id}`);
+    const response = await fetch(`${API_URL}/products/${id}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch product: ${response.statusText}`);
     }
@@ -194,23 +194,6 @@ export const removeFromWishlist = async (wishlistId: number) => {
     return result.data;
   } catch (error) {
     console.error("Error deleting wishlist item.");
-    throw error;
-  }
-};
-
-export const getCartItems = async (userId: number) => {
-  try {
-    const response = await fetch(`${API_URL}/cart/${userId}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch cart items: ${response.statusText}`);
-    }
-    const result = await response.json();
-    return {
-      data: result.data,
-      totalCount: result.totalCount,
-    };
-  } catch (error) {
-    console.error("Error fetching cart items.");
     throw error;
   }
 };

@@ -46,10 +46,6 @@ const ProductDetails = () => {
   if (isLoading) {
     return <ProductDetailsSkeleton />;
   }
-  console.log(
-    "product?.additionalInformation",
-    typeof product?.additionalInformation
-  );
 
   if (isError) {
     return (

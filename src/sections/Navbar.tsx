@@ -37,13 +37,14 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { logout } from "../store/authSlice";
 import { useQuery } from "@tanstack/react-query";
 import { getWishListItems } from "../utils/utils";
+import { getCartItems } from "../utils/cart";
+import { CartItems } from "../data/types";
 
 const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [isFixed, setIsFixed] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const location = useLocation();
-  const cart = useSelector((state: RootState) => state.cart);
 
   const { isAuthenticated, user } = useSelector(
     (state: RootState) => state.auth
@@ -97,6 +98,20 @@ const Navbar = () => {
         : Promise.reject("User ID is undefined"),
     enabled: !!user?.id,
   });
+
+  const { data: cart } = useQuery({
+    queryKey: ["cart", user?.id],
+    queryFn: () =>
+      user?.id
+        ? getCartItems(user?.id)
+        : Promise.reject("User ID is undefined"),
+  });
+  const cartItems = cart && cart.data[0].items;
+  const totalQuantity = cartItems?.reduce((sum: number, item: CartItems) => {
+    return sum + item.quantity;
+  }, 0);
+
+  console.log("Cart", cart);
 
   return (
     <>
@@ -166,7 +181,7 @@ const Navbar = () => {
                     display: { xs: "none", md: "flex" },
                   }}
                 >
-                  <Badge badgeContent={cart.totalCartQuantity} color="error">
+                  <Badge badgeContent={totalQuantity} color="error">
                     <ShoppingCartIcon />
                   </Badge>
                 </IconButton>
@@ -297,7 +312,7 @@ const Navbar = () => {
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Badge
                       style={{ color: "#23a6f0" }}
-                      badgeContent={cart.totalCartQuantity}
+                      badgeContent={totalQuantity}
                       color="error"
                     >
                       <ShoppingCartIcon />

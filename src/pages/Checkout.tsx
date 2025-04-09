@@ -3,52 +3,40 @@ import { Link } from "react-router-dom";
 import { ChevronLeft as ChevronLeftIcon } from "@mui/icons-material";
 import CheckoutForm from "../forms/CheckOutForm";
 import OrderSummary from "../sections/OrderSummary";
-import { Box, Typography, Container, Paper } from "@mui/material";
+import { Box, Typography, Container, Paper, Skeleton } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
+import { RootState } from "../main";
+import { getCartItems } from "../utils/cart";
+import { CartItems } from "../data/types";
 
 const Checkout = () => {
+  const { user } = useSelector((state: RootState) => state.auth);
   const [loading, setLoading] = useState(false);
-  const cartItems = [
-    {
-      id: "1",
-      name: "Premium T-Shirt",
-      price: 29.99,
-      quantity: 2,
-      image:
-        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    },
-    {
-      id: "2",
-      name: "Designer Jeans",
-      price: 89.99,
-      quantity: 1,
-      image:
-        "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3",
-    },
-  ];
 
-  interface FormData {
-    [key: string]: any;
-  }
+  const { data: cartItems, isLoading } = useQuery({
+    queryKey: ["cart", user?.id],
+    queryFn: () => getCartItems(user?.id!),
+    enabled: !!user?.id,
+  });
 
-  const handlePlaceOrder = (formData: FormData): void => {
+  const handlePlaceOrder = async (formData: Record<string, any>) => {
     setLoading(true);
-    setTimeout(() => {
-      console.log("Order placed with data:", formData);
-      console.log("Cart items:", cartItems);
-      alert("Order Placed Successfully.");
-      setLoading(false);
-    }, 1500);
+    setLoading(false);
   };
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+  console.log("Cart", cartItems);
+
+  const items = cartItems?.data[0]?.items || [];
+  const subtotal = items.reduce(
+    (sum: number, item: CartItems) =>
+      sum + Number(item.product.salePrice) * item.quantity,
     0
   );
-  const shipping = 4.99;
-  const tax = subtotal * 0.08;
-  const total = subtotal + shipping + tax;
+  const shipping = 0;
+  const total = subtotal + shipping;
 
-  const orderSummary = { subtotal, shipping, tax, total, items: cartItems };
+  const orderSummary = { subtotal, shipping, total, items };
 
   return (
     <Container
@@ -88,7 +76,7 @@ const Checkout = () => {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", lg: "2fr 1fr" },
+          gridTemplateColumns: { xs: "1fr", lg: "1.5fr 1fr" },
           gap: 4,
         }}
       >
@@ -102,7 +90,7 @@ const Checkout = () => {
           elevation={3}
           sx={{ p: 3, borderRadius: 3, bgcolor: "background.paper" }}
         >
-          <OrderSummary summary={orderSummary} loading={loading} />
+          <OrderSummary summary={orderSummary} loading={isLoading} />
         </Paper>
       </Box>
     </Container>

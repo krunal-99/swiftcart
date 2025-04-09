@@ -26,10 +26,10 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     }));
   };
 
@@ -95,7 +95,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
             />
             <TextField
               label="Pincode"
-              name="pinode"
+              name="pincode"
               value={formData.pincode}
               onChange={handleChange}
               required

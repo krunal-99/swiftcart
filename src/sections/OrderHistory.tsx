@@ -300,7 +300,7 @@ const OrderHistory: React.FC = () => {
                 {order.items.length === 1 ? "item" : "items"}
               </Typography>
               <Typography variant="subtitle1" sx={{ fontWeight: "medium" }}>
-                ${order.total.toFixed(2)}
+                ${order.total}
               </Typography>
             </Box>
             <Button
@@ -358,7 +358,7 @@ const OrderHistory: React.FC = () => {
                       </TableCell>
                       <TableCell>{formatDate(order.date)}</TableCell>
                       <TableCell>{order.items.length}</TableCell>
-                      <TableCell>${order.total.toFixed(2)}</TableCell>
+                      <TableCell>${order.total}</TableCell>
                       <TableCell>
                         <Chip
                           label={
@@ -524,7 +524,7 @@ const OrderHistory: React.FC = () => {
                             variant="subtitle2"
                             sx={{ fontWeight: "medium" }}
                           >
-                            ${item.price.toFixed(2)}
+                            ${item.price}
                           </Typography>
                         </Box>
                       </Box>
@@ -548,7 +548,7 @@ const OrderHistory: React.FC = () => {
                         variant="subtitle1"
                         sx={{ fontWeight: "bold" }}
                       >
-                        ${selectedOrder.total.toFixed(2)}
+                        ${selectedOrder.total}
                       </Typography>
                     </Box>
                   </Box>

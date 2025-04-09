@@ -23,7 +23,7 @@ const CartBoxes = () => {
 
   const totalAmount: number =
     cart &&
-    cart.data[0].items.reduce((acc: number, item: CartItems) => {
+    cart.data[0]?.items.reduce((acc: number, item: CartItems) => {
       const price =
         typeof item.product.salePrice === "string"
           ? parseFloat(item.product.salePrice)
@@ -34,11 +34,13 @@ const CartBoxes = () => {
   useEffect(() => {
     dispatch(getListTotal());
   }, [cart, dispatch]);
+
   const cartFinances = [
-    { label: "Subtotal", value: `₹ ${totalAmount}` },
+    { label: "Subtotal", value: `₹ ${totalAmount || 0}` },
     { label: "Shipping", value: "₹ 0" },
-    { label: "Total", value: `₹ ${totalAmount}` },
+    { label: "Total", value: `₹ ${totalAmount || 0}` },
   ];
+
   return (
     <>
       {cart?.data.length > 0 && (
@@ -91,14 +93,17 @@ const CartBoxes = () => {
             Continue Shopping
           </NavLink>
         </Button>
-        {cart?.totalCount > 0 && (
-          <Button
-            variant="contained"
-            endIcon={<ShoppingCartCheckoutIcon />}
-            sx={{ backgroundColor: "#252b42", fontWeight: 700 }}
-          >
-            Checkout
-          </Button>
+        {cart?.data[0].items.length > 0 && (
+          <NavLink to="/checkout">
+            <Button
+              variant="contained"
+              fullWidth
+              endIcon={<ShoppingCartCheckoutIcon />}
+              sx={{ backgroundColor: "#252b42", fontWeight: 700 }}
+            >
+              Checkout
+            </Button>
+          </NavLink>
         )}
       </Stack>
     </>

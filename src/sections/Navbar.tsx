@@ -111,8 +111,6 @@ const Navbar = () => {
     return sum + item.quantity;
   }, 0);
 
-  console.log("Cart", cart);
-
   return (
     <>
       <AppBar

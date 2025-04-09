@@ -112,8 +112,8 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
               <TableCell align="center" sx={{ fontWeight: 600 }}>
                 ₹{" "}
                 {typeof item.product.salePrice === "string"
-                  ? parseFloat(item.product.salePrice).toFixed(2)
-                  : item.product.salePrice.toFixed(2)}
+                  ? parseFloat(item.product.salePrice)
+                  : item.product.salePrice}
               </TableCell>
               <TableCell align="center">
                 <ButtonGroup
@@ -153,10 +153,8 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
               <TableCell align="center" sx={{ fontWeight: 600 }}>
                 ₹{" "}
                 {typeof item.product.salePrice === "string"
-                  ? (
-                      parseFloat(item.product.salePrice) * item.quantity
-                    ).toFixed(2)
-                  : (item.product.salePrice * item.quantity).toFixed(2)}
+                  ? parseFloat(item.product.salePrice) * item.quantity
+                  : item.product.salePrice * item.quantity}
               </TableCell>
               <TableCell>
                 <Box display="flex" justifyContent="center">

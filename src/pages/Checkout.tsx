@@ -1,18 +1,18 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft as ChevronLeftIcon } from "@mui/icons-material";
 import CheckoutForm from "../forms/CheckOutForm";
 import OrderSummary from "../sections/OrderSummary";
-import { Box, Typography, Container, Paper, Skeleton } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { Box, Typography, Container, Paper } from "@mui/material";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { RootState } from "../main";
 import { getCartItems } from "../utils/cart";
 import { CartItems } from "../data/types";
+import { saveAddress } from "../utils/address";
+import { handleSuccess } from "../utils/utils";
 
 const Checkout = () => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const [loading, setLoading] = useState(false);
 
   const { data: cartItems, isLoading } = useQuery({
     queryKey: ["cart", user?.id],
@@ -20,12 +20,28 @@ const Checkout = () => {
     enabled: !!user?.id,
   });
 
-  const handlePlaceOrder = async (formData: Record<string, any>) => {
-    setLoading(true);
-    setLoading(false);
-  };
+  const queryClient = useQueryClient();
 
-  console.log("Cart", cartItems);
+  const addressMutation = useMutation({
+    mutationFn: saveAddress,
+    onSuccess: (data) => {
+      console.log("Address Saved: ", data);
+      handleSuccess("Address successfully saved");
+      queryClient.invalidateQueries({ queryKey: ["addresses"] });
+    },
+    onError: (error) => {
+      console.error("Error saving address:", error);
+    },
+  });
+
+  const handlePlaceOrder = async (formData: Record<string, any>) => {
+    if (formData.addressId) {
+      console.log("Using existing address:", formData.addressId);
+      handleSuccess("Order placed with existing address");
+    } else {
+      addressMutation.mutate(formData);
+    }
+  };
 
   const items = cartItems?.data[0]?.items || [];
   const subtotal = items.reduce(
@@ -84,7 +100,10 @@ const Checkout = () => {
           elevation={3}
           sx={{ p: 4, borderRadius: 3, bgcolor: "background.paper" }}
         >
-          <CheckoutForm onSubmit={handlePlaceOrder} loading={loading} />
+          <CheckoutForm
+            onSubmit={handlePlaceOrder}
+            loading={addressMutation.isLoading}
+          />
         </Paper>
         <Paper
           elevation={3}

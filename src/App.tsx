@@ -111,7 +111,14 @@ function App() {
             </PrivateRoute>
           ),
         },
-        { path: CheckOutPath, element: <Checkout /> },
+        {
+          path: CheckOutPath,
+          element: (
+            <PrivateRoute>
+              <Checkout />
+            </PrivateRoute>
+          ),
+        },
       ],
     },
   ]);

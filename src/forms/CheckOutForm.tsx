@@ -18,6 +18,7 @@ import {
 import {
   LocalShipping as TruckIcon,
   Add as AddIcon,
+  Save,
 } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { RootState } from "../main";
@@ -28,6 +29,7 @@ import { getUserAddresses } from "../utils/address";
 interface CheckoutFormProps {
   onSubmit: (formData: Record<string, any>) => void;
   loading: boolean;
+  onAddressSaved: () => void;
 }
 
 interface Address {
@@ -42,12 +44,27 @@ interface Address {
   isDefault: boolean;
 }
 
-const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
+const CheckoutForm: React.FC<CheckoutFormProps> = ({
+  onSubmit,
+  loading,
+  onAddressSaved,
+}) => {
   const { user } = useSelector((state: RootState) => state.auth);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [selectedAddressId, setSelectedAddressId] = useState<number | null>(
     null
   );
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    address: "",
+    city: "",
+    state: "",
+    pincode: "",
+    country: "",
+    isDefault: false,
+    userId: user?.id,
+  });
 
   const {
     data: addressesData,
@@ -75,18 +92,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
     }
   }, [addresses, isLoading, hasAddresses]);
 
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    address: "",
-    city: "",
-    state: "",
-    pincode: "",
-    country: "",
-    isDefault: false,
-    userId: user?.id,
-  });
-
   useEffect(() => {
     if (user?.id) {
       setFormData((prev) => ({
@@ -113,20 +118,9 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
     setSelectedAddressId(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSaveAddress = (e: React.FormEvent) => {
     e.preventDefault();
-    if (selectedAddressId && !showAddressForm) {
-      const selectedAddress = addresses.find(
-        (addr) => addr.id === selectedAddressId
-      );
-      if (selectedAddress) {
-        onSubmit({
-          addressId: selectedAddress.id,
-          userId: user?.id,
-        });
-        return;
-      }
-    }
+
     const requiredFields = [
       "firstName",
       "lastName",
@@ -140,7 +134,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
     const missingFields = requiredFields.filter(
       (field) => !formData[field as keyof typeof formData]
     );
-
     if (missingFields.length > 0) {
       handleError(`All fields are required`);
       return;
@@ -151,9 +144,42 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
       return;
     }
 
-    console.log("Submitting form data:", formData);
-    onSubmit(formData);
+    onSubmit({ ...formData, saveAddressOnly: true });
+    setShowAddressForm(false);
   };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (selectedAddressId) {
+      onSubmit({
+        addressId: selectedAddressId,
+        userId: user?.id,
+      });
+    } else {
+      handleError("Please select an address or add a new one.");
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      firstName: "",
+      lastName: "",
+      address: "",
+      city: "",
+      state: "",
+      pincode: "",
+      country: "",
+      isDefault: false,
+      userId: user?.id,
+    });
+  };
+
+  useEffect(() => {
+    if (!loading) {
+      onAddressSaved();
+      resetForm();
+    }
+  }, [loading]);
 
   const renderAddressForm = () => (
     <Card sx={{ borderRadius: 2, boxShadow: 2, mb: 2 }}>
@@ -223,6 +249,16 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
           }
           label="Set as default address"
         />
+        <Button
+          variant="contained"
+          startIcon={<Save />}
+          onClick={handleSaveAddress}
+          disabled={loading}
+          sx={{ mt: 1 }}
+          color="secondary"
+        >
+          {loading ? "Saving..." : "Save Address"}
+        </Button>
       </CardContent>
     </Card>
   );
@@ -354,7 +390,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
         type="submit"
         variant="contained"
         color="primary"
-        disabled={loading}
+        disabled={loading || !selectedAddressId}
         sx={{ py: 1.5, fontSize: 16 }}
       >
         {loading ? "Processing..." : "Place Order"}

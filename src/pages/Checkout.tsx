@@ -10,9 +10,12 @@ import { getCartItems } from "../utils/cart";
 import { CartItems } from "../data/types";
 import { saveAddress } from "../utils/address";
 import { handleSuccess } from "../utils/utils";
+import { loadStripe } from "@stripe/stripe-js";
+import { useState } from "react";
 
 const Checkout = () => {
   const { user } = useSelector((state: RootState) => state.auth);
+  const queryClient = useQueryClient();
 
   const { data: cartItems, isLoading } = useQuery({
     queryKey: ["cart", user?.id],
@@ -20,7 +23,10 @@ const Checkout = () => {
     enabled: !!user?.id,
   });
 
-  const queryClient = useQueryClient();
+  const items = cartItems?.data[0].items || [];
+  const [resetFormCallback, setResetFormCallback] = useState<() => void>(
+    () => () => {}
+  );
 
   const addressMutation = useMutation({
     mutationFn: saveAddress,
@@ -28,22 +34,44 @@ const Checkout = () => {
       console.log("Address Saved: ", data);
       handleSuccess("Address successfully saved");
       queryClient.invalidateQueries({ queryKey: ["addresses"] });
+      resetFormCallback();
     },
     onError: (error) => {
       console.error("Error saving address:", error);
     },
   });
 
+  const handleAddressSaved = () => {};
+
   const handlePlaceOrder = async (formData: Record<string, any>) => {
-    if (formData.addressId) {
-      console.log("Using existing address:", formData.addressId);
-      handleSuccess("Order placed with existing address");
-    } else {
+    if (formData.saveAddressOnly) {
       addressMutation.mutate(formData);
+    } else if (formData.addressId) {
+      console.log("Placing order with address ID:", formData.addressId);
+      const stripePromise = await loadStripe(
+        import.meta.env.VITE_STRIPE_KEY as string
+      );
+      const body = {
+        products: items,
+      };
+      const headers = { "Content-Type": "application/json" };
+      const response = await fetch(
+        "http://localhost:4000/payment/create-checkout-session",
+        {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(body),
+        }
+      );
+      const session = await response.json();
+      const result = await stripePromise?.redirectToCheckout({
+        sessionId: session.id,
+      });
+      if (result?.error) {
+        console.log(result.error.message);
+      }
     }
   };
-
-  const items = cartItems?.data[0]?.items || [];
   const subtotal = items.reduce(
     (sum: number, item: CartItems) =>
       sum + Number(item.product.salePrice) * item.quantity,
@@ -103,6 +131,7 @@ const Checkout = () => {
           <CheckoutForm
             onSubmit={handlePlaceOrder}
             loading={addressMutation.isLoading}
+            onAddressSaved={handleAddressSaved}
           />
         </Paper>
         <Paper

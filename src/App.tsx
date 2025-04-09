@@ -34,13 +34,35 @@ import Checkout from "./pages/Checkout";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { restoreUserSession } from "./store/authSlice";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentError from "./pages/PaymentError";
 
 const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#2196f3",
+    },
+    secondary: {
+      main: "#f50057",
+    },
+  },
   typography: {
     fontFamily: "'Montserrat', sans-serif",
   },
+  shape: {
+    borderRadius: 8,
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+          fontWeight: 500,
+        },
+      },
+    },
+  },
 });
-
 function App() {
   const dispatch = useDispatch();
 
@@ -119,6 +141,8 @@ function App() {
             </PrivateRoute>
           ),
         },
+        { path: "/error", element: <PaymentError /> },
+        { path: "/success", element: <PaymentSuccess /> },
       ],
     },
   ]);

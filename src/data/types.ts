@@ -204,3 +204,24 @@ export interface JWTPayload {
   iat: number;
   exp: number;
 }
+
+export interface OrderItem {
+  id: number;
+  image: string;
+  name: string;
+  price: string;
+  quantity: number;
+}
+
+export interface Order {
+  date: string;
+  estimatedDelivery: string;
+  id: number;
+  items: OrderItem[];
+  paymentEmail: string;
+  paymentLast4: string | null;
+  paymentMethod: string;
+  paymentStatus: string;
+  shippingAddress: string;
+  status: string;
+}

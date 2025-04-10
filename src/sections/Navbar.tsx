@@ -112,7 +112,7 @@ const Navbar = () => {
         ? getCartItems(user?.id)
         : Promise.reject("User ID is undefined"),
   });
-  const cartItems = cart && cart.data[0].items;
+  const cartItems = cart && cart.data[0]?.items;
   const totalQuantity = cartItems?.reduce((sum: number, item: CartItems) => {
     return sum + item.quantity;
   }, 0);

@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { CheckCircle, ShoppingBag, ArrowForward } from "@mui/icons-material";
 import { green } from "@mui/material/colors";
+import { ContactPath, ProfilePath, ShopPath } from "../constants/constants";
 
 const GreenAvatar = styled(Avatar)(({ theme }) => ({
   backgroundColor: green[100],
@@ -56,6 +57,7 @@ const PaymentSuccess = () => {
         justifyContent: "center",
         background: "linear-gradient(135deg, #e8f5e9 0%, #e0f7fa 100%)",
         padding: 2,
+        mt: 4,
       }}
     >
       <Fade in={true} timeout={500}>
@@ -117,7 +119,7 @@ const PaymentSuccess = () => {
               <Grid item xs={12} sm={6}>
                 <Button
                   component={Link}
-                  to="/orders"
+                  to={ProfilePath}
                   variant="contained"
                   fullWidth
                   sx={{
@@ -132,7 +134,7 @@ const PaymentSuccess = () => {
               <Grid item xs={12} sm={6}>
                 <Button
                   component={Link}
-                  to="/"
+                  to={ShopPath}
                   variant="outlined"
                   fullWidth
                   endIcon={<ArrowForward />}
@@ -156,7 +158,7 @@ const PaymentSuccess = () => {
         <Typography variant="body2" color="text.secondary">
           Having trouble?{" "}
           <Link
-            to="/contact"
+            to={ContactPath}
             style={{ color: green[600], textDecoration: "none" }}
           >
             Contact our support team

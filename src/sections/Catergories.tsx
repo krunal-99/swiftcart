@@ -6,6 +6,7 @@ import { setBrands, setCategory } from "../store/productSlice";
 import { CategoryItem } from "../themes/ComponentThemes";
 import { getCategories } from "../utils/utils";
 import { useQuery } from "@tanstack/react-query";
+import { ShopPath } from "../constants/constants";
 
 const Categories: React.FC = () => {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ const Categories: React.FC = () => {
               animation="wave"
             />
           ) : data && data[1] ? (
-            <NavLink to="/shop">
+            <NavLink to={ShopPath}>
               <CategoryItem onClick={() => handleCategoryClick(data[1].id)}>
                 <img src={data[1].imageUrl} alt={data[1].label} />
                 <span className="label">{data[1].label}</span>
@@ -65,7 +66,7 @@ const Categories: React.FC = () => {
               animation="wave"
             />
           ) : data && data[2] ? (
-            <NavLink to="/shop">
+            <NavLink to={ShopPath}>
               <CategoryItem onClick={() => handleCategoryClick(data[2].id)}>
                 <img src={data[2].imageUrl} alt={data[2].label} />
                 <span className="label">{data[2].label}</span>
@@ -84,7 +85,7 @@ const Categories: React.FC = () => {
                   animation="wave"
                 />
               ) : data && data[3] ? (
-                <NavLink to="/shop">
+                <NavLink to={ShopPath}>
                   <CategoryItem onClick={() => handleCategoryClick(data[3].id)}>
                     <img src={data[3].imageUrl} alt={data[3].label} />
                     <span className="label">{data[3].label}</span>
@@ -101,7 +102,7 @@ const Categories: React.FC = () => {
                   animation="wave"
                 />
               ) : data && data[4] ? (
-                <NavLink to="/shop">
+                <NavLink to={ShopPath}>
                   <CategoryItem onClick={() => handleCategoryClick(data[4].id)}>
                     <img src={data[4].imageUrl} alt={data[4].label} />
                     <span className="label">{data[4].label}</span>

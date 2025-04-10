@@ -19,12 +19,14 @@ import {
   CartPath,
   CheckOutPath,
   ContactPath,
+  ErrorPath,
   HomePath,
   LoginPath,
   ProductPath,
   ProfilePath,
   RegisterPath,
   ShopPath,
+  SuccessPath,
   WishlistPath,
 } from "./constants/constants";
 import PrivateRoute, { AuthRoute } from "./components/PrivateRoute";
@@ -141,8 +143,8 @@ function App() {
             </PrivateRoute>
           ),
         },
-        { path: "/error", element: <PaymentError /> },
-        { path: "/success", element: <PaymentSuccess /> },
+        { path: ErrorPath, element: <PaymentError /> },
+        { path: SuccessPath, element: <PaymentSuccess /> },
       ],
     },
   ]);

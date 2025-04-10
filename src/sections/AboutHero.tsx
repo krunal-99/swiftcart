@@ -52,7 +52,7 @@ const AboutHero = () => {
       </Stack>
       <Box
         component="img"
-        src={`${assets.images.AboutHeroImg}`}
+        src={assets.images.AboutHeroImg}
         height="auto"
         width={{ xs: "100%", sm: "80%", md: "500px" }}
         maxWidth="600px"

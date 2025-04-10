@@ -1,6 +1,7 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { assets } from "../assets";
+import { ContactPath } from "../constants/constants";
 
 const ContactComponent = () => {
   return (
@@ -34,7 +35,7 @@ const ContactComponent = () => {
             If you want something more unique and brand-oriented, let me know
             your eCommerce niche, and I can tailor it further!
           </Typography>
-          <NavLink to="/contact" style={{ textDecoration: "none" }}>
+          <NavLink to={ContactPath} style={{ textDecoration: "none" }}>
             <Button
               variant="outlined"
               sx={{

@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { NavLink } from "react-router-dom";
+import { ShopPath } from "../constants/constants";
 
 const EmptyCart = () => {
   return (
@@ -56,7 +57,7 @@ const EmptyCart = () => {
       >
         Looks like you haven't found anything you love yet!
       </Typography>
-      <NavLink to="/shop">
+      <NavLink to={ShopPath}>
         <Button
           variant="contained"
           sx={{

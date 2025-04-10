@@ -39,6 +39,12 @@ import { useQuery } from "@tanstack/react-query";
 import { getWishListItems } from "../utils/utils";
 import { getCartItems } from "../utils/cart";
 import { CartItems } from "../data/types";
+import {
+  CartPath,
+  HomePath,
+  LoginPath,
+  WishlistPath,
+} from "../constants/constants";
 
 const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -75,7 +81,7 @@ const Navbar = () => {
     if (setting === "LOGOUT") {
       dispatch(logout());
       localStorage.clear();
-      window.location.href = "/login";
+      window.location.href = LoginPath;
     }
     setAnchorElUser(null);
   };
@@ -85,8 +91,8 @@ const Navbar = () => {
   };
 
   const isActiveLink = (path: string): boolean => {
-    if (path === "/" && location.pathname === "/") return true;
-    if (path !== "/" && location.pathname.includes(path)) return true;
+    if (path === HomePath && location.pathname === HomePath) return true;
+    if (path !== HomePath && location.pathname.includes(path)) return true;
     return false;
   };
 
@@ -125,7 +131,10 @@ const Navbar = () => {
       >
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <NavLink to="/" style={{ listStyle: "none", color: "white" }}>
+            <NavLink
+              to={HomePath}
+              style={{ listStyle: "none", color: "white" }}
+            >
               <Typography
                 variant="h5"
                 sx={{
@@ -146,7 +155,9 @@ const Navbar = () => {
                 <StyledNavLink
                   key={navLink}
                   style={{ textDecoration: "none" }}
-                  to={navLink === "HOME" ? "/" : `${navLink.toLowerCase()}`}
+                  to={
+                    navLink === "HOME" ? HomePath : `${navLink.toLowerCase()}`
+                  }
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <Button
@@ -166,12 +177,12 @@ const Navbar = () => {
               <SearchBar />
               <IconButton sx={{ display: { xs: "none", md: "flex" } }}>
                 <Badge badgeContent={wishlist?.length} color="error">
-                  <NavLink style={{ color: "#23a6f0" }} to="/wishlist">
+                  <NavLink style={{ color: "#23a6f0" }} to={WishlistPath}>
                     <FavoriteBorderIcon />
                   </NavLink>
                 </Badge>
               </IconButton>
-              <NavLink to="/cart" style={{ textDecoration: "none" }}>
+              <NavLink to={CartPath} style={{ textDecoration: "none" }}>
                 <IconButton
                   sx={{
                     color: "#23a6f0",
@@ -286,7 +297,9 @@ const Navbar = () => {
               <ListItem key={navLink} disablePadding>
                 <StyledDrawerNavLink
                   key={navLink}
-                  to={navLink === "HOME" ? "/" : `${navLink.toLowerCase()}`}
+                  to={
+                    navLink === "HOME" ? HomePath : `${navLink.toLowerCase()}`
+                  }
                   className={({ isActive }) => (isActive ? "active" : "")}
                 >
                   <ListItemButton>
@@ -306,7 +319,7 @@ const Navbar = () => {
               <ListItemButton
                 sx={{ display: "flex", justifyContent: "center" }}
               >
-                <NavLink to="/cart" style={{ textDecoration: "none" }}>
+                <NavLink to={CartPath} style={{ textDecoration: "none" }}>
                   <Stack direction="row" alignItems="center" spacing={1}>
                     <Badge
                       style={{ color: "#23a6f0" }}
@@ -325,7 +338,7 @@ const Navbar = () => {
               >
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <Badge badgeContent={wishlist?.length} color="error">
-                    <NavLink style={{ color: "#23a6f0" }} to="/wishlist">
+                    <NavLink style={{ color: "#23a6f0" }} to={WishlistPath}>
                       <FavoriteBorderIcon />
                     </NavLink>
                   </Badge>

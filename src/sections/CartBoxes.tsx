@@ -9,6 +9,7 @@ import { RootState } from "../main";
 import { useQuery } from "@tanstack/react-query";
 import { getCartItems } from "../utils/cart";
 import { CartItems } from "../data/types";
+import { CheckOutPath, ShopPath } from "../constants/constants";
 
 const CartBoxes = () => {
   const dispatch = useDispatch();
@@ -87,14 +88,14 @@ const CartBoxes = () => {
       >
         <Button variant="outlined" startIcon={<ReplyAllIcon />}>
           <NavLink
-            to="/shop"
+            to={ShopPath}
             style={{ textDecoration: "none", color: "inherit" }}
           >
             Continue Shopping
           </NavLink>
         </Button>
         {cart?.data[0].items.length > 0 && (
-          <NavLink to="/checkout">
+          <NavLink to={CheckOutPath}>
             <Button
               variant="contained"
               fullWidth

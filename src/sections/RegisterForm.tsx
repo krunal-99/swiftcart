@@ -21,6 +21,7 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { Link, useNavigate } from "react-router-dom";
 import { registerFormFields } from "../data/data";
 import { handleError, handleSuccess } from "../utils/utils";
+import { LoginPath } from "../constants/constants";
 
 export const iconMap: { [key: string]: React.ElementType } = {
   name: AccountCircleIcon,
@@ -107,7 +108,7 @@ const RegisterForm: React.FC = () => {
         handleError(`${data}`);
       } else if (status === "success") {
         handleSuccess(`${data}`);
-        navigate("/login");
+        navigate(LoginPath);
         formRef.current?.reset();
         setUserInfo({ name: "", email: "", password: "" });
         setImagePreview(null);
@@ -291,7 +292,7 @@ const RegisterForm: React.FC = () => {
       <Box sx={{ textAlign: "center", mt: 2 }}>
         <Typography variant="body2">
           Already have an account?{" "}
-          <MuiLink component={Link} to="/login" fontWeight="medium">
+          <MuiLink component={Link} to={LoginPath} fontWeight="medium">
             Sign in
           </MuiLink>
         </Typography>

@@ -12,11 +12,13 @@ import { saveAddress } from "../utils/address";
 import { handleSuccess } from "../utils/utils";
 import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
+import { HomePath } from "../constants/constants";
 
 const Checkout = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
+  console.log("User", user);
   const { data: cartItems, isLoading } = useQuery({
     queryKey: ["cart", user?.id],
     queryFn: () => getCartItems(user?.id!),
@@ -44,6 +46,7 @@ const Checkout = () => {
   const handleAddressSaved = () => {};
 
   const handlePlaceOrder = async (formData: Record<string, any>) => {
+    console.log("formData", formData);
     if (formData.saveAddressOnly) {
       addressMutation.mutate(formData);
     } else if (formData.addressId) {
@@ -53,22 +56,30 @@ const Checkout = () => {
       );
       const body = {
         products: items,
+        email: user?.email,
       };
       const headers = { "Content-Type": "application/json" };
-      const response = await fetch(
-        "http://localhost:4000/payment/create-checkout-session",
-        {
-          method: "POST",
-          headers: headers,
-          body: JSON.stringify(body),
+      try {
+        const response = await fetch(
+          "http://localhost:4000/payment/create-checkout-session",
+          {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(body),
+          }
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-      );
-      const session = await response.json();
-      const result = await stripePromise?.redirectToCheckout({
-        sessionId: session.id,
-      });
-      if (result?.error) {
-        console.log(result.error.message);
+        const session = await response.json();
+        const result = await stripePromise?.redirectToCheckout({
+          sessionId: session.id,
+        });
+        if (result?.error) {
+          console.log(result.error.message);
+        }
+      } catch (error) {
+        console.error("Error during checkout:", error);
       }
     }
   };
@@ -89,7 +100,7 @@ const Checkout = () => {
     >
       <Box
         component={Link}
-        to="/"
+        to={HomePath}
         sx={{
           display: "flex",
           alignItems: "center",

@@ -23,6 +23,7 @@ import OrderHistory from "../sections/OrderHistory";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../main";
 import { logout } from "../store/authSlice";
+import { LoginPath, ShopPath, WishlistPath } from "../constants/constants";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
@@ -44,14 +45,14 @@ const Profile = () => {
   const handleLogout = () => {
     dispatch(logout());
     localStorage.clear();
-    window.location.href = "/login";
+    window.location.href = LoginPath;
   };
 
   const { user } = useSelector((state: RootState) => state.auth);
   return (
     <Container maxWidth="lg" sx={{ py: 4, minHeight: "100vh", mt: "60px" }}>
       <NavLink
-        to="/"
+        to={ShopPath}
         style={{
           display: "flex",
           alignItems: "center",
@@ -139,7 +140,7 @@ const Profile = () => {
             component={Link}
             variant="outlined"
             startIcon={<Favorite fontSize="small" />}
-            to="/wishlist"
+            to={WishlistPath}
             sx={{ whiteSpace: "nowrap" }}
           >
             My Wishlist

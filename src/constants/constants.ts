@@ -9,3 +9,5 @@ export const ShopPath = "/shop";
 export const WishlistPath = "/wishlist";
 export const ProfilePath = "/profile";
 export const CheckOutPath = "/checkout";
+export const ErrorPath = "/error";
+export const SuccessPath = "/success";

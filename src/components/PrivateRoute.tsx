@@ -5,10 +5,11 @@ import { PrivateRouteProps } from "../data/types";
 import { useEffect, useState } from "react";
 import { logout } from "../store/authSlice";
 import { handleError } from "../utils/utils";
+import { HomePath, LoginPath } from "../constants/constants";
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({
   children,
-  redirectTo = "/login",
+  redirectTo = LoginPath,
 }) => {
   const { isAuthenticated, token } = useSelector(
     (state: RootState) => state.auth
@@ -60,7 +61,7 @@ export default PrivateRoute;
 
 const AuthRoute: React.FC<PrivateRouteProps> = ({
   children,
-  redirectTo = "/",
+  redirectTo = HomePath,
 }) => {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   return isAuthenticated ? <Navigate to={redirectTo} /> : <>{children}</>;

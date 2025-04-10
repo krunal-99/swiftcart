@@ -8,6 +8,7 @@ import {
   useTheme,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
+import { HomePath } from "../constants/constants";
 
 const ErrorPage: React.FC = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const ErrorPage: React.FC = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate("/");
+      navigate(HomePath);
     }, 15000);
 
     return () => clearTimeout(timer);
@@ -92,7 +93,7 @@ const ErrorPage: React.FC = () => {
         color="primary"
         size="large"
         startIcon={<HomeIcon />}
-        onClick={() => navigate("/")}
+        onClick={() => navigate(HomePath)}
         sx={{
           borderRadius: "50px",
           px: 4,

@@ -13,6 +13,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
 import { NavLink } from "react-router-dom";
 import { footerLinks } from "../data/data";
+import { HomePath } from "../constants/constants";
 
 const Footer = () => {
   return (
@@ -27,7 +28,7 @@ const Footer = () => {
         flexDirection={{ xs: "column", sm: "row" }}
         gap={{ xs: 3 }}
       >
-        <NavLink to="/" style={{ listStyle: "none", color: "white" }}>
+        <NavLink to={HomePath} style={{ listStyle: "none", color: "white" }}>
           <Typography
             color="#252b42"
             fontWeight={700}

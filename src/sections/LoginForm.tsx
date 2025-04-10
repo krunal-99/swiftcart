@@ -18,6 +18,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { handleError, handleSuccess } from "../utils/utils";
 import { useDispatch } from "react-redux";
 import { login } from "../store/authSlice";
+import { HomePath, RegisterPath } from "../constants/constants";
 
 const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -64,7 +65,7 @@ const LoginForm: React.FC = () => {
       } else {
         handleSuccess(`${result.data}`);
         dispatch(login({ user: result.user, token: result.token }));
-        navigate("/", { replace: true });
+        navigate(HomePath, { replace: true });
         formRef.current?.reset();
         setLoginInfo({ email: "", password: "" });
       }
@@ -164,7 +165,7 @@ const LoginForm: React.FC = () => {
       <Box sx={{ textAlign: "center", mt: 2 }}>
         <Typography variant="body2">
           Don't have an account?{" "}
-          <MuiLink component={Link} to="/register" fontWeight="medium">
+          <MuiLink component={Link} to={RegisterPath} fontWeight="medium">
             Sign up now
           </MuiLink>
         </Typography>

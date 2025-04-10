@@ -5,7 +5,7 @@ const VideoComponent = () => {
   return (
     <Box width="80%" m="auto">
       <video
-        src={`${assets.videos.AdVideo}`}
+        src={assets.videos.AdVideo}
         width="100%"
         height="auto"
         muted

@@ -21,6 +21,7 @@ import {
   FiberManualRecord,
 } from "@mui/icons-material";
 import { red } from "@mui/material/colors";
+import { CheckOutPath, ContactPath, ShopPath } from "../constants/constants";
 
 const RedAvatar = styled(Avatar)(({ theme }) => ({
   backgroundColor: red[100],
@@ -66,6 +67,7 @@ const PaymentError = () => {
         justifyContent: "center",
         background: "linear-gradient(135deg, #ffebee 0%, #fff8e1 100%)",
         padding: 2,
+        mt: 10,
       }}
     >
       <Fade in={true} timeout={500}>
@@ -157,7 +159,7 @@ const PaymentError = () => {
               <Grid item xs={12} sm={6}>
                 <Button
                   component={Link}
-                  to="/checkout"
+                  to={CheckOutPath}
                   variant="contained"
                   fullWidth
                   sx={{
@@ -171,7 +173,7 @@ const PaymentError = () => {
               <Grid item xs={12} sm={6}>
                 <Button
                   component={Link}
-                  to="/"
+                  to={ShopPath}
                   variant="outlined"
                   fullWidth
                   startIcon={<ArrowBack />}
@@ -202,29 +204,13 @@ const PaymentError = () => {
       >
         <Button
           component={Link}
-          to="/contact"
+          to={ContactPath}
           variant="text"
           size="small"
           startIcon={<HelpOutline />}
           sx={{ color: red[600], textTransform: "none", p: 0 }}
         >
           Contact Support
-        </Button>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{ display: { xs: "none", sm: "block" } }}
-        >
-          •
-        </Typography>
-        <Button
-          component={Link}
-          to="/faq"
-          variant="text"
-          size="small"
-          sx={{ color: red[600], textTransform: "none", p: 0 }}
-        >
-          Payment FAQ
         </Button>
       </Box>
     </Box>

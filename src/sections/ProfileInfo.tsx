@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ProfileInfoProps } from "../data/types";
 import { handleError, handleSuccess } from "../utils/utils";
 import {
@@ -10,6 +10,7 @@ import {
   CircularProgress,
   IconButton,
   InputAdornment,
+  Skeleton,
   TextField,
   Typography,
 } from "@mui/material";
@@ -24,22 +25,71 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "../main";
 
-const ProfileInfo: React.FC<ProfileInfoProps> = ({ userData }) => {
+interface ExtendedProfileInfoProps extends ProfileInfoProps {
+  isLoading?: boolean;
+}
+
+interface Address {
+  id: number;
+  firstName: string;
+  lastName: string;
+  streetAddress: string;
+  city: string;
+  state: string;
+  pincode: string;
+  country: string;
+  isDefault: boolean;
+}
+
+const ProfileInfo: React.FC<ExtendedProfileInfoProps> = ({
+  userData,
+  isLoading = false,
+}) => {
+  const getDefaultAddress = (addresses: Address[] | undefined) => {
+    if (!addresses || addresses.length === 0) return null;
+    if (addresses.length === 1) return addresses[0];
+    const defaultAddress = addresses.find((addr) => addr.isDefault);
+    return defaultAddress || addresses[0];
+  };
+  console.log("User Data: ", userData);
+
+  const displayAddress = getDefaultAddress(userData?.addresses);
+
   const [formData, setFormData] = useState({
-    name: userData.name,
-    email: userData.email,
+    name: userData?.name || "",
+    email: userData?.email || "",
     password: "",
     confirmPassword: "",
-    street: userData.address?.street || "",
-    city: userData.address?.city || "",
-    state: userData.address?.state || "",
-    pincode: userData.address?.pincode || "",
-    country: userData.address?.country || "India",
+    street: displayAddress?.streetAddress || "",
+    city: displayAddress?.city || "",
+    state: displayAddress?.state || "",
+    pincode: displayAddress?.pincode || "",
+    country: displayAddress?.country || "India",
   });
+
+  useEffect(() => {
+    if (userData) {
+      const address = getDefaultAddress(userData.addresses);
+      setFormData({
+        name: userData.name || "",
+        email: userData.email || "",
+        password: "",
+        confirmPassword: "",
+        street: address?.streetAddress || "",
+        city: address?.city || "",
+        state: address?.state || "",
+        pincode: address?.pincode || "",
+        country: address?.country || "India",
+      });
+    }
+  }, [userData]);
+
   const [editMode, setEditMode] = useState(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string>(userData.imageUrl);
+  const [imagePreview, setImagePreview] = useState<string>(
+    userData?.imageUrl || ""
+  );
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isUploading, setIsUploading] = useState<Boolean>(false);
 
@@ -85,6 +135,103 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ userData }) => {
       handleSuccess("Profile updated successfully.");
     }, 1500);
   };
+
+  if (isLoading) {
+    return (
+      <Card
+        sx={{
+          marginBottom: 3,
+          border: 1,
+          borderColor: "grey.300",
+          boxShadow: 1,
+        }}
+      >
+        <CardContent sx={{ padding: 3 }}>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={3}
+          >
+            <Skeleton variant="text" width={200} height={32} />
+            <Skeleton variant="rounded" width={120} height={36} />
+          </Box>
+
+          <Box mb={4} display="flex" flexDirection="column" alignItems="center">
+            <Skeleton
+              variant="circular"
+              width={120}
+              height={120}
+              sx={{ mb: 2 }}
+            />
+            <Skeleton variant="text" width={120} height={24} />
+          </Box>
+
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+              gap: 2,
+            }}
+          >
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              <Skeleton variant="text" width={80} height={24} />
+              <Skeleton variant="rounded" height={56} />
+            </Box>
+
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              <Skeleton variant="text" width={100} height={24} />
+              <Skeleton variant="rounded" height={56} />
+            </Box>
+          </Box>
+
+          <Skeleton
+            variant="text"
+            width={200}
+            height={32}
+            sx={{ mt: 4, mb: 2 }}
+          />
+
+          <Box
+            display="grid"
+            gridTemplateColumns={{ xs: "1fr", md: "1fr 1fr" }}
+            gap={2}
+          >
+            <Box
+              display="flex"
+              flexDirection="column"
+              gap={1}
+              gridColumn={{ md: "span 2" }}
+            >
+              <Skeleton variant="text" width={120} height={24} />
+              <Skeleton variant="rounded" height={80} />
+            </Box>
+
+            <Box display="flex" flexDirection="column" gap={1}>
+              <Skeleton variant="text" width={40} height={24} />
+              <Skeleton variant="rounded" height={56} />
+            </Box>
+
+            <Box display="flex" flexDirection="column" gap={1}>
+              <Skeleton variant="text" width={50} height={24} />
+              <Skeleton variant="rounded" height={56} />
+            </Box>
+
+            <Box display="flex" flexDirection="column" gap={1}>
+              <Skeleton variant="text" width={70} height={24} />
+              <Skeleton variant="rounded" height={56} />
+            </Box>
+
+            <Box display="flex" flexDirection="column" gap={1}>
+              <Skeleton variant="text" width={60} height={24} />
+              <Skeleton variant="rounded" height={56} />
+            </Box>
+          </Box>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <Card
@@ -128,12 +275,12 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ userData }) => {
           </Box>
           <Box mb={4} display="flex" flexDirection="column" alignItems="center">
             <Box position="relative">
-              {user?.imageUrl ? (
+              {userData?.imageUrl ? (
                 <Avatar
-                  src={`${user.imageUrl}`}
-                  alt={user?.name}
+                  src={userData.imageUrl}
+                  alt={userData.name}
                   sx={{ width: 120, height: 120, mb: 2 }}
-                ></Avatar>
+                />
               ) : (
                 <Avatar
                   src={imagePreview}
@@ -180,9 +327,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ userData }) => {
             >
               {editMode
                 ? "JPG, PNG or GIF (max. 2MB)"
-                : user?.name
-                ? user.name
-                : "Profile Picture"}
+                : userData?.name || user?.name || "Profile Picture"}
             </Typography>
           </Box>
           <Box
@@ -199,7 +344,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ userData }) => {
               <TextField
                 id="name"
                 name="name"
-                value={user?.name ? user.name : formData.name}
+                value={userData?.name || formData.name}
                 onChange={handleInputChange}
                 required
                 disabled={!editMode}
@@ -216,7 +361,7 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ userData }) => {
                 id="email"
                 name="email"
                 type="email"
-                value={user?.email ? user.email : formData.email}
+                value={userData?.email || formData.email}
                 onChange={handleInputChange}
                 required
                 disabled={!editMode}
@@ -301,6 +446,15 @@ const ProfileInfo: React.FC<ProfileInfoProps> = ({ userData }) => {
           </Box>
           <Typography variant="h6" fontWeight="medium" mt={4} mb={2}>
             Address Information
+            {userData?.addresses && userData.addresses.length > 0 && (
+              <Typography
+                variant="caption"
+                component="span"
+                sx={{ ml: 1, color: "text.secondary" }}
+              >
+                {displayAddress?.isDefault ? "(Default Address)" : ""}
+              </Typography>
+            )}
           </Typography>
           <Box
             display="grid"

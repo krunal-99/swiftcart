@@ -181,18 +181,24 @@ export type contactUser = {
   message?: string;
 };
 
+export interface Address {
+  id: number;
+  firstName: string;
+  lastName: string;
+  streetAddress: string;
+  city: string;
+  state: string;
+  pincode: string;
+  country: string;
+  isDefault: boolean;
+}
+
 export interface ProfileInfoProps {
   userData: {
-    name: string;
-    email: string;
-    imageUrl: string;
-    address?: {
-      street: string;
-      city: string;
-      state: string;
-      pincode: string;
-      country: string;
-    };
+    name?: string;
+    email?: string;
+    imageUrl?: string;
+    addresses?: Address[];
   };
 }
 

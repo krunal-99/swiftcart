@@ -10,6 +10,7 @@ import {
   Button,
   Card,
   Container,
+  Skeleton,
   Tab,
   Tabs,
   Typography,
@@ -24,17 +25,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../main";
 import { logout } from "../store/authSlice";
 import { LoginPath, ShopPath, WishlistPath } from "../constants/constants";
+import { useQuery } from "@tanstack/react-query";
+import { getUserById } from "../utils/utils";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
   const isMobile = useMediaQuery("(max-width:640px)");
-
-  const userData = {
-    name: "Krunal Pokar",
-    email: "kp488680@gmail.com",
-    imageUrl:
-      "https://tse1.mm.bing.net/th?id=OIP.8fxewAh6BCz4IZBW0kbaVQHaEK&pid=Api&P=0&h=220",
-  };
+  const { user } = useSelector((state: RootState) => state.auth);
+  const {
+    data: userData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["user", user?.id],
+    queryFn: () => getUserById(user?.id!),
+  });
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
@@ -48,7 +53,6 @@ const Profile = () => {
     window.location.href = LoginPath;
   };
 
-  const { user } = useSelector((state: RootState) => state.auth);
   return (
     <Container maxWidth="lg" sx={{ py: 4, minHeight: "100vh", mt: "60px" }}>
       <NavLink
@@ -77,23 +81,59 @@ const Profile = () => {
             alignItems={{ xs: "center", sm: "flex-start" }}
             gap={2}
           >
-            <Avatar
-              src={user?.imageUrl}
-              alt={user?.name}
-              sx={{
-                width: 80,
-                height: 80,
-                border: "4px solid white",
-                boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-              }}
-            />
+            {isLoading ? (
+              <Skeleton
+                variant="circular"
+                sx={{
+                  width: 80,
+                  height: 80,
+                  bgcolor: "rgba(255,255,255,0.3)",
+                }}
+              />
+            ) : (
+              <Avatar
+                src={user?.imageUrl}
+                alt={user?.name}
+                sx={{
+                  width: 80,
+                  height: 80,
+                  border: "4px solid white",
+                  boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+                }}
+              />
+            )}
             <Box color="white" textAlign={{ xs: "center", sm: "left" }}>
-              <Typography variant="h4" fontWeight="bold" mb={1}>
-                {user?.name}
-              </Typography>
-              <Typography variant="body1" sx={{ opacity: 0.9 }} mb={2}>
-                {user?.email}
-              </Typography>
+              {isLoading ? (
+                <>
+                  <Skeleton
+                    variant="text"
+                    sx={{
+                      bgcolor: "rgba(255,255,255,0.3)",
+                      fontSize: "2.125rem",
+                      width: 200,
+                      mb: 1,
+                    }}
+                  />
+                  <Skeleton
+                    variant="text"
+                    sx={{
+                      bgcolor: "rgba(255,255,255,0.3)",
+                      fontSize: "1rem",
+                      width: 160,
+                      mb: 2,
+                    }}
+                  />
+                </>
+              ) : (
+                <>
+                  <Typography variant="h4" fontWeight="bold" mb={1}>
+                    {user?.name}
+                  </Typography>
+                  <Typography variant="body1" sx={{ opacity: 0.9 }} mb={2}>
+                    {user?.email}
+                  </Typography>
+                </>
+              )}
             </Box>
           </Box>
         </Box>
@@ -111,17 +151,19 @@ const Profile = () => {
               icon={<PersonIcon sx={{ marginRight: 1 }} fontSize="small" />}
               label="Personal Info"
               iconPosition="start"
-            ></Tab>
+            />
             <Tab
               icon={<ShoppingBag sx={{ marginRight: 1 }} fontSize="small" />}
               label="Order History"
               iconPosition="start"
-            ></Tab>
+            />
           </Tabs>
         </Box>
       </Box>
       <div role="tabpanel" hidden={activeTab !== 0}>
-        {activeTab === 0 && <ProfileInfo userData={userData} />}
+        {activeTab === 0 && (
+          <ProfileInfo userData={userData} isLoading={isLoading} />
+        )}
       </div>
       <div role="tabpanel" hidden={activeTab !== 1}>
         {activeTab === 1 && <OrderHistory />}

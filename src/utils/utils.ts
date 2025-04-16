@@ -1,12 +1,4 @@
 import { toast } from "react-toastify";
-import {
-  CheckCircle,
-  CreditCard,
-  Inventory,
-  LocalShipping,
-  Schedule,
-  Visibility,
-} from "@mui/icons-material";
 import { Address, Order } from "../data/types";
 
 export const API_URL = "http://localhost:4000";

@@ -28,11 +28,7 @@ import { getUserAddresses } from "../utils/address";
 import { CheckoutFormProps, requiredFieldsCheckOut } from "../data/types";
 import { Address } from "../data/types";
 
-const CheckoutForm: React.FC<CheckoutFormProps> = ({
-  onSubmit,
-  loading,
-  onAddressSaved,
-}) => {
+const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
   const { user } = useSelector((state: RootState) => state.auth);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [selectedAddressId, setSelectedAddressId] = useState<number | null>(
@@ -147,7 +143,6 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
 
   useEffect(() => {
     if (!loading) {
-      onAddressSaved();
       resetForm();
     }
   }, [loading]);

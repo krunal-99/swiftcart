@@ -5,7 +5,6 @@ import { getListTotal } from "./store/wishListSlice.ts";
 import { store } from "./store/store.ts";
 
 export type RootState = ReturnType<typeof store.getState>;
-store.dispatch(getListTotal());
 
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>

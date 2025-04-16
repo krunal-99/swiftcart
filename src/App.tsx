@@ -38,6 +38,7 @@ import { useEffect } from "react";
 import { restoreUserSession } from "./store/authSlice";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentError from "./pages/PaymentError";
+import PaymentRouteGuard from "./components/PaymentRouteGuard";
 
 const theme = createTheme({
   palette: {
@@ -131,7 +132,7 @@ function App() {
           path: ProfilePath,
           element: (
             <PrivateRoute>
-              <Profile />,
+              <Profile />
             </PrivateRoute>
           ),
         },
@@ -143,8 +144,22 @@ function App() {
             </PrivateRoute>
           ),
         },
-        { path: ErrorPath, element: <PaymentError /> },
-        { path: SuccessPath, element: <PaymentSuccess /> },
+        {
+          path: ErrorPath,
+          element: (
+            <PaymentRouteGuard>
+              <PaymentError />
+            </PaymentRouteGuard>
+          ),
+        },
+        {
+          path: SuccessPath,
+          element: (
+            <PaymentRouteGuard>
+              <PaymentSuccess />
+            </PaymentRouteGuard>
+          ),
+        },
       ],
     },
   ]);

@@ -2,9 +2,7 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import ReplyAllIcon from "@mui/icons-material/ReplyAll";
 import { NavLink } from "react-router-dom";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getListTotal } from "../store/wishListSlice";
+import { useSelector } from "react-redux";
 import { RootState } from "../main";
 import { useQuery } from "@tanstack/react-query";
 import { getCartItems } from "../utils/cart";
@@ -12,7 +10,6 @@ import { CartItems } from "../data/types";
 import { CheckOutPath, ShopPath } from "../constants/constants";
 
 const CartBoxes = () => {
-  const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
 
   const userId = user && user?.id;
@@ -31,10 +28,6 @@ const CartBoxes = () => {
           : item.product.salePrice;
       return acc + price * item.quantity;
     }, 0);
-
-  useEffect(() => {
-    dispatch(getListTotal());
-  }, [cart, dispatch]);
 
   const cartFinances = [
     { label: "Subtotal", value: `₹ ${totalAmount || 0}` },

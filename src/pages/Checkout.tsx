@@ -9,7 +9,7 @@ import { RootState } from "../main";
 import { getCartItems } from "../utils/cart";
 import { CartItems } from "../data/types";
 import { saveAddress } from "../utils/address";
-import { handleSuccess } from "../utils/utils";
+import { API_URL, handleSuccess } from "../utils/utils";
 import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
 import { HomePath } from "../constants/constants";
@@ -17,8 +17,6 @@ import { HomePath } from "../constants/constants";
 const Checkout = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
-
-  console.log("User", user);
   const { data: cartItems, isLoading } = useQuery({
     queryKey: ["cart", user?.id],
     queryFn: () => getCartItems(user?.id!),
@@ -26,6 +24,7 @@ const Checkout = () => {
   });
 
   const items = cartItems?.data[0].items || [];
+  const cartId = cartItems?.data[0]?.id;
   const [resetFormCallback] = useState<() => void>(() => () => {});
 
   const addressMutation = useMutation({
@@ -41,25 +40,24 @@ const Checkout = () => {
     },
   });
 
-  const handleAddressSaved = () => {};
-
   const handlePlaceOrder = async (formData: Record<string, any>) => {
-    console.log("formData", formData);
     if (formData.saveAddressOnly) {
       addressMutation.mutate(formData);
     } else if (formData.addressId) {
-      console.log("Placing order with address ID:", formData.addressId);
       const stripePromise = await loadStripe(
         import.meta.env.VITE_STRIPE_KEY as string
       );
       const body = {
         products: items,
         email: user?.email,
+        userId: user?.id,
+        addressId: formData.addressId,
+        cartId,
       };
       const headers = { "Content-Type": "application/json" };
       try {
         const response = await fetch(
-          "http://localhost:4000/payment/create-checkout-session",
+          `${API_URL}/payment/create-checkout-session`,
           {
             method: "POST",
             headers: headers,
@@ -140,7 +138,6 @@ const Checkout = () => {
           <CheckoutForm
             onSubmit={handlePlaceOrder}
             loading={addressMutation.isLoading}
-            onAddressSaved={handleAddressSaved}
           />
         </Paper>
         <Paper

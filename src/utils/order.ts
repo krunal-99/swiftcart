@@ -14,3 +14,31 @@ export const getOrderByUser = async (userId: number) => {
     throw error;
   }
 };
+
+export const getOrderById = async (orderId: string) => {
+  try {
+    const response = await fetch(`${API_URL}/orders/order/${orderId}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    throw error;
+  }
+};
+
+export const getOrderBySessionId = async (sessionId: string) => {
+  try {
+    const response = await fetch(`${API_URL}/orders/session/${sessionId}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const result = await response.json();
+    return result.data;
+  } catch (error) {
+    console.error("Error fetching order:", error);
+    throw error;
+  }
+};

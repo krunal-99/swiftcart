@@ -234,7 +234,6 @@ export interface Order {
 export interface CheckoutFormProps {
   onSubmit: (formData: Record<string, any>) => void;
   loading: boolean;
-  onAddressSaved: () => void;
 }
 
 export const requiredFieldsCheckOut = [

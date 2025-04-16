@@ -16,8 +16,8 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import ProfileInfo from "../sections/ProfileInfo";
 import OrderHistory from "../sections/OrderHistory";
@@ -29,6 +29,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserById } from "../utils/user";
 
 const Profile = () => {
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState<number>(0);
   const isMobile = useMediaQuery("(max-width:640px)");
   const { user } = useSelector((state: RootState) => state.auth);
@@ -36,6 +37,14 @@ const Profile = () => {
     queryKey: ["user", user?.id],
     queryFn: () => getUserById(user?.id!),
   });
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tabParam = params.get("tab");
+    if (tabParam === "orders") {
+      setActiveTab(1);
+    }
+  }, [location.search]);
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);

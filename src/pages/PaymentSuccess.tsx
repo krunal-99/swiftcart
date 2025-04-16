@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -13,6 +13,13 @@ import {
 import { CheckCircle, ShoppingBag, ArrowForward } from "@mui/icons-material";
 import { green } from "@mui/material/colors";
 import { ContactPath, ProfilePath, ShopPath } from "../constants/constants";
+import { useQuery } from "@tanstack/react-query";
+import { getOrderBySessionId } from "../utils/order";
+import { OrderItem } from "../data/types";
+import { useEffect } from "react";
+import { clearCartItems } from "../utils/cart";
+import { useSelector } from "react-redux";
+import { RootState } from "../main";
 
 const GreenAvatar = styled(Avatar)(({ theme }) => ({
   backgroundColor: green[100],
@@ -41,9 +48,34 @@ const OrderInfo = styled(Box)(({ theme }) => ({
 }));
 
 const PaymentSuccess = () => {
-  const orderId =
-    new URLSearchParams(window.location.search).get("order_id") ||
-    "ORD" + Math.floor(Math.random() * 10000);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { user } = useSelector((state: RootState) => state.auth);
+  const sessionId = new URLSearchParams(location.search).get("session_id");
+  const { data: order, isLoading } = useQuery({
+    queryKey: ["order", sessionId],
+    queryFn: () => getOrderBySessionId(sessionId!),
+    enabled: !!sessionId,
+    retry: 3,
+    retryDelay: 1000,
+  });
+
+  useEffect(() => {
+    const clearUserCart = async () => {
+      if (user?.id) {
+        try {
+          await clearCartItems(user.id);
+        } catch (error) {
+          console.error("Error clearing cart:", error);
+        }
+      }
+    };
+    clearUserCart();
+  }, [user?.id]);
+
+  const handleMyOrdersClick = () => {
+    navigate(`${ProfilePath}?tab=orders`);
+  };
 
   return (
     <Box
@@ -55,7 +87,7 @@ const PaymentSuccess = () => {
         justifyContent: "center",
         background: "linear-gradient(135deg, #e8f5e9 0%, #e0f7fa 100%)",
         padding: 2,
-        mt: 4,
+        mt: 7,
       }}
     >
       <Fade in={true} timeout={500}>
@@ -100,7 +132,7 @@ const PaymentSuccess = () => {
                   Order ID
                 </Typography>
                 <Typography variant="body1" fontWeight="medium">
-                  {orderId}
+                  {isLoading ? "Loading..." : order?.id || "N/A"}
                 </Typography>
               </OrderInfo>
               <OrderInfo>
@@ -108,16 +140,44 @@ const PaymentSuccess = () => {
                   Date
                 </Typography>
                 <Typography variant="body1" fontWeight="medium">
-                  {new Date().toLocaleDateString()}
+                  {isLoading
+                    ? "Loading..."
+                    : order?.date || new Date().toLocaleDateString()}
                 </Typography>
               </OrderInfo>
+              {order && (
+                <>
+                  <OrderInfo>
+                    <Typography variant="body2" color="text.secondary">
+                      Total Amount
+                    </Typography>
+                    <Typography variant="body1" fontWeight="medium">
+                      ₹
+                      {order.items
+                        .reduce(
+                          (sum: number, item: OrderItem) =>
+                            sum + Number(item.price) * item.quantity,
+                          0
+                        )
+                        .toFixed(2)}
+                    </Typography>
+                  </OrderInfo>
+                  <OrderInfo>
+                    <Typography variant="body2" color="text.secondary">
+                      Estimated Delivery
+                    </Typography>
+                    <Typography variant="body1" fontWeight="medium">
+                      {new Date(order.estimatedDelivery).toLocaleDateString()}
+                    </Typography>
+                  </OrderInfo>
+                </>
+              )}
             </InfoBox>
 
-            <Grid container spacing={2} sx={{ mb: 3 }}>
+            <Grid container spacing={2} sx={{ width: "100%", mt: 2 }}>
               <Grid item xs={12} sm={6}>
                 <Button
-                  component={Link}
-                  to={ProfilePath}
+                  onClick={handleMyOrdersClick}
                   variant="contained"
                   fullWidth
                   sx={{
@@ -137,7 +197,7 @@ const PaymentSuccess = () => {
                   fullWidth
                   endIcon={<ArrowForward />}
                 >
-                  Continue Shopping
+                  Resume Shopping
                 </Button>
               </Grid>
             </Grid>
@@ -146,8 +206,8 @@ const PaymentSuccess = () => {
           <Divider sx={{ my: 3 }} />
 
           <Typography variant="body2" color="text.secondary" align="center">
-            Thank you for your purchase! We've sent a confirmation email to your
-            registered address.
+            Thank you for your purchase! We'll make sure to deliver the product
+            soon.
           </Typography>
         </Paper>
       </Fade>

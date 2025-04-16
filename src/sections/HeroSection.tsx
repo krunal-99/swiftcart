@@ -1,7 +1,7 @@
 import { Skeleton } from "@mui/material";
 import CarouselComponent from "../components/CarouselComponent";
 import { useQuery } from "@tanstack/react-query";
-import { getFeaturedProducts } from "../utils/utils";
+import { getFeaturedProducts } from "../utils/product";
 
 const HeroSkeleton = () => {
   return (

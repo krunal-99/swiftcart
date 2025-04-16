@@ -15,7 +15,7 @@ import CardComponent from "../components/CardComponent";
 import { useLocation } from "react-router-dom";
 import { Product, SortOption } from "../data/types";
 import { useQuery } from "@tanstack/react-query";
-import { getCategories, getFilteredProducts } from "../utils/utils";
+import { getCategories, getFilteredProducts } from "../utils/product";
 import { Categories } from "../data/types";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCategory, setCategory } from "../store/productSlice";
@@ -26,7 +26,6 @@ const ProductsListing: React.FC = () => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000000]);
   const [sortBy, setSortBy] = useState<SortOption>("popularity");
-
   const selectedCategory = useSelector(selectCategory);
   const dispatch = useDispatch();
   const appTheme = useTheme();
@@ -84,35 +83,29 @@ const ProductsListing: React.FC = () => {
   const handleFilterToggle = () => {
     setMobileFilterOpen((prev) => !prev);
   };
-
   const handlePageChange = (
     _event: React.ChangeEvent<unknown>,
     value: number
   ) => {
     setPageNumber(value);
   };
-
   const handleBrandChange = (brands: string[]) => {
     setSelectedBrands(brands);
     setPageNumber(1);
   };
-
   const handlePriceChange = (priceRange: [number, number]) => {
     setPriceRange(priceRange);
     setPageNumber(1);
   };
-
   const handleSortChange = (sortBy: SortOption) => {
     setSortBy(sortBy);
     setPageNumber(1);
   };
-
   useEffect(() => {
     if (searchTerm && productSectionRef.current) {
       productSectionRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [searchTerm]);
-
   useEffect(() => {
     window.scrollTo({ top: 450, behavior: "smooth" });
   }, [pageNumber, categoryName]);
@@ -188,7 +181,6 @@ const ProductsListing: React.FC = () => {
           sortBy={sortBy}
           onSortChange={handleSortChange}
         />
-
         <Grid2
           container
           spacing={3}

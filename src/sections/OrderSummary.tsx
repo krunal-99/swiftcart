@@ -13,24 +13,7 @@ import {
   Skeleton,
 } from "@mui/material";
 import { ShoppingBag as ShoppingBagIcon } from "@mui/icons-material";
-
-interface SummaryItem {
-  id: string;
-  quantity: number;
-  product: {
-    id: number;
-    title: string;
-    salePrice: string;
-    imageUrls: string[];
-  };
-}
-
-interface Summary {
-  items: SummaryItem[];
-  subtotal: number;
-  shipping: number;
-  total: number;
-}
+import { Summary } from "../data/types";
 
 const OrderSummary = ({
   summary,

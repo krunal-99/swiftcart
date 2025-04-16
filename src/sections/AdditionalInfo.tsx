@@ -1,8 +1,5 @@
 import { Grid2, Paper, Typography } from "@mui/material";
-
-interface AdditionalInfoProps {
-  info: string;
-}
+import { AdditionalInfoProps } from "../data/types";
 
 const AdditionalInfo: React.FC<AdditionalInfoProps> = (props) => {
   const infoItems = props.info.split("|").map((item) => item.trim());

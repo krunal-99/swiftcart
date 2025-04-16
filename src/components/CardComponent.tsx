@@ -17,10 +17,11 @@ import { RootState } from "../main";
 import {
   addToWishlist,
   getWishListItems,
-  handleError,
   removeFromWishlist,
-} from "../utils/utils";
+} from "../utils/wishlist";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { handleError } from "../utils/utils";
+import CardComponentSkeleton from "../sections/CardComponentSkeleton";
 
 const CardComponent: React.FC<ProductCardProps> = (props) => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -115,52 +116,7 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
         style={{ listStyle: "none", textDecoration: "none" }}
       >
         {props.isLoading ? (
-          <>
-            <Skeleton
-              width="100%"
-              height="430px"
-              variant="rectangular"
-              animation="wave"
-              sx={{ borderRadius: "4px 4px 0 0" }}
-            />
-            <CardContent sx={{ textAlign: "center", mt: "25px" }}>
-              <Skeleton
-                width="80%"
-                height={24}
-                animation="wave"
-                sx={{ margin: "auto" }}
-              />
-              <Skeleton
-                width="60%"
-                height={24}
-                animation="wave"
-                sx={{ my: "10px", marginX: "auto" }}
-              />
-              <Stack direction="row" spacing={1} justifyContent="center">
-                <Skeleton width="40px" height={24} animation="wave" />
-                <Skeleton width="40px" height={24} animation="wave" />
-              </Stack>
-              <Stack
-                direction="row"
-                spacing={1}
-                justifyContent="center"
-                pt="10px"
-              >
-                <Skeleton
-                  variant="circular"
-                  width={30}
-                  height={30}
-                  animation="wave"
-                />
-                <Skeleton
-                  variant="circular"
-                  width={30}
-                  height={30}
-                  animation="wave"
-                />
-              </Stack>
-            </CardContent>
-          </>
+          <CardComponentSkeleton />
         ) : (
           <>
             <CardMedia

@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:4000";
+import { API_URL } from "./utils";
 
 export const getOrderByUser = async (userId: number) => {
   console.log("User ID:", userId);

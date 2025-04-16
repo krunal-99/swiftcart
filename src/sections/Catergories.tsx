@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setBrands, setCategory } from "../store/productSlice";
 import { CategoryItem } from "../themes/ComponentThemes";
-import { getCategories } from "../utils/utils";
+import { getCategories } from "../utils/product";
 import { useQuery } from "@tanstack/react-query";
 import { ShopPath } from "../constants/constants";
 

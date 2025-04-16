@@ -26,9 +26,7 @@ const Checkout = () => {
   });
 
   const items = cartItems?.data[0].items || [];
-  const [resetFormCallback, setResetFormCallback] = useState<() => void>(
-    () => () => {}
-  );
+  const [resetFormCallback] = useState<() => void>(() => () => {});
 
   const addressMutation = useMutation({
     mutationFn: saveAddress,

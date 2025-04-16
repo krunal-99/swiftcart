@@ -1,12 +1,15 @@
-import { FilterParams, Product } from "../data/types";
 import { toast } from "react-toastify";
+import {
+  CheckCircle,
+  CreditCard,
+  Inventory,
+  LocalShipping,
+  Schedule,
+  Visibility,
+} from "@mui/icons-material";
+import { Address, Order } from "../data/types";
 
-export const getRandomProducts = (products: Product[], count: number) => {
-  const shuffled = [...products].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
-};
-
-const API_URL = "http://localhost:4000";
+export const API_URL = "http://localhost:4000";
 
 export const handleSuccess = (msg: string) => {
   toast.success(msg);
@@ -26,192 +29,62 @@ export const handleInfo = (msg: string) => {
   toast.info(msg);
 };
 
-export const getCategories = async () => {
-  try {
-    const response = await fetch(`${API_URL}/categories`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch categories: ${response.statusText}`);
-    }
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    throw new Error(`${error}`);
-  }
-};
-
-export const getAllProducts = async () => {
-  try {
-    const products = await fetch(`${API_URL}/products`);
-    const response = await products.json();
-    return response.data;
-  } catch (error) {
-    throw new Error(`${error}`);
-  }
-};
-
-export const getFeaturedProducts = async () => {
-  try {
-    const response = await fetch(`${API_URL}/products/featured`);
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    throw new Error(`${error}`);
-  }
-};
-
-export const getAdProducts = async () => {
-  try {
-    const response = await fetch(`${API_URL}/products/ad`);
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    throw new Error(`${error}`);
-  }
-};
-
-export const getProductById = async (id: number) => {
-  try {
-    const response = await fetch(`${API_URL}/products/${id}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch product: ${response.statusText}`);
-    }
-    const result = await response.json();
-    return result.data[0];
-  } catch (error) {
-    throw new Error(`${error}`);
-  }
-};
-
-export const getFilteredProducts = async ({
-  page = 1,
-  search = "",
-  category = 1,
-  priceRange = [0, 100000],
-  brands = [],
-  sortBy = "popularity",
-}: FilterParams) => {
-  const query = new URLSearchParams({
-    page: page.toString(),
-    limit: "9",
-    search,
-    category: category.toString(),
-    minPrice: priceRange[0].toString(),
-    maxPrice: priceRange[1].toString(),
-    sortBy,
+export const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
+};
 
-  if (brands.length > 0) {
-    query.append("brands", brands.join(","));
-  }
-
-  try {
-    const response = await fetch(`${API_URL}/products/filters?${query}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch product: ${response.statusText}`);
-    }
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    throw new Error(`${error}`);
+export const getStatusChipColor = (status: string) => {
+  switch (status) {
+    case "delivered":
+      return "success";
+    case "processing":
+      return "info";
+    case "shipped":
+      return "default";
+    default:
+      return "default";
   }
 };
 
-export const getAvailableBrands = async (categoryId: number) => {
-  try {
-    const response = await fetch(`${API_URL}/brands?category=${categoryId}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch brands: ${response.statusText}`);
-    }
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    throw error;
+export const calculateOrderTotals = (order: Order | null) => {
+  if (!order || !order.items) {
+    return { totalQuantity: 0, totalAmount: "0.00" };
   }
+
+  const totalQuantity = order.items.reduce(
+    (sum, item) => sum + item.quantity,
+    0
+  );
+  const totalAmount = order.items
+    .reduce((sum, item) => sum + Number(item.price) * item.quantity, 0)
+    .toFixed(2);
+
+  return { totalQuantity, totalAmount };
 };
 
-export const getMaxPrice = async () => {
-  try {
-    const response = await fetch(`${API_URL}/products/max-price`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch max price: ${response.statusText}`);
-    }
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    console.error("Error fetching max price:", error);
-    return 100000;
-  }
+export const getDefaultAddress = (addresses: Address[] | undefined) => {
+  if (!addresses || addresses.length === 0) return null;
+  if (addresses.length === 1) return addresses[0];
+  const defaultAddress = addresses.find((addr) => addr.isDefault);
+  return defaultAddress || addresses[0];
 };
 
-export const getWishListItems = async (userId: number) => {
-  try {
-    const response = await fetch(`${API_URL}/wishlist/${userId}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch wishlist: ${response.statusText}`);
-    }
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    console.error("Error fetching wishlist items");
-  }
-};
-
-export const addToWishlist = async (userId: number, productId: number) => {
-  try {
-    if (!userId) {
-      handleError("Please login to add to wishlist");
-      return;
-    }
-    const response = await fetch(`${API_URL}/wishlist/add`, {
+export const uploadImageToCloudinary = async (file: File) => {
+  const data = new FormData();
+  data.append("file", file);
+  data.append("upload_preset", "swiftcart");
+  data.append("cloud_name", "dq0x26dcc");
+  const res = await fetch(
+    "https://api.cloudinary.com/v1_1/dq0x26dcc/image/upload",
+    {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId, productId }),
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to add wishlist item: ${response.statusText}`);
+      body: data,
     }
-    const result = await response.json();
-    handleSuccess(result.data);
-    return result.data;
-  } catch (error) {
-    console.error("Error adding wishlist item.");
-    throw error;
-  }
-};
-
-export const removeFromWishlist = async (wishlistId: number) => {
-  try {
-    const response = await fetch(`${API_URL}/wishlist/remove/${wishlistId}`, {
-      method: "DELETE",
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to remove wishlist item: ${response.statusText}`);
-    }
-    const result = await response.json();
-    handleSuccess(result.message);
-    return result.data;
-  } catch (error) {
-    console.error("Error deleting wishlist item.");
-    throw error;
-  }
-};
-
-export const getUserById = async (id: number) => {
-  try {
-    const response = await fetch(`${API_URL}/api/auth/${id}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch user: ${response.statusText}`);
-    }
-    const result = await response.json();
-    if (result.status === "success") {
-      return result.data;
-    } else {
-      handleError(result.message);
-    }
-  } catch (error) {
-    console.error("Error fetching user data.");
-    throw error;
-  }
+  );
+  const result = await res.json();
+  return result.url;
 };

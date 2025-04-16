@@ -20,9 +20,12 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { Link, useNavigate } from "react-router-dom";
 import { registerFormFields } from "../data/data";
-import { handleError, handleSuccess } from "../utils/utils";
+import {
+  handleError,
+  handleSuccess,
+  uploadImageToCloudinary,
+} from "../utils/utils";
 import { LoginPath } from "../constants/constants";
-
 export const iconMap: { [key: string]: React.ElementType } = {
   name: AccountCircleIcon,
   email: EmailIcon,
@@ -39,9 +42,7 @@ const RegisterForm: React.FC = () => {
   });
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
   const formRef = useRef<HTMLFormElement>(null);
-
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -53,45 +54,22 @@ const RegisterForm: React.FC = () => {
       reader.readAsDataURL(file);
     }
   };
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setUserInfo((prev) => ({ ...prev, [name]: value }));
   };
-
-  const uploadImageToCloudinary = async (file: File) => {
-    const data = new FormData();
-    data.append("file", file);
-    data.append("upload_preset", "swiftcart");
-    data.append("cloud_name", "dq0x26dcc");
-
-    const res = await fetch(
-      "https://api.cloudinary.com/v1_1/dq0x26dcc/image/upload",
-      {
-        method: "POST",
-        body: data,
-      }
-    );
-    const result = await res.json();
-    return result.url;
-  };
-
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const { name, email, password } = userInfo;
-
     if (!name || !email || !password) {
       return handleError("All fields are required");
     }
-
     if (!selectedFile) {
       return handleError("Please select an image");
     }
-
     try {
       setIsLoading(true);
       const imageUrl = await uploadImageToCloudinary(selectedFile);
-
       const url = "http://localhost:4000/api/auth/register";
       const response = await fetch(url, {
         method: "POST",
@@ -100,10 +78,8 @@ const RegisterForm: React.FC = () => {
         },
         body: JSON.stringify({ ...userInfo, imageUrl }),
       });
-
       const result = await response.json();
       const { status, data } = result;
-
       if (status === "failed") {
         handleError(`${data}`);
       } else if (status === "success") {
@@ -121,7 +97,6 @@ const RegisterForm: React.FC = () => {
       setIsLoading(false);
     }
   };
-
   return (
     <Box component="form" ref={formRef} noValidate onSubmit={handleFormSubmit}>
       <Box
@@ -175,7 +150,6 @@ const RegisterForm: React.FC = () => {
               </Box>
             </Fade>
           </Box>
-
           <IconButton
             component="label"
             disabled={isLoading}
@@ -201,7 +175,6 @@ const RegisterForm: React.FC = () => {
           </IconButton>
         </Box>
       </Box>
-
       {registerFormFields.map((field, idx) => (
         <TextField
           key={field.id}
@@ -227,7 +200,6 @@ const RegisterForm: React.FC = () => {
           sx={{ mb: 2 }}
         />
       ))}
-
       <TextField
         onChange={handleChange}
         value={userInfo.password}
@@ -261,7 +233,6 @@ const RegisterForm: React.FC = () => {
         }}
         sx={{ mb: 2 }}
       />
-
       <Button
         type="submit"
         fullWidth
@@ -282,13 +253,11 @@ const RegisterForm: React.FC = () => {
           "Create Account"
         )}
       </Button>
-
       <Divider sx={{ my: 2 }}>
         <Typography variant="body2" color="text.secondary">
           OR
         </Typography>
       </Divider>
-
       <Box sx={{ textAlign: "center", mt: 2 }}>
         <Typography variant="body2">
           Already have an account?{" "}

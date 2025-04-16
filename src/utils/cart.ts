@@ -1,6 +1,4 @@
-import { handleError, handleSuccess } from "./utils";
-
-const API_URL = "http://localhost:4000";
+import { API_URL, handleError, handleSuccess } from "./utils";
 
 export const getCartItems = async (userId: number) => {
   try {

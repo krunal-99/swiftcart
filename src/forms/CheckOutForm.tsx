@@ -25,24 +25,8 @@ import { RootState } from "../main";
 import { handleError } from "../utils/utils";
 import { useQuery } from "@tanstack/react-query";
 import { getUserAddresses } from "../utils/address";
-
-interface CheckoutFormProps {
-  onSubmit: (formData: Record<string, any>) => void;
-  loading: boolean;
-  onAddressSaved: () => void;
-}
-
-interface Address {
-  id: number;
-  firstName: string;
-  lastName: string;
-  streetAddress: string;
-  city: string;
-  state: string;
-  pincode: string;
-  country: string;
-  isDefault: boolean;
-}
+import { CheckoutFormProps, requiredFieldsCheckOut } from "../data/types";
+import { Address } from "../data/types";
 
 const CheckoutForm: React.FC<CheckoutFormProps> = ({
   onSubmit,
@@ -120,30 +104,17 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({
 
   const handleSaveAddress = (e: React.FormEvent) => {
     e.preventDefault();
-
-    const requiredFields = [
-      "firstName",
-      "lastName",
-      "address",
-      "city",
-      "state",
-      "pincode",
-      "country",
-      "userId",
-    ];
-    const missingFields = requiredFields.filter(
+    const missingFields = requiredFieldsCheckOut.filter(
       (field) => !formData[field as keyof typeof formData]
     );
     if (missingFields.length > 0) {
       handleError(`All fields are required`);
       return;
     }
-
     if (!formData.userId) {
       handleError("User Id is missing");
       return;
     }
-
     onSubmit({ ...formData, saveAddressOnly: true });
     setShowAddressForm(false);
   };

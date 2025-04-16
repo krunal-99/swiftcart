@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ProfileInfoProps } from "../data/types";
-import { handleError, handleSuccess } from "../utils/utils";
+import { getDefaultAddress, handleError, handleSuccess } from "../utils/utils";
 import {
   Avatar,
   Box,
@@ -24,35 +24,16 @@ import {
 } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { RootState } from "../main";
+import ProfileInfoSkeleton from "./ProfileInfoSkeleton";
 
 interface ExtendedProfileInfoProps extends ProfileInfoProps {
   isLoading?: boolean;
-}
-
-interface Address {
-  id: number;
-  firstName: string;
-  lastName: string;
-  streetAddress: string;
-  city: string;
-  state: string;
-  pincode: string;
-  country: string;
-  isDefault: boolean;
 }
 
 const ProfileInfo: React.FC<ExtendedProfileInfoProps> = ({
   userData,
   isLoading = false,
 }) => {
-  const getDefaultAddress = (addresses: Address[] | undefined) => {
-    if (!addresses || addresses.length === 0) return null;
-    if (addresses.length === 1) return addresses[0];
-    const defaultAddress = addresses.find((addr) => addr.isDefault);
-    return defaultAddress || addresses[0];
-  };
-  console.log("User Data: ", userData);
-
   const displayAddress = getDefaultAddress(userData?.addresses);
 
   const [formData, setFormData] = useState({
@@ -92,7 +73,6 @@ const ProfileInfo: React.FC<ExtendedProfileInfoProps> = ({
   );
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isUploading, setIsUploading] = useState<Boolean>(false);
-
   const { user } = useSelector((state: RootState) => state.auth);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,131 +87,31 @@ const ProfileInfo: React.FC<ExtendedProfileInfoProps> = ({
       reader.readAsDataURL(file);
     }
   };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
   const handleConfirmPasswordVisibility = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (formData.password && formData.password !== formData.confirmPassword) {
       handleError("Passwords don't match.");
       return;
     }
     setIsSaving(true);
-
     setTimeout(() => {
       setIsSaving(false);
       handleSuccess("Profile updated successfully.");
     }, 1500);
   };
-
   if (isLoading) {
-    return (
-      <Card
-        sx={{
-          marginBottom: 3,
-          border: 1,
-          borderColor: "grey.300",
-          boxShadow: 1,
-        }}
-      >
-        <CardContent sx={{ padding: 3 }}>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            mb={3}
-          >
-            <Skeleton variant="text" width={200} height={32} />
-            <Skeleton variant="rounded" width={120} height={36} />
-          </Box>
-
-          <Box mb={4} display="flex" flexDirection="column" alignItems="center">
-            <Skeleton
-              variant="circular"
-              width={120}
-              height={120}
-              sx={{ mb: 2 }}
-            />
-            <Skeleton variant="text" width={120} height={24} />
-          </Box>
-
-          <Box
-            sx={{
-              display: "grid",
-              gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-              gap: 2,
-            }}
-          >
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-              <Skeleton variant="text" width={80} height={24} />
-              <Skeleton variant="rounded" height={56} />
-            </Box>
-
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-              <Skeleton variant="text" width={100} height={24} />
-              <Skeleton variant="rounded" height={56} />
-            </Box>
-          </Box>
-
-          <Skeleton
-            variant="text"
-            width={200}
-            height={32}
-            sx={{ mt: 4, mb: 2 }}
-          />
-
-          <Box
-            display="grid"
-            gridTemplateColumns={{ xs: "1fr", md: "1fr 1fr" }}
-            gap={2}
-          >
-            <Box
-              display="flex"
-              flexDirection="column"
-              gap={1}
-              gridColumn={{ md: "span 2" }}
-            >
-              <Skeleton variant="text" width={120} height={24} />
-              <Skeleton variant="rounded" height={80} />
-            </Box>
-
-            <Box display="flex" flexDirection="column" gap={1}>
-              <Skeleton variant="text" width={40} height={24} />
-              <Skeleton variant="rounded" height={56} />
-            </Box>
-
-            <Box display="flex" flexDirection="column" gap={1}>
-              <Skeleton variant="text" width={50} height={24} />
-              <Skeleton variant="rounded" height={56} />
-            </Box>
-
-            <Box display="flex" flexDirection="column" gap={1}>
-              <Skeleton variant="text" width={70} height={24} />
-              <Skeleton variant="rounded" height={56} />
-            </Box>
-
-            <Box display="flex" flexDirection="column" gap={1}>
-              <Skeleton variant="text" width={60} height={24} />
-              <Skeleton variant="rounded" height={56} />
-            </Box>
-          </Box>
-        </CardContent>
-      </Card>
-    );
+    return <ProfileInfoSkeleton />;
   }
-
   return (
     <form onSubmit={handleSubmit}>
       <Card
@@ -352,7 +232,6 @@ const ProfileInfo: React.FC<ExtendedProfileInfoProps> = ({
                 sx={{ backgroundColor: !editMode ? "grey.50" : "inherit" }}
               />
             </Box>
-
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
               <Typography variant="subtitle2" component="label" htmlFor="email">
                 Email Address
@@ -406,7 +285,6 @@ const ProfileInfo: React.FC<ExtendedProfileInfoProps> = ({
                     helperText="Leave blank to keep current password"
                   />
                 </Box>
-
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                   <Typography
                     variant="subtitle2"

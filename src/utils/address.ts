@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:4000";
+import { API_URL } from "./utils";
 
 export const saveAddress = async (addressData: Record<string, any>) => {
   const token = localStorage.getItem("access_token");

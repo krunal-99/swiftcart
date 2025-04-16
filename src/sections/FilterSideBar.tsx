@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { FilterSidebarProps } from "../data/types";
-import { getAvailableBrands, getMaxPrice } from "../utils/utils";
+import { getAvailableBrands, getMaxPrice } from "../utils/product";
 import { useQuery } from "@tanstack/react-query";
 import { Categories, Brand } from "../data/types";
 import { useEffect, useState } from "react";

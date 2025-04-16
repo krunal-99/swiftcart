@@ -1,6 +1,6 @@
 import { Box, Grid2, Typography } from "@mui/material";
 import CardComponent from "../components/CardComponent";
-import { getAllProducts, getRandomProducts } from "../utils/utils";
+import { getAllProducts, getRandomProducts } from "../utils/product";
 import { useQuery } from "@tanstack/react-query";
 import { Product } from "../data/types";
 

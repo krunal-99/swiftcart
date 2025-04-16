@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import CarouselComponent from "../components/CarouselComponent";
-import { getAdProducts } from "../utils/utils";
+import { getAdProducts } from "../utils/product";
 import { Skeleton } from "@mui/material";
 
 const AdvertisementSkeleton = () => {

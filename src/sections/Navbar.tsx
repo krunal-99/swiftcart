@@ -36,7 +36,7 @@ import { navLinks } from "../data/data";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { logout } from "../store/authSlice";
 import { useQuery } from "@tanstack/react-query";
-import { getWishListItems } from "../utils/utils";
+import { getWishListItems } from "../utils/wishlist";
 import { getCartItems } from "../utils/cart";
 import { CartItems } from "../data/types";
 import {

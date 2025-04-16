@@ -10,9 +10,9 @@ import {
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { NavLink } from "react-router-dom";
-import { ListCardProps, Wishlist } from "../data/types";
+import { ListCardProps } from "../data/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { removeFromWishlist } from "../utils/utils";
+import { removeFromWishlist } from "../utils/wishlist";
 import { RootState } from "../main";
 import { useSelector } from "react-redux";
 

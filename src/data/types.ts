@@ -225,9 +225,47 @@ export interface Order {
   id: number;
   items: OrderItem[];
   paymentEmail: string;
-  paymentLast4: string | null;
   paymentMethod: string;
   paymentStatus: string;
   shippingAddress: string;
   status: string;
+}
+
+export interface CheckoutFormProps {
+  onSubmit: (formData: Record<string, any>) => void;
+  loading: boolean;
+  onAddressSaved: () => void;
+}
+
+export const requiredFieldsCheckOut = [
+  "firstName",
+  "lastName",
+  "address",
+  "city",
+  "state",
+  "pincode",
+  "country",
+  "userId",
+];
+
+export interface AdditionalInfoProps {
+  info: string;
+}
+
+export interface SummaryItem {
+  id: string;
+  quantity: number;
+  product: {
+    id: number;
+    title: string;
+    salePrice: string;
+    imageUrls: string[];
+  };
+}
+
+export interface Summary {
+  items: SummaryItem[];
+  subtotal: number;
+  shipping: number;
+  total: number;
 }

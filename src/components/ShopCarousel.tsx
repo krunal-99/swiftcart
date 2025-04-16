@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { setBrands, setCategory } from "../store/productSlice";
 import { shopCarouselResponsive } from "../data/data";
 import { useQuery } from "@tanstack/react-query";
-import { getCategories } from "../utils/utils";
+import { getCategories } from "../utils/product";
 import { shopCardData } from "../data/types";
 
 const ShopCarousel = () => {

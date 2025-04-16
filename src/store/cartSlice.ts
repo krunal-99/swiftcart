@@ -64,27 +64,9 @@ const cartSlice = createSlice({
       localStorage.removeItem("cartItems");
       handleSuccess("Cart cleared successfully.");
     },
-    // getTotals(state) {
-    //   let { total, quantity } = state.cartItems.reduce(
-    //     (cartTotal: number, cartItem: CartItems) => {
-    //       const { price, cartQuantity } = cartItem;
-    //       cartTotal.total += price * cartQuantity;
-    //       cartTotal.quantity += cartQuantity;
-    //       return cartTotal;
-    //     },
-    //     { total: 0, quantity: 0 }
-    //   );
-    //   state.totalCartAmount = total;
-    //   state.totalCartQuantity = quantity;
-    // },
   },
 });
 
-export const {
-  addToCart,
-  removeFromCart,
-  decreaseQuantity,
-  clearCart,
-  // getTotals,
-} = cartSlice.actions;
+export const { addToCart, removeFromCart, decreaseQuantity, clearCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;

@@ -1,7 +1,7 @@
 import { Box, Button, Skeleton, Stack, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getProductById } from "../utils/utils";
+import { getProductById } from "../utils/product";
 
 const SingleProductComponent = () => {
   const { data, isLoading, isError } = useQuery({

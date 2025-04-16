@@ -26,17 +26,13 @@ import { RootState } from "../main";
 import { logout } from "../store/authSlice";
 import { LoginPath, ShopPath, WishlistPath } from "../constants/constants";
 import { useQuery } from "@tanstack/react-query";
-import { getUserById } from "../utils/utils";
+import { getUserById } from "../utils/user";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
   const isMobile = useMediaQuery("(max-width:640px)");
   const { user } = useSelector((state: RootState) => state.auth);
-  const {
-    data: userData,
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data: userData, isLoading } = useQuery({
     queryKey: ["user", user?.id],
     queryFn: () => getUserById(user?.id!),
   });

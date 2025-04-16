@@ -18,7 +18,7 @@ import { TabPanel } from "../components/TabPanel";
 import AdditionalInfo from "./AdditionalInfo";
 import { useQuery } from "@tanstack/react-query";
 import { Product } from "../data/types";
-import { getProductById } from "../utils/utils";
+import { getProductById } from "../utils/product";
 import { ProductDetailsSkeleton } from "./ProductDetailsSkeleton";
 
 const ProductDetails = () => {

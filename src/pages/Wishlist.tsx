@@ -1,7 +1,7 @@
 import { Box, Grid2, Typography } from "@mui/material";
 import WishListCard from "../components/WishListCard";
 import { useQuery } from "@tanstack/react-query";
-import { getWishListItems } from "../utils/utils";
+import { getWishListItems } from "../utils/wishlist";
 import type { Wishlist } from "../data/types";
 import { useSelector } from "react-redux";
 import { RootState } from "../main";

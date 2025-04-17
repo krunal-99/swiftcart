@@ -1,18 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChevronLeft as ChevronLeftIcon } from "@mui/icons-material";
 import CheckoutForm from "../forms/CheckOutForm";
 import OrderSummary from "../sections/OrderSummary";
-import { Box, Typography, Container, Paper } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Container,
+  Paper,
+  CircularProgress,
+  Fade,
+} from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { RootState } from "../main";
 import { getCartItems } from "../utils/cart";
 import { CartItems } from "../data/types";
 import { saveAddress } from "../utils/address";
-import { API_URL, handleSuccess } from "../utils/utils";
+import { API_URL, handleInfo, handleSuccess } from "../utils/utils";
 import { loadStripe } from "@stripe/stripe-js";
-import { useState } from "react";
-import { HomePath } from "../constants/constants";
+import { useEffect, useState } from "react";
+import { HomePath, ShopPath } from "../constants/constants";
 
 const Checkout = () => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -22,10 +29,20 @@ const Checkout = () => {
     queryFn: () => getCartItems(user?.id!),
     enabled: !!user?.id,
   });
+  const navigate = useNavigate();
 
   const items = cartItems?.data[0].items || [];
   const cartId = cartItems?.data[0]?.id;
   const [resetFormCallback] = useState<() => void>(() => () => {});
+
+  useEffect(() => {
+    if (!isLoading && (!items || items.length === 0)) {
+      handleInfo(
+        "Your cart is empty. Please add items to proceed to checkout."
+      );
+      navigate(ShopPath);
+    }
+  }, [isLoading, items, navigate]);
 
   const addressMutation = useMutation({
     mutationFn: saveAddress,
@@ -88,6 +105,37 @@ const Checkout = () => {
   const total = subtotal + shipping;
 
   const orderSummary = { subtotal, shipping, total, items };
+
+  if (isLoading || (!isLoading && (!items || items.length === 0))) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+          bgcolor: "grey.100",
+        }}
+      >
+        <Fade in={true} timeout={500}>
+          <Box sx={{ textAlign: "center" }}>
+            <CircularProgress
+              size={60}
+              thickness={4}
+              sx={{ color: "primary.main", mb: 2 }}
+            />
+            <Typography
+              variant="h6"
+              sx={{ color: "text.secondary", fontWeight: "medium" }}
+            >
+              Loading your cart...
+            </Typography>
+          </Box>
+        </Fade>
+      </Box>
+    );
+  }
 
   return (
     <Container

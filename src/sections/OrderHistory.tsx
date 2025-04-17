@@ -29,6 +29,8 @@ import OrderSkeleton from "./OrderSkeleton";
 import OrderCard from "./OrderCard";
 import OrderTableSkeleton from "./OrderTableSkeleton";
 import OrderModal from "./OrderModal";
+import { NavLink } from "react-router-dom";
+import { ShopPath } from "../constants/constants";
 
 const OrderHistory: React.FC = () => {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -139,16 +141,18 @@ const OrderHistory: React.FC = () => {
               <Typography variant="body1" sx={{ color: "grey.600" }}>
                 You haven't placed any orders yet.
               </Typography>
-              <Button
-                variant="contained"
-                sx={{
-                  marginTop: 2,
-                  backgroundColor: "#667eea",
-                  "&:hover": { backgroundColor: "#5a71d6" },
-                }}
-              >
-                Start Shopping
-              </Button>
+              <NavLink to={ShopPath}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    marginTop: 2,
+                    backgroundColor: "#667eea",
+                    "&:hover": { backgroundColor: "#5a71d6" },
+                  }}
+                >
+                  Start Shopping
+                </Button>
+              </NavLink>
             </Box>
           )}
         </CardContent>

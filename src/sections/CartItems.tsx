@@ -58,7 +58,7 @@ const CartItems = () => {
         >
           Shopping Cart
         </Typography>
-        {!isLoading && cart && cart.data?.length > 0 && (
+        {!isLoading && cart && cart?.data[0].items.length > 0 && (
           <Button
             variant="contained"
             color="error"

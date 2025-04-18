@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
-import { Address, Order } from "../data/types";
+import { Order } from "../data/types";
 
-export const API_URL = "http://localhost:4000";
+export const API_URL = import.meta.env.VITE_API_URL as string;
 
 export const handleSuccess = (msg: string) => {
   toast.success(msg);

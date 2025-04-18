@@ -21,6 +21,7 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { Link, useNavigate } from "react-router-dom";
 import { registerFormFields } from "../data/data";
 import {
+  API_URL,
   handleError,
   handleSuccess,
   uploadImageToCloudinary,
@@ -70,7 +71,7 @@ const RegisterForm: React.FC = () => {
     try {
       setIsLoading(true);
       const imageUrl = await uploadImageToCloudinary(selectedFile);
-      const url = "http://localhost:4000/api/auth/register";
+      const url = `${API_URL}/api/auth/register`;
       const response = await fetch(url, {
         method: "POST",
         headers: {

@@ -15,7 +15,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import { Link, useNavigate } from "react-router-dom";
-import { handleError, handleSuccess } from "../utils/utils";
+import { API_URL, handleError, handleSuccess } from "../utils/utils";
 import { useDispatch } from "react-redux";
 import { login } from "../store/authSlice";
 import { HomePath, RegisterPath } from "../constants/constants";
@@ -45,7 +45,7 @@ const LoginForm: React.FC = () => {
     }
 
     try {
-      const url = "http://localhost:4000/api/auth/login";
+      const url = `${API_URL}/api/auth/login`;
       const response = await fetch(url, {
         method: "POST",
         headers: {

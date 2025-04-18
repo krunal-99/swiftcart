@@ -101,7 +101,6 @@ const ProfileInfo: React.FC<ExtendedProfileInfoProps> = ({
   );
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isUploading, setIsUploading] = useState<Boolean>(false);
-  const [imageFile, setImageFile] = useState<File | null>(null);
 
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
@@ -148,10 +147,7 @@ const ProfileInfo: React.FC<ExtendedProfileInfoProps> = ({
         handleError("Image size should be less than 5MB");
         return;
       }
-
       setIsUploading(true);
-      setImageFile(file);
-
       try {
         const previewUrl = URL.createObjectURL(file);
         setImagePreview(previewUrl);
@@ -170,10 +166,8 @@ const ProfileInfo: React.FC<ExtendedProfileInfoProps> = ({
               );
               setIsUploading(false);
               setImagePreview(userData?.imageUrl || "");
-              setImageFile(null);
               return;
             }
-
             setFormData((prev) => ({
               ...prev,
               imageBase64: formattedBase64,
@@ -182,25 +176,20 @@ const ProfileInfo: React.FC<ExtendedProfileInfoProps> = ({
             console.error("Error processing image:", error);
             handleError("Failed to process image. Please try again.");
             setImagePreview(userData?.imageUrl || "");
-            setImageFile(null);
           }
           setIsUploading(false);
         };
-
         reader.onerror = () => {
           handleError("Failed to read image file. Please try again.");
           setIsUploading(false);
           setImagePreview(userData?.imageUrl || "");
-          setImageFile(null);
         };
-
         reader.readAsDataURL(file);
       } catch (error) {
         console.error("Error handling image:", error);
         handleError("Failed to process image. Please try again.");
         setIsUploading(false);
         setImagePreview(userData?.imageUrl || "");
-        setImageFile(null);
       }
     }
   };
@@ -340,7 +329,6 @@ const ProfileInfo: React.FC<ExtendedProfileInfoProps> = ({
                     confirmPassword: "",
                   });
                   setImagePreview(userData?.imageUrl || "");
-                  setImageFile(null);
                 }}
                 startIcon={<Close fontSize="small" />}
               >
@@ -436,7 +424,6 @@ const ProfileInfo: React.FC<ExtendedProfileInfoProps> = ({
                 sx={{ backgroundColor: !editMode ? "grey.50" : "inherit" }}
               />
             </Box>
-
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
               <Typography variant="subtitle2" component="label" htmlFor="email">
                 Email Address

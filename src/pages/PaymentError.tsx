@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -24,7 +24,7 @@ import { clearCartItems } from "../utils/cart";
 import { useSelector } from "react-redux";
 import { RootState } from "../main";
 
-const RedAvatar = styled(Avatar)(({ theme }) => ({
+const RedAvatar = styled(Avatar)(() => ({
   backgroundColor: red[100],
   color: red[600],
   width: 96,
@@ -35,7 +35,7 @@ const RedAvatar = styled(Avatar)(({ theme }) => ({
   },
 }));
 
-const InfoBox = styled(Box)(({ theme }) => ({
+const InfoBox = styled(Box)(() => ({
   backgroundColor: red[50],
   padding: "16px 20px",
   borderRadius: 8,

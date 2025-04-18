@@ -21,7 +21,7 @@ import { clearCartItems } from "../utils/cart";
 import { useSelector } from "react-redux";
 import { RootState } from "../main";
 
-const GreenAvatar = styled(Avatar)(({ theme }) => ({
+const GreenAvatar = styled(Avatar)(() => ({
   backgroundColor: green[100],
   color: green[600],
   width: 96,
@@ -32,7 +32,7 @@ const GreenAvatar = styled(Avatar)(({ theme }) => ({
   },
 }));
 
-const InfoBox = styled(Box)(({ theme }) => ({
+const InfoBox = styled(Box)(() => ({
   backgroundColor: green[50],
   padding: "16px 20px",
   borderRadius: 8,
@@ -40,7 +40,7 @@ const InfoBox = styled(Box)(({ theme }) => ({
   width: "100%",
 }));
 
-const OrderInfo = styled(Box)(({ theme }) => ({
+const OrderInfo = styled(Box)(() => ({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",

@@ -22,7 +22,7 @@ const WishListCard: React.FC<ListCardProps> = (props) => {
 
   const removeMutation = useMutation({
     mutationFn: (id: number) => removeFromWishlist(id),
-    onSuccess: (data, id) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wishlist", user?.id] });
     },
   });

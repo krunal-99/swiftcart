@@ -1,4 +1,3 @@
-// src/pages/Profile.tsx
 import {
   ChevronLeft,
   Favorite,
@@ -17,64 +16,40 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useState, useEffect } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
 import ProfileInfo from "../sections/ProfileInfo";
 import OrderHistory from "../sections/OrderHistory";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../main";
+import { logout } from "../store/authSlice";
 import { LoginPath, ShopPath, WishlistPath } from "../constants/constants";
 import { useQuery } from "@tanstack/react-query";
-
-const fetchUserById = async (id: number) => {
-  const response = await fetch(`http://localhost:4000/api/auth/${id}`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-    },
-  });
-  if (!response.ok) throw new Error("Failed to fetch user");
-  const data = await response.json();
-  return data.data;
-};
+import { getUserById } from "../utils/user";
 
 const Profile = () => {
-  const location = useLocation();
   const [activeTab, setActiveTab] = useState<number>(0);
   const isMobile = useMediaQuery("(max-width:640px)");
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user") || "null")
-  );
-
+  const { user } = useSelector((state: RootState) => state.auth);
   const { data: userData, isLoading } = useQuery({
     queryKey: ["user", user?.id],
-    queryFn: () => fetchUserById(user?.id!),
+    queryFn: () => getUserById(user?.id!),
     enabled: !!user?.id,
+    staleTime: 30000,
+    refetchOnMount: true,
   });
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const tabParam = params.get("tab");
-    if (tabParam === "orders") {
-      setActiveTab(1);
-    }
-  }, [location.search]);
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
+  const dispatch = useDispatch();
+
   const handleLogout = () => {
+    dispatch(logout());
     localStorage.clear();
     window.location.href = LoginPath;
-  };
-
-  const handleUserUpdate = (updatedUser: {
-    id: number;
-    name: string;
-    email: string;
-    imageUrl?: string;
-  }) => {
-    setUser(updatedUser);
-    localStorage.setItem("user", JSON.stringify(updatedUser));
   };
 
   return (
@@ -86,7 +61,7 @@ const Profile = () => {
           alignItems: "center",
           marginBottom: 3,
           color: "#252b42",
-          textDecoration: "none={>none",
+          textDecoration: "none",
         }}
       >
         <ChevronLeft sx={{ width: 20, height: 20, mr: 1 }} />
@@ -116,15 +91,17 @@ const Profile = () => {
               />
             ) : (
               <Avatar
-                src={user?.imageUrl}
-                alt={user?.name}
+                src={userData?.imageUrl || user?.imageUrl}
+                alt={userData?.name || user?.name}
                 sx={{
                   width: 80,
                   height: 80,
                   border: "4px solid white",
                   boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
                 }}
-              />
+              >
+                {(userData?.name || user?.name || "U").charAt(0)}
+              </Avatar>
             )}
             <Box color="white" textAlign={{ xs: "center", sm: "left" }}>
               {isLoading ? (
@@ -151,10 +128,10 @@ const Profile = () => {
               ) : (
                 <>
                   <Typography variant="h4" fontWeight="bold" mb={1}>
-                    {user?.name}
+                    {userData?.name || user?.name}
                   </Typography>
                   <Typography variant="body1" sx={{ opacity: 0.9 }} mb={2}>
-                    {user?.email}
+                    {userData?.email || user?.email}
                   </Typography>
                 </>
               )}
@@ -186,11 +163,7 @@ const Profile = () => {
       </Box>
       <div role="tabpanel" hidden={activeTab !== 0}>
         {activeTab === 0 && (
-          <ProfileInfo
-            userData={userData}
-            isLoading={isLoading}
-            onUserUpdate={handleUserUpdate}
-          />
+          <ProfileInfo userData={userData} isLoading={isLoading} />
         )}
       </div>
       <div role="tabpanel" hidden={activeTab !== 1}>

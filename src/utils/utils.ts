@@ -58,13 +58,6 @@ export const calculateOrderTotals = (order: Order | null) => {
   return { totalQuantity, totalAmount };
 };
 
-export const getDefaultAddress = (addresses: Address[] | undefined) => {
-  if (!addresses || addresses.length === 0) return null;
-  if (addresses.length === 1) return addresses[0];
-  const defaultAddress = addresses.find((addr) => addr.isDefault);
-  return defaultAddress || addresses[0];
-};
-
 export const uploadImageToCloudinary = async (file: File) => {
   const data = new FormData();
   data.append("file", file);

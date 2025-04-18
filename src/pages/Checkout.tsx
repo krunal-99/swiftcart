@@ -47,7 +47,6 @@ const Checkout = () => {
   const addressMutation = useMutation({
     mutationFn: saveAddress,
     onSuccess: (data) => {
-      console.log("Address Saved: ", data);
       handleSuccess("Address successfully saved");
       queryClient.invalidateQueries({ queryKey: ["addresses"] });
       resetFormCallback();
@@ -88,9 +87,6 @@ const Checkout = () => {
         const result = await stripePromise?.redirectToCheckout({
           sessionId: session.id,
         });
-        if (result?.error) {
-          console.log(result.error.message);
-        }
       } catch (error) {
         console.error("Error during checkout:", error);
       }

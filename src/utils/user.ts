@@ -17,3 +17,40 @@ export const getUserById = async (id: number) => {
     throw error;
   }
 };
+
+export const updateUserProfile = async ({
+  userId,
+  userData,
+  token,
+}: {
+  userId: number;
+  userData: {
+    name?: string;
+    email?: string;
+    password?: string;
+    imageUrl?: string;
+  };
+  token: string;
+}) => {
+  try {
+    const response = await fetch(`${API_URL}/api/auth/${userId}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.data || "Failed to update profile");
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    throw error;
+  }
+};

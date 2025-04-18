@@ -1,7 +1,6 @@
 import { API_URL } from "./utils";
 
 export const getOrderByUser = async (userId: number) => {
-  console.log("User ID:", userId);
   try {
     const response = await fetch(`${API_URL}/orders/${userId}`);
     if (!response.ok) {

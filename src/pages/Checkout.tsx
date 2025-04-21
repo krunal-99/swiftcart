@@ -16,10 +16,11 @@ import { RootState } from "../main";
 import { getCartItems } from "../utils/cart";
 import { CartItems } from "../data/types";
 import { saveAddress } from "../utils/address";
-import { API_URL, handleInfo, handleSuccess } from "../utils/utils";
+import { handleInfo, handleSuccess } from "../utils/utils";
 import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import { HomePath, ShopPath } from "../constants/constants";
+import axiosInstance from "../utils/instance";
 
 const Checkout = () => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -70,26 +71,14 @@ const Checkout = () => {
         addressId: formData.addressId,
         cartId,
       };
-      const headers = { "Content-Type": "application/json" };
-      try {
-        const response = await fetch(
-          `${API_URL}/payment/create-checkout-session`,
-          {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(body),
-          }
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const session = await response.json();
-        await stripePromise?.redirectToCheckout({
-          sessionId: session.id,
-        });
-      } catch (error) {
-        console.error("Error during checkout:", error);
-      }
+      const response = await axiosInstance.post(
+        "/payment/create-checkout-session",
+        JSON.stringify(body)
+      );
+      const session = await response.data;
+      await stripePromise?.redirectToCheckout({
+        sessionId: session.id,
+      });
     }
   };
   const subtotal = items.reduce(

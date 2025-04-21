@@ -19,6 +19,7 @@ import { API_URL, handleError, handleSuccess } from "../utils/utils";
 import { useDispatch } from "react-redux";
 import { login } from "../store/authSlice";
 import { HomePath, RegisterPath } from "../constants/constants";
+import axiosInstance from "../utils/instance";
 
 const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,35 +44,20 @@ const LoginForm: React.FC = () => {
       setIsLoading(false);
       return;
     }
+    const response = await axiosInstance.post(
+      "/api/auth/login",
+      JSON.stringify({ ...loginInfo })
+    );
+    const result = await response.data;
 
-    try {
-      const url = `${API_URL}/api/auth/login`;
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...loginInfo }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Login failed");
-      }
-
-      const result = await response.json();
-
-      if (result.status === "failed") {
-        handleError(`${result.data}`);
-      } else {
-        handleSuccess(`${result.data}`);
-        dispatch(login({ user: result.user, token: result.token }));
-        navigate(HomePath, { replace: true });
-        formRef.current?.reset();
-        setLoginInfo({ email: "", password: "" });
-      }
-    } catch (error) {
-      handleError("An error occurred during login");
-      console.error("Login error:", error);
+    if (result.status === "failed") {
+      handleError(`${result.data}`);
+    } else {
+      handleSuccess(`${result.data}`);
+      dispatch(login({ user: result.user, token: result.token }));
+      navigate(HomePath, { replace: true });
+      formRef.current?.reset();
+      setLoginInfo({ email: "", password: "" });
     }
     setIsLoading(false);
   };

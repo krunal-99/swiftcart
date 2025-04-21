@@ -27,6 +27,7 @@ import {
   uploadImageToCloudinary,
 } from "../utils/utils";
 import { LoginPath } from "../constants/constants";
+import axiosInstance from "../utils/instance";
 export const iconMap: { [key: string]: React.ElementType } = {
   name: AccountCircleIcon,
   email: EmailIcon,
@@ -71,19 +72,13 @@ const RegisterForm: React.FC = () => {
     try {
       setIsLoading(true);
       const imageUrl = await uploadImageToCloudinary(selectedFile);
-      const url = `${API_URL}/api/auth/register`;
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...userInfo, imageUrl }),
-      });
-      const result = await response.json();
+      const response = await axiosInstance.post(
+        "/api/auth/register",
+        JSON.stringify({ ...userInfo, imageUrl })
+      );
+      const result = await response.data;
       const { status, data } = result;
-      if (status === "failed") {
-        handleError(`${data}`);
-      } else if (status === "success") {
+      if (status === "success") {
         handleSuccess(`${data}`);
         navigate(LoginPath);
         formRef.current?.reset();

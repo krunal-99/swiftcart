@@ -1,17 +1,9 @@
 import { FilterParams, Product } from "../data/types";
-import { API_URL } from "./utils";
+import axiosInstance from "./instance";
 
 export const getCategories = async () => {
-  try {
-    const response = await fetch(`${API_URL}/categories`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch categories: ${response.statusText}`);
-    }
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    throw new Error(`${error}`);
-  }
+  const response = await axiosInstance.get("/categories");
+  return response.data.data;
 };
 
 export const getFilteredProducts = async ({
@@ -36,26 +28,13 @@ export const getFilteredProducts = async ({
     query.append("brands", brands.join(","));
   }
 
-  try {
-    const response = await fetch(`${API_URL}/products/filters?${query}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch product: ${response.statusText}`);
-    }
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    throw new Error(`${error}`);
-  }
+  const response = await axiosInstance.get(`/products/filters?${query}`);
+  return response.data.data;
 };
 
 export const getAllProducts = async () => {
-  try {
-    const products = await fetch(`${API_URL}/products`);
-    const response = await products.json();
-    return response.data;
-  } catch (error) {
-    throw new Error(`${error}`);
-  }
+  const response = await axiosInstance.get("/products");
+  return response.data.data;
 };
 
 export const getRandomProducts = (products: Product[], count: number) => {
@@ -64,61 +43,26 @@ export const getRandomProducts = (products: Product[], count: number) => {
 };
 
 export const getFeaturedProducts = async () => {
-  try {
-    const response = await fetch(`${API_URL}/products/featured`);
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    throw new Error(`${error}`);
-  }
+  const response = await axiosInstance.get("/products/featured");
+  return response.data.data;
 };
 
 export const getAdProducts = async () => {
-  try {
-    const response = await fetch(`${API_URL}/products/ad`);
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    throw new Error(`${error}`);
-  }
+  const response = await axiosInstance.get("/products/ad");
+  return response.data.data;
 };
 
 export const getProductById = async (id: number) => {
-  try {
-    const response = await fetch(`${API_URL}/products/${id}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch product: ${response.statusText}`);
-    }
-    const result = await response.json();
-    return result.data[0];
-  } catch (error) {
-    throw new Error(`${error}`);
-  }
+  const response = await axiosInstance.get(`/products/${id}`);
+  return response.data.data[0];
 };
 
 export const getAvailableBrands = async (categoryId: number) => {
-  try {
-    const response = await fetch(`${API_URL}/brands?category=${categoryId}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch brands: ${response.statusText}`);
-    }
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await axiosInstance.get(`/brands?category=${categoryId}`);
+  return response.data.data;
 };
 
 export const getMaxPrice = async () => {
-  try {
-    const response = await fetch(`${API_URL}/products/max-price`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch max price: ${response.statusText}`);
-    }
-    const result = await response.json();
-    return result.data;
-  } catch (error) {
-    console.error("Error fetching max price:", error);
-    return 100000;
-  }
+  const response = await axiosInstance.get("/products/max-price");
+  return response.data.data;
 };

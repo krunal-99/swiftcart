@@ -4,8 +4,9 @@ import { Navigate } from "react-router-dom";
 import { PrivateRouteProps } from "../data/types";
 import { useEffect, useState } from "react";
 import { logout } from "../store/authSlice";
-import { API_URL, handleError } from "../utils/utils";
+import { handleError } from "../utils/utils";
 import { HomePath, LoginPath } from "../constants/constants";
+import axiosInstance from "../utils/instance";
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({
   children,
@@ -21,19 +22,9 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
     const verifyToken = async () => {
       if (token) {
         try {
-          const response = await fetch(`${API_URL}/api/auth/verify`, {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          if (!response.ok) {
-            dispatch(logout());
-            handleError("Session expired. Please login again");
-          }
+          await axiosInstance.post("/api/auth/verify");
         } catch (error) {
           dispatch(logout());
-          handleError("Authentication failed. Please login again");
         }
       } else if (!isAuthenticated) {
         handleError("Please login to continue");

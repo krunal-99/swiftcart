@@ -32,14 +32,9 @@ export const getFilteredProducts = async ({
   return response.data.data;
 };
 
-export const getAllProducts = async () => {
+export const getRandomProducts = async () => {
   const response = await axiosInstance.get("/products");
   return response.data.data;
-};
-
-export const getRandomProducts = (products: Product[], count: number) => {
-  const shuffled = [...products].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
 };
 
 export const getFeaturedProducts = async () => {

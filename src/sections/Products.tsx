@@ -1,19 +1,16 @@
 import { Box, Grid2, Typography } from "@mui/material";
 import CardComponent from "../components/CardComponent";
-import { getAllProducts, getRandomProducts } from "../utils/product";
+import { getRandomProducts } from "../utils/product";
 import { useQuery } from "@tanstack/react-query";
 import { Product } from "../data/types";
 
 const Products = () => {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["products"],
-    queryFn: getAllProducts,
+    queryKey: ["randomProducts"],
+    queryFn: getRandomProducts,
   });
 
   if (isError) return <div>Error: {"Something went wrong."}</div>;
-
-  const bestProducts =
-    data && data.length > 8 ? getRandomProducts(data, 8) : data;
 
   return (
     <Box sx={{ my: 10 }}>
@@ -52,7 +49,7 @@ const Products = () => {
                 />
               </Grid2>
             ))
-          : bestProducts?.slice(0, 8).map((data: Product, index: number) => (
+          : data?.slice(0, 8).map((data: Product, index: number) => (
               <Grid2
                 columns={{ xs: 12, sm: 6, md: 4, lg: 3 }}
                 key={index}

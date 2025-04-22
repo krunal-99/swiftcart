@@ -1,5 +1,5 @@
 import axiosInstance from "./instance";
-import { handleError, handleSuccess } from "./utils";
+import { handleSuccess } from "./utils";
 
 export const getCartItems = async (userId: number) => {
   const response = await axiosInstance.get(`/cart/${userId}`);
@@ -11,7 +11,6 @@ export const getCartItems = async (userId: number) => {
 
 export const removeFromCart = async (itemId: number) => {
   const response = await axiosInstance.delete(`/cart/${itemId}`);
-  handleSuccess(`${response.data.message}`);
   return response.data;
 };
 
@@ -20,17 +19,11 @@ export const updateCartItem = async (itemId: number, quantity: number) => {
     `/cart/${itemId}`,
     JSON.stringify({ quantity })
   );
-  if (response.data.status === "success") {
-    handleSuccess("Cart updated successfully");
-  } else {
-    handleError(`${response.data.message}`);
-  }
   return response.data;
 };
 
 export const clearCartItems = async (userId: number) => {
   const response = await axiosInstance.delete(`/cart/clear/${userId}`);
-  handleSuccess("Cart cleared successfully");
   return response.data;
 };
 

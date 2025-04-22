@@ -5,7 +5,7 @@ import { RootState } from "../main";
 import { addToCart, getCartItems, updateCartItem } from "../utils/cart";
 import { CartItems, Product, Wishlist } from "../data/types";
 import { useParams } from "react-router-dom";
-import { handleError } from "../utils/utils";
+import { handleError, handleSuccess } from "../utils/utils";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import {
@@ -15,6 +15,8 @@ import {
 } from "../utils/wishlist";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { debounce } from "lodash";
+import { useCallback, useMemo } from "react";
 
 interface ProductHeroButtonsProps {
   product: Product;
@@ -49,23 +51,34 @@ const ProductHeroButtons: React.FC<ProductHeroButtonsProps> = ({
       item.product.id === Number(id) && item.selectedColor === selectedColor
   );
 
-  const updateQuantityMutation = useMutation({
+  const updateMutation = useMutation({
     mutationFn: ({ itemId, quantity }: { itemId: number; quantity: number }) =>
       updateCartItem(itemId, quantity),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart", user?.id] });
-    },
-    onError: (error) => {
-      handleError("Failed to update cart quantity");
-      console.error(error);
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["cart", user!.id] });
+      if (data.status === "success") {
+        handleSuccess("Cart updated successfully.");
+      } else {
+        handleError(data.message || "Failed tp update cart");
+      }
     },
   });
 
-  const handleQuantityChange = (itemId: number, newQuantity: number) => {
-    if (newQuantity >= 0) {
-      updateQuantityMutation.mutate({ itemId, quantity: newQuantity });
-    }
-  };
+  const debouncedQuantityChange = useMemo(
+    () =>
+      debounce((itemId: number, newQuantity: number) => {
+        if (newQuantity >= 0) {
+          updateMutation.mutate({ itemId, quantity: newQuantity });
+        }
+      }, 200),
+    [updateMutation]
+  );
+
+  useCallback(() => {
+    return () => {
+      debouncedQuantityChange.cancel();
+    };
+  }, [debouncedQuantityChange]);
 
   const addToCartMutation = useMutation({
     mutationFn: ({
@@ -159,28 +172,26 @@ const ProductHeroButtons: React.FC<ProductHeroButtonsProps> = ({
           <ButtonGroup variant="outlined" aria-label="Basic button group">
             <Button
               onClick={() =>
-                handleQuantityChange(cartItem.id, cartItem.quantity - 1)
+                debouncedQuantityChange(cartItem.id, cartItem.quantity - 1)
               }
               sx={{
                 backgroundColor: "#252b42",
                 color: "white",
                 borderRadius: 0,
               }}
-              disabled={updateQuantityMutation.isLoading}
             >
               <RemoveIcon sx={{ width: "15px" }} />
             </Button>
             <Button sx={{ fontWeight: 600 }}>{cartItem.quantity}</Button>
             <Button
               onClick={() =>
-                handleQuantityChange(cartItem.id, cartItem.quantity + 1)
+                debouncedQuantityChange(cartItem.id, cartItem.quantity + 1)
               }
               sx={{
                 backgroundColor: "#fafafa",
                 color: "black",
                 borderRadius: 0,
               }}
-              disabled={updateQuantityMutation.isLoading}
             >
               <AddIcon sx={{ width: "15px" }} />
             </Button>

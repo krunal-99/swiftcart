@@ -19,6 +19,9 @@ import { CartData } from "../data/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { removeFromCart, updateCartItem } from "../utils/cart";
 import { RootState } from "../main";
+import { useCallback, useMemo } from "react";
+import { debounce } from "lodash";
+import { handleError, handleSuccess } from "../utils/utils";
 
 const cartHeading = ["Color", "Price", "Quantity", "Total", "Remove"];
 
@@ -30,27 +33,48 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
   const updateMutation = useMutation({
     mutationFn: ({ itemId, quantity }: { itemId: number; quantity: number }) =>
       updateCartItem(itemId, quantity),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["cart", user!.id] });
+      if (data.status === "success") {
+        handleSuccess("Cart updated successfully.");
+      } else {
+        handleError(data.message || "Failed tp update cart");
+      }
     },
   });
 
   const removeMutation = useMutation({
     mutationFn: (itemId: number) => removeFromCart(itemId),
-    onSuccess: (_data) => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["cart", user?.id] });
+      handleSuccess(data.message || "Item removed from cart.");
     },
   });
 
-  const handleQuantityChange = (itemId: number, newQuantity: number) => {
-    if (newQuantity >= 0) {
-      updateMutation.mutate({ itemId, quantity: newQuantity });
-    }
-  };
+  const debouncedQuantityChange = useMemo(
+    () =>
+      debounce((itemId: number, newQuantity: number) => {
+        if (newQuantity >= 0) {
+          updateMutation.mutate({ itemId, quantity: newQuantity });
+        }
+      }, 200),
+    [updateMutation]
+  );
 
-  const handleRemove = (itemId: number) => {
-    removeMutation.mutate(itemId);
-  };
+  const debouncedRemove = useMemo(
+    () =>
+      debounce((itemId: number) => {
+        removeMutation.mutate(itemId);
+      }, 500),
+    [removeMutation]
+  );
+
+  useCallback(() => {
+    return () => {
+      debouncedQuantityChange.cancel();
+      debouncedRemove.cancel();
+    };
+  }, [debouncedQuantityChange, debouncedRemove]);
 
   return (
     <TableContainer
@@ -123,7 +147,7 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
                 >
                   <Button
                     onClick={() =>
-                      handleQuantityChange(item.id, item.quantity - 1)
+                      debouncedQuantityChange(item.id, item.quantity - 1)
                     }
                     sx={{
                       backgroundColor: "#252b42",
@@ -136,7 +160,7 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
                   <Button sx={{ fontWeight: 600 }}>{item.quantity}</Button>
                   <Button
                     onClick={() =>
-                      handleQuantityChange(item.id, item.quantity + 1)
+                      debouncedQuantityChange(item.id, item.quantity + 1)
                     }
                     sx={{
                       backgroundColor: "#fafafa",
@@ -157,7 +181,7 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
               <TableCell>
                 <Box display="flex" justifyContent="center">
                   <IconButton
-                    onClick={() => handleRemove(item.id)}
+                    onClick={() => debouncedRemove(item.id)}
                     sx={{
                       border: "2px solid #fafafa",
                       borderRadius: 0,

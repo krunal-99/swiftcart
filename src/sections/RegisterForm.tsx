@@ -21,7 +21,6 @@ import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { Link, useNavigate } from "react-router-dom";
 import { registerFormFields } from "../data/data";
 import {
-  API_URL,
   handleError,
   handleSuccess,
   uploadImageToCloudinary,

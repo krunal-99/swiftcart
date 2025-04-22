@@ -1,27 +1,18 @@
-import { API_URL, handleError } from "./utils";
+import axiosInstance from "./instance";
+import { handleError } from "./utils";
 
 export const getUserById = async (id: number) => {
-  try {
-    const response = await fetch(`${API_URL}/api/auth/${id}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch user: ${response.statusText}`);
-    }
-    const result = await response.json();
-    if (result.status === "success") {
-      return result.data;
-    } else {
-      handleError(result.message);
-    }
-  } catch (error) {
-    console.error("Error fetching user data.");
-    throw error;
+  const response = await axiosInstance.get(`/api/auth/${id}`);
+  if (response.data.status === "success") {
+    return response.data.data;
+  } else {
+    handleError(response.data.message);
   }
 };
 
 export const updateUserProfile = async ({
   userId,
   userData,
-  token,
 }: {
   userId: number;
   userData: {
@@ -32,25 +23,9 @@ export const updateUserProfile = async ({
   };
   token: string;
 }) => {
-  try {
-    const response = await fetch(`${API_URL}/api/auth/${userId}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.data || "Failed to update profile");
-    }
-
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    console.error("Error updating profile:", error);
-    throw error;
-  }
+  const response = await axiosInstance.put(
+    `/api/auth/${userId}`,
+    JSON.stringify(userData)
+  );
+  return response.data;
 };

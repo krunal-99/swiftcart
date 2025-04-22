@@ -75,10 +75,8 @@ const RegisterForm: React.FC = () => {
         "/api/auth/register",
         JSON.stringify({ ...userInfo, imageUrl })
       );
-      const result = await response.data;
-      const { status, data } = result;
-      if (status === "success") {
-        handleSuccess(`${data}`);
+      if (response.data.status === "success") {
+        handleSuccess(`${response.data.data}`);
         navigate(LoginPath);
         formRef.current?.reset();
         setUserInfo({ name: "", email: "", password: "" });

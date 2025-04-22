@@ -125,7 +125,6 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
                     onClick={() =>
                       handleQuantityChange(item.id, item.quantity - 1)
                     }
-                    disabled={updateMutation.isLoading}
                     sx={{
                       backgroundColor: "#252b42",
                       color: "white",
@@ -139,7 +138,6 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
                     onClick={() =>
                       handleQuantityChange(item.id, item.quantity + 1)
                     }
-                    disabled={updateMutation.isLoading}
                     sx={{
                       backgroundColor: "#fafafa",
                       color: "black",

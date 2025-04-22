@@ -1,60 +1,37 @@
 import axiosInstance from "./instance";
-import { API_URL, handleError, handleSuccess } from "./utils";
+import { handleError, handleSuccess } from "./utils";
 
 export const getCartItems = async (userId: number) => {
   const response = await axiosInstance.get(`/cart/${userId}`);
-  const result = await response.data;
   return {
-    data: result.data,
-    totalCount: result.totalCount,
+    data: response.data.data,
+    totalCount: response.data.totalCount,
   };
 };
 
 export const removeFromCart = async (itemId: number) => {
   const response = await axiosInstance.delete(`/cart/${itemId}`);
-  const result = await response.data;
-  handleSuccess(`${result.message}`);
-  return result.data;
+  handleSuccess(`${response.data.message}`);
+  return response.data;
 };
 
 export const updateCartItem = async (itemId: number, quantity: number) => {
-  try {
-    const response = await fetch(`${API_URL}/cart/${itemId}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ quantity }),
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to update cart item: ${response.statusText}`);
-    }
-    const result = await response.json();
-    if (result.status === "success") {
-      handleSuccess("Cart updated successfully");
-    } else {
-      handleError(`${result.message}`);
-    }
-    return result.data;
-  } catch (error) {
-    console.error("Error updating cart item:", error);
-    throw error;
+  const response = await axiosInstance.patch(
+    `/cart/${itemId}`,
+    JSON.stringify({ quantity })
+  );
+  if (response.data.status === "success") {
+    handleSuccess("Cart updated successfully");
+  } else {
+    handleError(`${response.data.message}`);
   }
+  return response.data;
 };
 
 export const clearCartItems = async (userId: number) => {
-  try {
-    const response = await fetch(`${API_URL}/cart/clear/${userId}`, {
-      method: "DELETE",
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to clear cart: ${response.statusText}`);
-    }
-    const result = await response.json();
-    handleSuccess("Cart cleared successfully");
-    return result.data;
-  } catch (error) {
-    console.error("Error clearing cart: ", error);
-    throw error;
-  }
+  const response = await axiosInstance.delete(`/cart/clear/${userId}`);
+  handleSuccess("Cart cleared successfully");
+  return response.data;
 };
 
 export const addToCart = async (
@@ -64,17 +41,12 @@ export const addToCart = async (
   selectedColor: string
 ) => {
   try {
-    const response = await fetch(`${API_URL}/cart`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, productId, quantity, selectedColor }),
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to add item to cart: ${response.statusText}`);
-    }
-    const result = await response.json();
+    const response = await axiosInstance.post(
+      "/cart",
+      JSON.stringify({ userId, productId, quantity, selectedColor })
+    );
     handleSuccess("Item added to cart successfully");
-    return result.data;
+    return response.data;
   } catch (error) {
     console.error("Error adding to cart:", error);
     throw error;

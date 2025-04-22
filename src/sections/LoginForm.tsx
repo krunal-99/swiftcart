@@ -48,13 +48,11 @@ const LoginForm: React.FC = () => {
       "/api/auth/login",
       JSON.stringify({ ...loginInfo })
     );
-    const result = await response.data;
-
-    if (result.status === "failed") {
-      handleError(`${result.data}`);
+    if (response.data.status === "failed") {
+      handleError(`${response.data.data}`);
     } else {
-      handleSuccess(`${result.data}`);
-      dispatch(login({ user: result.user, token: result.token }));
+      handleSuccess(`${response.data.data}`);
+      dispatch(login({ user: response.data.user, token: response.data.token }));
       navigate(HomePath, { replace: true });
       formRef.current?.reset();
       setLoginInfo({ email: "", password: "" });

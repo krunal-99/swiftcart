@@ -22,6 +22,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     handleError(error?.response?.data?.message || "Something went wrong!");
+    console.error("Error : ", error);
     return Promise.reject(error);
   }
 );

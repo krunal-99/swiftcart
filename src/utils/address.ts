@@ -5,12 +5,10 @@ export const saveAddress = async (addressData: Record<string, any>) => {
     "/address",
     JSON.stringify(addressData)
   );
-  const result = await response.data;
-  return result;
+  return response.data;
 };
 
 export const getUserAddresses = async (userId: number) => {
   const response = await axiosInstance.get(`/address/user/${userId}`);
-  const result = await response.data;
-  return result;
+  return response.data;
 };

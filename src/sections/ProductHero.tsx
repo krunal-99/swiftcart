@@ -81,11 +81,11 @@ const ProductHero = () => {
                 size="large"
               />
               <Typography variant="body2" color="#737373" fontWeight={700}>
-                {product.reviewCount} Reviews
+                {product.review_count} Reviews
               </Typography>
             </Stack>
             <Typography color="#252b42" variant="h5" fontWeight={700}>
-              ₹ {product.salePrice}
+              ₹ {product.sale_price}
             </Typography>
             <Typography
               color="#858585"
@@ -93,7 +93,7 @@ const ProductHero = () => {
               pb="20px"
               textAlign={{ xs: "center", md: "left" }}
             >
-              {product.detailDescription}
+              {product.detail_description}
             </Typography>
             <Stack
               direction="row"

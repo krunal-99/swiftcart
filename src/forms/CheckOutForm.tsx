@@ -35,14 +35,14 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
     null
   );
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     address: "",
     city: "",
     state: "",
     pincode: "",
     country: "",
-    isDefault: false,
+    is_default: false,
     userId: user?.id,
   });
 
@@ -63,7 +63,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
     if (!isLoading && !hasAddresses) {
       setShowAddressForm(true);
     } else if (hasAddresses) {
-      const defaultAddress = addresses.find((addr) => addr.isDefault);
+      const defaultAddress = addresses.find((addr) => addr.is_default);
       if (defaultAddress) {
         setSelectedAddressId(defaultAddress.id);
       } else if (addresses.length > 0) {
@@ -129,14 +129,14 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
 
   const resetForm = () => {
     setFormData({
-      firstName: "",
-      lastName: "",
+      first_name: "",
+      last_name: "",
       address: "",
       city: "",
       state: "",
       pincode: "",
       country: "",
-      isDefault: false,
+      is_default: false,
       userId: user?.id,
     });
   };
@@ -157,15 +157,15 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
       <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         <TextField
           label="First Name"
-          name="firstName"
-          value={formData.firstName}
+          name="first_name"
+          value={formData.first_name}
           onChange={handleChange}
           fullWidth
         />
         <TextField
           label="Last Name"
-          name="lastName"
-          value={formData.lastName}
+          name="last_name"
+          value={formData.last_name}
           onChange={handleChange}
           fullWidth
         />
@@ -207,9 +207,9 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={formData.isDefault}
+              checked={formData.is_default}
               onChange={handleChange}
-              name="isDefault"
+              name="is_default"
               color="primary"
             />
           }
@@ -259,8 +259,8 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
                       border: "1px solid",
                       borderColor: "divider",
                       borderRadius: 1,
-                      borderLeft: address.isDefault ? 4 : 1,
-                      borderLeftColor: address.isDefault
+                      borderLeft: address.is_default ? 4 : 1,
+                      borderLeftColor: address.is_default
                         ? "primary.main"
                         : "divider",
                     }}
@@ -271,8 +271,8 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
                       label={
                         <Box>
                           <Typography variant="subtitle1" fontWeight="bold">
-                            {address.firstName} {address.lastName}
-                            {address.isDefault && (
+                            {address.first_name} {address.last_name}
+                            {address.is_default && (
                               <Typography
                                 component="span"
                                 variant="caption"
@@ -283,7 +283,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
                             )}
                           </Typography>
                           <Typography variant="body2">
-                            {address.streetAddress}, {address.city},{" "}
+                            {address.street_address}, {address.city},{" "}
                             {address.state} {address.pincode}
                           </Typography>
                           <Typography variant="body2">

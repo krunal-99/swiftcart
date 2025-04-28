@@ -20,11 +20,11 @@ export interface CartProps {
 }
 
 export interface CartItems {
-  addedAt: string;
+  added_at: string;
   id: number;
   product: Product;
   quantity: number;
-  selectedColor: string;
+  selected_color: string;
 }
 
 export interface Wishlist {
@@ -38,14 +38,14 @@ export interface Product {
   id: number;
   title: string;
   type: string;
-  brandId: number;
-  originalPrice: number;
-  salePrice: string | number;
+  brand_id: number;
+  original_price: number;
+  sale_price: string | number;
   rating: number;
-  reviewCount: number;
-  shortDescription: string;
-  detailDescription: string;
-  additionalInformation: string;
+  review_count: number;
+  short_description: string;
+  detail_description: string;
+  additional_information: string;
   colors: string[];
   imageUrls: string[];
   reviews: Review[];
@@ -183,14 +183,14 @@ export type contactUser = {
 
 export interface Address {
   id: number;
-  firstName: string;
-  lastName: string;
-  streetAddress: string;
+  first_name: string;
+  last_name: string;
+  street_address: string;
   city: string;
   state: string;
   pincode: string;
   country: string;
-  isDefault: boolean;
+  is_default: boolean;
 }
 
 export interface ProfileInfoProps {
@@ -221,13 +221,13 @@ export interface OrderItem {
 
 export interface Order {
   date: string;
-  estimatedDelivery: string;
+  estimated_delivery: string;
   id: number;
   items: OrderItem[];
-  paymentEmail: string;
-  paymentMethod: string;
-  paymentStatus: string;
-  shippingAddress: string;
+  payment_email: string;
+  payment_method: string;
+  payment_status: string;
+  shipping_address: string;
   status: string;
 }
 
@@ -237,8 +237,8 @@ export interface CheckoutFormProps {
 }
 
 export const requiredFieldsCheckOut = [
-  "firstName",
-  "lastName",
+  "first_name",
+  "last_name",
   "address",
   "city",
   "state",
@@ -257,7 +257,7 @@ export interface SummaryItem {
   product: {
     id: number;
     title: string;
-    salePrice: string;
+    sale_price: string;
     imageUrls: string[];
   };
 }

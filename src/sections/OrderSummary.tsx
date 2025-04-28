@@ -157,10 +157,10 @@ const OrderSummary = ({
                 </Box>
                 <Box sx={{ textAlign: "right" }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: "medium" }}>
-                    ₹ {Number(item.product.salePrice) * item.quantity}
+                    ₹ {Number(item.product.sale_price) * item.quantity}
                   </Typography>
                   <Typography variant="body2" sx={{ color: "grey.600" }}>
-                    ₹ {Number(item.product.salePrice)} each
+                    ₹ {Number(item.product.sale_price)} each
                   </Typography>
                 </Box>
               </Box>

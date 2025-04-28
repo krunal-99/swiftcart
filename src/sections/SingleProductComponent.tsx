@@ -112,7 +112,7 @@ const SingleProductComponent = () => {
               maxWidth: "400px",
             }}
           >
-            {data.shortDescription}
+            {data.short_description}
           </Typography>
         )}
         <Stack

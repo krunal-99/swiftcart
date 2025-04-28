@@ -83,7 +83,7 @@ const Checkout = () => {
   };
   const subtotal = items.reduce(
     (sum: number, item: CartItems) =>
-      sum + Number(item.product.salePrice) * item.quantity,
+      sum + Number(item.product.sale_price) * item.quantity,
     0
   );
   const shipping = 0;

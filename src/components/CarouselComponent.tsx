@@ -133,16 +133,16 @@ const CarouselComponent: React.FC<CarouselComponentProps> = ({
                 mx: { xs: "auto", md: "0" },
               }}
             >
-              {item.shortDescription}
+              {item.short_description}
             </Typography>
-            {item.salePrice && (
+            {item.sale_price && (
               <Typography
                 variant="h5"
                 fontWeight={700}
                 fontSize={{ xs: "20px", sm: "22px", md: "24px" }}
                 my="15px"
               >
-                ₹ {item.salePrice}
+                ₹ {item.sale_price}
               </Typography>
             )}
             <NavLink to={`product/${item.id}`}>

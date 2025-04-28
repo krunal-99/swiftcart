@@ -216,7 +216,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
                       variant="subtitle2"
                       sx={{ fontWeight: "medium" }}
                     >
-                      {selectedOrder.shippingAddress}
+                      {selectedOrder.shipping_address}
                     </Typography>
                   </Box>
                   <Box
@@ -234,7 +234,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
                         variant="subtitle2"
                         sx={{ fontWeight: "medium" }}
                       >
-                        {formatDate(selectedOrder.estimatedDelivery)}
+                        {formatDate(selectedOrder.estimated_delivery)}
                       </Typography>
                     </Box>
                   </Box>
@@ -279,10 +279,10 @@ const OrderModal: React.FC<OrderModalProps> = ({
                         variant="subtitle2"
                         sx={{ fontWeight: "medium" }}
                       >
-                        {selectedOrder.paymentMethod}
+                        {selectedOrder.payment_method}
                       </Typography>
                     </Box>
-                    {selectedOrder.paymentEmail && (
+                    {selectedOrder.payment_email && (
                       <Box>
                         <Typography variant="body2" sx={{ color: "grey.600" }}>
                           Account
@@ -291,7 +291,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
                           variant="subtitle2"
                           sx={{ fontWeight: "medium" }}
                         >
-                          {selectedOrder.paymentEmail}
+                          {selectedOrder.payment_email}
                         </Typography>
                       </Box>
                     )}
@@ -303,7 +303,7 @@ const OrderModal: React.FC<OrderModalProps> = ({
                         variant="subtitle2"
                         sx={{ fontWeight: "medium" }}
                       >
-                        {selectedOrder.paymentStatus}
+                        {selectedOrder.payment_status}
                       </Typography>
                     </Box>
                   </Box>

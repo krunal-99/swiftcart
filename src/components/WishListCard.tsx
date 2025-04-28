@@ -92,10 +92,10 @@ const WishListCard: React.FC<ListCardProps> = (props) => {
                 sx={{ display: "flex", justifyContent: "center" }}
               >
                 <Typography color="#bdbdbd" variant="h6" fontWeight={700}>
-                  ₹{props.item.product?.originalPrice}
+                  ₹{props.item.product?.original_price}
                 </Typography>
                 <Typography variant="h6" color="#23856d" fontWeight={700}>
-                  ₹{props.item.product?.salePrice}
+                  ₹{props.item.product?.sale_price}
                 </Typography>
               </Stack>
               <Stack

@@ -48,7 +48,7 @@ const ProductHeroButtons: React.FC<ProductHeroButtonsProps> = ({
 
   const cartItem = cartData?.data[0]?.items.find(
     (item: CartItems) =>
-      item.product.id === Number(id) && item.selectedColor === selectedColor
+      item.product.id === Number(id) && item.selected_color === selectedColor
   );
 
   const updateMutation = useMutation({

@@ -23,9 +23,9 @@ const CartBoxes = () => {
     cart &&
     cart.data[0]?.items.reduce((acc: number, item: CartItems) => {
       const price =
-        typeof item.product.salePrice === "string"
-          ? parseFloat(item.product.salePrice)
-          : item.product.salePrice;
+        typeof item.product.sale_price === "string"
+          ? parseFloat(item.product.sale_price)
+          : item.product.sale_price;
       return acc + price * item.quantity;
     }, 0);
 

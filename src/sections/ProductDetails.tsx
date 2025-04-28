@@ -144,7 +144,7 @@ const ProductDetails = () => {
                     width: { xs: "90%", md: "500px" },
                   }}
                 >
-                  {product?.detailDescription}
+                  {product?.detail_description}
                 </Typography>
               </Box>
             </Grid2>
@@ -165,7 +165,7 @@ const ProductDetails = () => {
             >
               Product Specifications
             </Typography>
-            <AdditionalInfo info={product.additionalInformation} />
+            <AdditionalInfo info={product.additional_information} />
           </Box>
         </TabPanel>
 

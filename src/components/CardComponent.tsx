@@ -148,10 +148,10 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
                 sx={{ display: "flex", justifyContent: "center" }}
               >
                 <Typography color="#bdbdbd" variant="h6" fontWeight={700}>
-                  ₹{props.product?.originalPrice}
+                  ₹{props.product?.original_price}
                 </Typography>
                 <Typography variant="h6" color="#23856d" fontWeight={700}>
-                  ₹{props.product?.salePrice}
+                  ₹{props.product?.sale_price}
                 </Typography>
               </Stack>
               <Stack

@@ -127,7 +127,7 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
                     borderRadius="50%"
                     sx={{
                       cursor: "pointer",
-                      backgroundColor: item.selectedColor,
+                      backgroundColor: item.selected_color,
                       border: "1px solid #ddd",
                     }}
                   />
@@ -135,9 +135,9 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
               </TableCell>
               <TableCell align="center" sx={{ fontWeight: 600 }}>
                 ₹{" "}
-                {typeof item.product.salePrice === "string"
-                  ? parseFloat(item.product.salePrice)
-                  : item.product.salePrice}
+                {typeof item.product.sale_price === "string"
+                  ? parseFloat(item.product.sale_price)
+                  : item.product.sale_price}
               </TableCell>
               <TableCell align="center">
                 <ButtonGroup
@@ -174,9 +174,9 @@ const CartTable: React.FC<{ cart: CartData[] }> = ({ cart }) => {
               </TableCell>
               <TableCell align="center" sx={{ fontWeight: 600 }}>
                 ₹{" "}
-                {typeof item.product.salePrice === "string"
-                  ? parseFloat(item.product.salePrice) * item.quantity
-                  : item.product.salePrice * item.quantity}
+                {typeof item.product.sale_price === "string"
+                  ? parseFloat(item.product.sale_price) * item.quantity
+                  : item.product.sale_price * item.quantity}
               </TableCell>
               <TableCell>
                 <Box display="flex" justifyContent="center">

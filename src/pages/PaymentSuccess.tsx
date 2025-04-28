@@ -167,7 +167,7 @@ const PaymentSuccess = () => {
                       Estimated Delivery
                     </Typography>
                     <Typography variant="body1" fontWeight="medium">
-                      {new Date(order.estimatedDelivery).toLocaleDateString()}
+                      {new Date(order.estimated_delivery).toLocaleDateString()}
                     </Typography>
                   </OrderInfo>
                 </>

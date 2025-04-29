@@ -37,7 +37,7 @@ const CartBoxes = () => {
 
   return (
     <>
-      {cart?.data.length > 0 && (
+      {cart?.data[0]?.items.length > 0 && (
         <Box
           display="flex"
           flexWrap="wrap"

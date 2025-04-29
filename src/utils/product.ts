@@ -1,4 +1,4 @@
-import { FilterParams, Product } from "../data/types";
+import { FilterParams } from "../data/types";
 import axiosInstance from "./instance";
 
 export const getCategories = async () => {

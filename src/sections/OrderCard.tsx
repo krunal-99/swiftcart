@@ -327,7 +327,9 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
                 <CreditCard />
                 <Typography variant="body1">
                   Payment Status:{" "}
-                  <strong>{selectedOrder.paymentStatus || "Processing"}</strong>
+                  <strong>
+                    {selectedOrder.payment_status || "Processing"}
+                  </strong>
                 </Typography>
               </Box>
             </>

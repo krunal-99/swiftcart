@@ -17,7 +17,7 @@ const cartSlice = createSlice({
     addToCart(state, action) {
       const { id, color, title } = action.payload;
       const itemIndex = state.cartItems.findIndex(
-        (item: CartItems) => item.id === id && item.selectedColor === color
+        (item: CartItems) => item.id === id && item.selected_color === color
       );
       if (itemIndex >= 0) {
         if (state.cartItems[itemIndex].cartQuantity >= 5) {
@@ -35,7 +35,7 @@ const cartSlice = createSlice({
     removeFromCart(state, action) {
       const { id, color, title } = action.payload;
       state.cartItems = state.cartItems.filter(
-        (item: CartItems) => !(item.id === id && item.selectedColor === color)
+        (item: CartItems) => !(item.id === id && item.selected_color === color)
       );
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
       handleError(`${title} removed from cart successfully.`);

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_URL, handleError } from "./utils";
+import { LoginPath } from "../constants/constants";
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -15,14 +16,45 @@ axiosInstance.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    console.error("Request error:", error);
+    return Promise.reject(error);
+  }
 );
 
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    const { status } = response;
+    switch (status) {
+      case 200:
+        return response;
+      case 201:
+        console.log("Resource created successfully");
+        return response;
+      default:
+        return response;
+    }
+  },
   (error) => {
-    handleError(error?.response?.data?.message || "Something went wrong!");
-    console.error("Error : ", error);
+    const { response } = error;
+    const message = response?.data?.message || "Something went wrong";
+
+    switch (response?.status) {
+      case 401:
+        localStorage.removeItem("access_token");
+        handleError("Unauthorized access. Please login again.");
+        window.location.href = LoginPath;
+        break;
+      case 404:
+        handleError("Requested resource not found.");
+        break;
+      case 500:
+        handleError("Internal server error. Please try again later.");
+        break;
+      default:
+        handleError(message);
+    }
+    console.error(`Error ${response?.status}:`, error);
     return Promise.reject(error);
   }
 );

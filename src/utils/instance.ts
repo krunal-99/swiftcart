@@ -48,9 +48,6 @@ axiosInstance.interceptors.response.use(
       case 404:
         handleError("Requested resource not found.");
         break;
-      case 500:
-        handleError("Internal server error. Please try again later.");
-        break;
       default:
         handleError(message);
     }

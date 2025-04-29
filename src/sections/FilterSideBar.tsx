@@ -16,6 +16,7 @@ import { getAvailableBrands, getMaxPrice } from "../utils/product";
 import { useQuery } from "@tanstack/react-query";
 import { Categories, Brand } from "../data/types";
 import { useEffect, useState } from "react";
+import { debounce } from "lodash";
 
 const FilterSidebar: React.FC<FilterSidebarProps> = ({
   isMobile,
@@ -45,9 +46,12 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
     }
   }, [maxPriceData]);
 
-  const handlePriceChange = (_event: Event, newValue: number | number[]) => {
-    onPriceChange(newValue as [number, number]);
-  };
+  const handlePriceChange = debounce(
+    (_event: Event, newValue: number | number[]) => {
+      onPriceChange(newValue as [number, number]);
+    },
+    500
+  );
 
   const handleBrandToggle = (brand: string) => {
     const newBrands = selectedBrands.includes(brand)

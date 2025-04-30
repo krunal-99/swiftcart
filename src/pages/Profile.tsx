@@ -34,7 +34,7 @@ const Profile = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const { data: userData, isLoading } = useQuery({
     queryKey: ["user", user?.id],
-    queryFn: () => getUserById(user?.id!),
+    queryFn: getUserById,
     enabled: !!user?.id,
     staleTime: 30000,
     refetchOnMount: true,

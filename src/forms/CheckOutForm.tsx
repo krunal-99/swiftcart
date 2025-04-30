@@ -52,7 +52,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSubmit, loading }) => {
     isError,
   } = useQuery({
     queryKey: ["addresses", user?.id],
-    queryFn: () => getUserAddresses(user?.id!),
+    queryFn: getUserAddresses,
     enabled: !!user?.id,
   });
 

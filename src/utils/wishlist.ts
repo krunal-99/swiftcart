@@ -1,9 +1,9 @@
 import axiosInstance from "./instance";
 import { handleError, handleSuccess } from "./utils";
 
-export const getWishListItems = async (userId: number) => {
+export const getWishListItems = async () => {
   try {
-    const response = await axiosInstance.get(`/wishlist/${userId}`, {
+    const response = await axiosInstance.get("/wishlist", {
       headers: {
         "Cache-Control": "max-age=300",
       },
@@ -15,15 +15,11 @@ export const getWishListItems = async (userId: number) => {
   }
 };
 
-export const addToWishlist = async (userId: number, productId: number) => {
-  if (!userId) {
-    handleError("Please login to add to wishlist");
-    return;
-  }
+export const addToWishlist = async (productId: number) => {
   try {
     const response = await axiosInstance.post(
       "/wishlist/add",
-      JSON.stringify({ userId, productId }),
+      JSON.stringify({ productId }),
       {
         headers: {
           "Cache-Control": "no-cache",

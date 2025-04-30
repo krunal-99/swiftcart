@@ -27,7 +27,7 @@ const Checkout = () => {
   const queryClient = useQueryClient();
   const { data: cartItems, isLoading } = useQuery({
     queryKey: ["cart", user?.id],
-    queryFn: () => getCartItems(user?.id!),
+    queryFn: getCartItems,
     enabled: !!user?.id,
   });
   const navigate = useNavigate();

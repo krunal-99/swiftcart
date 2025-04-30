@@ -18,19 +18,16 @@ const CartItems = () => {
   const appTheme = useTheme();
   const isMobile = useMediaQuery(appTheme.breakpoints.down("sm"));
   const { user } = useSelector((state: RootState) => state.auth);
-
-  const userId = user && user?.id;
   const queryClient = useQueryClient();
   const { data: cart, isLoading } = useQuery({
-    queryKey: ["cart", userId],
-    queryFn: () =>
-      userId ? getCartItems(userId) : Promise.reject("User ID is undefined"),
+    queryKey: ["cart", user?.id],
+    queryFn: getCartItems,
   });
 
   const clearCartMutation = useMutation({
-    mutationFn: () => clearCartItems(userId!),
+    mutationFn: clearCartItems,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart", userId] });
+      queryClient.invalidateQueries({ queryKey: ["cart", user?.id] });
     },
   });
 

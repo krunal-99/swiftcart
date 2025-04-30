@@ -1,8 +1,8 @@
 import axiosInstance from "./instance";
 import { handleSuccess } from "./utils";
 
-export const getCartItems = async (userId: number) => {
-  const response = await axiosInstance.get(`/cart/${userId}`);
+export const getCartItems = async () => {
+  const response = await axiosInstance.get("/cart");
   return {
     data: response.data.data,
     totalCount: response.data.totalCount,
@@ -22,13 +22,12 @@ export const updateCartItem = async (itemId: number, quantity: number) => {
   return response.data;
 };
 
-export const clearCartItems = async (userId: number) => {
-  const response = await axiosInstance.delete(`/cart/clear/${userId}`);
+export const clearCartItems = async () => {
+  const response = await axiosInstance.delete("/cart/clear");
   return response.data;
 };
 
 export const addToCart = async (
-  userId: number,
   productId: number,
   quantity: number = 1,
   selectedColor: string
@@ -36,7 +35,7 @@ export const addToCart = async (
   try {
     const response = await axiosInstance.post(
       "/cart",
-      JSON.stringify({ userId, productId, quantity, selectedColor })
+      JSON.stringify({ productId, quantity, selectedColor })
     );
     handleSuccess("Item added to cart successfully");
     return response.data;

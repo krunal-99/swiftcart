@@ -15,10 +15,7 @@ const Wishlist = () => {
     isError,
   } = useQuery({
     queryKey: ["wishlist", user?.id],
-    queryFn: () =>
-      user?.id
-        ? getWishListItems(user.id)
-        : Promise.reject("User ID is undefined"),
+    queryFn: getWishListItems,
     enabled: !!user?.id,
     staleTime: 5 * 60 * 1000,
     cacheTime: 30 * 60 * 1000,

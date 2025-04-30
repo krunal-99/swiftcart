@@ -11,12 +11,9 @@ import { CheckOutPath, ShopPath } from "../constants/constants";
 
 const CartBoxes = () => {
   const { user } = useSelector((state: RootState) => state.auth);
-
-  const userId = user && user?.id;
   const { data: cart } = useQuery({
-    queryKey: ["cart", userId],
-    queryFn: () =>
-      userId ? getCartItems(userId) : Promise.reject("User ID is undefined"),
+    queryKey: ["cart", user?.id],
+    queryFn: getCartItems,
   });
 
   const totalAmount: number =

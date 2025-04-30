@@ -49,7 +49,7 @@ axiosInstance.interceptors.response.use(
         handleError("Requested resource not found.");
         break;
       default:
-        handleError(message);
+        Promise.reject(new Error(message));
     }
     console.error(`Error ${response?.status}:`, error);
     return Promise.reject(error);

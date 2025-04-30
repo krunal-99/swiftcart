@@ -44,7 +44,7 @@ const OrderHistory: React.FC = () => {
     isError,
   } = useQuery({
     queryKey: ["orders", user?.id],
-    queryFn: () => getOrderByUser(user?.id!),
+    queryFn: getOrderByUser,
     enabled: !!user?.id,
   });
 

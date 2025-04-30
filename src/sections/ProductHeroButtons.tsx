@@ -35,8 +35,7 @@ const ProductHeroButtons: React.FC<ProductHeroButtonsProps> = ({
 
   const { data: cartData } = useQuery({
     queryKey: ["cart", user?.id],
-    queryFn: () =>
-      user?.id ? getCartItems(user.id) : Promise.reject("User ID is required"),
+    queryFn: getCartItems,
     enabled: !!user?.id,
   });
 
@@ -76,16 +75,14 @@ const ProductHeroButtons: React.FC<ProductHeroButtonsProps> = ({
 
   const addToCartMutation = useMutation({
     mutationFn: ({
-      userId,
       productId,
       quantity,
       selectedColor,
     }: {
-      userId: number;
       productId: number;
       quantity: number;
       selectedColor: string;
-    }) => addToCart(userId, productId, quantity, selectedColor),
+    }) => addToCart(productId, quantity, selectedColor),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cart", user?.id] });
     },
@@ -96,13 +93,8 @@ const ProductHeroButtons: React.FC<ProductHeroButtonsProps> = ({
   });
 
   const addWishlistMutation = useMutation({
-    mutationFn: ({
-      userId,
-      productId,
-    }: {
-      userId: number;
-      productId: number;
-    }) => addToWishlist(userId, productId),
+    mutationFn: ({ productId }: { productId: number }) =>
+      addToWishlist(productId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wishlist", user?.id] });
       queryClient.invalidateQueries({ queryKey: ["productDetails", id] });
@@ -123,7 +115,6 @@ const ProductHeroButtons: React.FC<ProductHeroButtonsProps> = ({
       return;
     }
     addToCartMutation.mutate({
-      userId: user.id,
       productId: product.id,
       quantity: 1,
       selectedColor,
@@ -136,7 +127,7 @@ const ProductHeroButtons: React.FC<ProductHeroButtonsProps> = ({
       return;
     }
     if (product.isInWishlist) {
-      const wishlistResponse = await getWishListItems(user.id);
+      const wishlistResponse = await getWishListItems();
       const wishlistItem = wishlistResponse.find(
         (item: Wishlist) => item.productId === product.id
       );
@@ -145,7 +136,6 @@ const ProductHeroButtons: React.FC<ProductHeroButtonsProps> = ({
       }
     } else {
       addWishlistMutation.mutate({
-        userId: user.id,
         productId: product.id,
       });
     }

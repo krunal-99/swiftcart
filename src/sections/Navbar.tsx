@@ -98,19 +98,13 @@ const Navbar = () => {
 
   const { data: wishlist } = useQuery({
     queryKey: ["wishlist", user?.id],
-    queryFn: () =>
-      user?.id
-        ? getWishListItems(user?.id)
-        : Promise.reject("User ID is undefined"),
+    queryFn: getWishListItems,
     enabled: !!user?.id,
   });
 
   const { data: cart } = useQuery({
     queryKey: ["cart", user?.id],
-    queryFn: () =>
-      user?.id
-        ? getCartItems(user?.id)
-        : Promise.reject("User ID is undefined"),
+    queryFn: getCartItems,
   });
   const cartItems = cart && cart.data[0]?.items;
   const totalQuantity = cartItems?.reduce((sum: number, item: CartItems) => {

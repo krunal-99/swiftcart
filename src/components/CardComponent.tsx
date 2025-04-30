@@ -28,7 +28,7 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
 
   const { data: wishlist = [] } = useQuery<Wishlist[]>({
     queryKey: ["wishlist", user?.id],
-    queryFn: () => getWishListItems(user?.id as number),
+    queryFn: getWishListItems,
     enabled: !!user?.id,
     staleTime: 5 * 60 * 1000,
     cacheTime: 30 * 60 * 1000,
@@ -39,13 +39,8 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
   });
 
   const addMutation = useMutation({
-    mutationFn: ({
-      userId,
-      productId,
-    }: {
-      userId: number;
-      productId: number;
-    }) => addToWishlist(userId, productId),
+    mutationFn: ({ productId }: { productId: number }) =>
+      addToWishlist(productId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wishlist", user?.id] });
     },
@@ -71,7 +66,6 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
         handleError("Please login to add item to wishlist");
       } else {
         addMutation.mutate({
-          userId: user?.id!,
           productId: props.product.id,
         });
       }

@@ -268,9 +268,7 @@ const ProfileInfo: React.FC<ExtendedProfileInfoProps> = ({
 
     if (user?.id) {
       updateProfileMutation.mutate({
-        userId: user.id,
         userData: updateData,
-        token,
       });
     }
   };

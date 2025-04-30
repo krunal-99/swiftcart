@@ -63,7 +63,7 @@ const PaymentError = () => {
     const clearUserCart = async () => {
       if (user?.id) {
         try {
-          await clearCartItems(user.id);
+          await clearCartItems();
         } catch (error) {
           console.error("Error clearing cart:", error);
         }

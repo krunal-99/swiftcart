@@ -49,7 +49,7 @@ export const getAdProducts = async () => {
 
 export const getProductById = async (id: number) => {
   const response = await axiosInstance.get(`/products/${id}`);
-  return response.data.data[0];
+  return response.data.data;
 };
 
 export const getAvailableBrands = async (categoryId: number) => {

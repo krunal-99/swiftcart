@@ -30,6 +30,8 @@ const CardComponent: React.FC<ProductCardProps> = (props) => {
     queryKey: ["wishlist", user?.id],
     queryFn: () => getWishListItems(user?.id as number),
     enabled: !!user?.id,
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 30 * 60 * 1000,
   });
 
   const isInWishList: boolean = wishlist.some((item) => {

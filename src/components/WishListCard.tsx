@@ -15,17 +15,27 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { removeFromWishlist } from "../utils/wishlist";
 import { RootState } from "../main";
 import { useSelector } from "react-redux";
+import { memo } from "react";
 
-const WishListCard: React.FC<ListCardProps> = (props) => {
+const WishListCard: React.FC<ListCardProps> = memo((props) => {
   const { user } = useSelector((state: RootState) => state.auth);
   const queryClient = useQueryClient();
 
   const removeMutation = useMutation({
     mutationFn: (id: number) => removeFromWishlist(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["wishlist", user?.id] });
+      queryClient.invalidateQueries({
+        queryKey: ["wishlist", user?.id],
+        exact: true,
+      });
     },
   });
+
+  const handleRemove = (id: number | undefined) => {
+    if (id) {
+      removeMutation.mutate(id);
+    }
+  };
 
   return (
     <Card
@@ -40,11 +50,7 @@ const WishListCard: React.FC<ListCardProps> = (props) => {
       {props.item ? (
         <>
           <IconButton
-            onClick={() => {
-              if (props.item?.id) {
-                removeMutation.mutate(props.item?.id);
-              }
-            }}
+            onClick={() => handleRemove(props.item?.id)}
             sx={{
               position: "absolute",
               top: 8,
@@ -169,6 +175,6 @@ const WishListCard: React.FC<ListCardProps> = (props) => {
       )}
     </Card>
   );
-};
+});
 
 export default WishListCard;

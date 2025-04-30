@@ -20,6 +20,9 @@ const Wishlist = () => {
         ? getWishListItems(user.id)
         : Promise.reject("User ID is undefined"),
     enabled: !!user?.id,
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   if (isError) return <Typography>Error fetching wishlist items.</Typography>;

@@ -40,12 +40,6 @@ const ProductHeroButtons: React.FC<ProductHeroButtonsProps> = ({
     enabled: !!user?.id,
   });
 
-  const { data: wishlist = [] } = useQuery<Wishlist[]>({
-    queryKey: ["wishlist", user?.id],
-    queryFn: () => getWishListItems(user?.id as number),
-    enabled: !!user?.id,
-  });
-
   const cartItem = cartData?.data[0]?.items.find(
     (item: CartItems) =>
       item.product.id === Number(id) && item.selected_color === selectedColor
@@ -111,12 +105,15 @@ const ProductHeroButtons: React.FC<ProductHeroButtonsProps> = ({
     }) => addToWishlist(userId, productId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wishlist", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["productDetails", id] });
     },
   });
+
   const removeWishlistMutation = useMutation<void, Error, number>({
     mutationFn: (wishlistId) => removeFromWishlist(wishlistId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["wishlist", user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["productDetails", id] });
     },
   });
 
@@ -132,26 +129,25 @@ const ProductHeroButtons: React.FC<ProductHeroButtonsProps> = ({
       selectedColor,
     });
   };
-  const isInWishlist: boolean = wishlist.some(
-    (item) => item?.productId === product?.id
-  );
-  const handleWishlistToggle = (): void => {
-    if (isInWishlist) {
-      const wishlistItem = wishlist.find(
-        (item) => item.productId === product?.id
+
+  const handleWishlistToggle = async (): Promise<void> => {
+    if (!isAuthenticated || !user?.id) {
+      handleError("Please login to add item to wishlist");
+      return;
+    }
+    if (product.isInWishlist) {
+      const wishlistResponse = await getWishListItems(user.id);
+      const wishlistItem = wishlistResponse.find(
+        (item: Wishlist) => item.productId === product.id
       );
       if (wishlistItem?.id) {
         removeWishlistMutation.mutate(wishlistItem.id);
       }
     } else {
-      if (!user?.id) {
-        handleError("Please login to add item to wishlist");
-      } else {
-        addWishlistMutation.mutate({
-          userId: user?.id!,
-          productId: product?.id!,
-        });
-      }
+      addWishlistMutation.mutate({
+        userId: user.id,
+        productId: product.id,
+      });
     }
   };
   return (
@@ -221,7 +217,7 @@ const ProductHeroButtons: React.FC<ProductHeroButtonsProps> = ({
           disableElevation
         >
           <Avatar sx={{ border: "1px solid #e8e8e8", bgcolor: "white" }}>
-            {isInWishlist ? (
+            {product.isInWishlist ? (
               <FavoriteIcon sx={{ color: "#ff0000" }} />
             ) : (
               <FavoriteBorderIcon sx={{ color: "#252b42" }} />

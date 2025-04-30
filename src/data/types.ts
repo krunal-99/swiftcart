@@ -49,6 +49,7 @@ export interface Product {
   colors: string[];
   imageUrls: string[];
   reviews: Review[];
+  isInWishlist: boolean;
 }
 
 export interface FilterState {

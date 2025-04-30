@@ -19,6 +19,9 @@ const AdvertisementSection = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["adData"],
     queryFn: getAdProducts,
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
   if (isLoading) return <AdvertisementSkeleton />;
   if (isError) return <div>Error: {"Something went wrong"}</div>;

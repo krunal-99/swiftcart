@@ -105,6 +105,9 @@ const Navbar = () => {
   const { data: cart } = useQuery({
     queryKey: ["cart", user?.id],
     queryFn: getCartItems,
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
   const cartItems = cart && cart.data[0]?.items;
   const totalQuantity = cartItems?.reduce((sum: number, item: CartItems) => {

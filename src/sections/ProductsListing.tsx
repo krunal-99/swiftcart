@@ -67,6 +67,9 @@ const ProductsListing: React.FC = () => {
   } = useQuery({
     queryKey: ["categories"],
     queryFn: getCategories,
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
 
   const products = productsData?.products || [];

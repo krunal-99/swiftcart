@@ -19,6 +19,9 @@ const HeroSection = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["featured"],
     queryFn: getFeaturedProducts,
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 30 * 60 * 1000,
+    refetchOnWindowFocus: false,
   });
   if (isLoading) return <HeroSkeleton />;
   if (isError) return <div>Error: {"Something went wrong."}</div>;

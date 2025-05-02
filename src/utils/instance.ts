@@ -17,7 +17,6 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.error("Request error:", error);
     return Promise.reject(error);
   }
 );
@@ -45,13 +44,15 @@ axiosInstance.interceptors.response.use(
         handleError("Unauthorized access. Please login again.");
         window.location.href = LoginPath;
         break;
+      case 402:
+        handleError(response.data.data);
+        break;
       case 404:
         handleError("Requested resource not found.");
         break;
       default:
         Promise.reject(new Error(message));
     }
-    console.error(`Error ${response?.status}:`, error);
     return Promise.reject(error);
   }
 );

@@ -86,9 +86,8 @@ const ProductHeroButtons: React.FC<ProductHeroButtonsProps> = ({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cart", user?.id] });
     },
-    onError: (error) => {
+    onError: () => {
       handleError("Failed to add item to cart");
-      console.error(error);
     },
   });
 

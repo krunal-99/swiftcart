@@ -84,7 +84,6 @@ const RegisterForm: React.FC = () => {
         setSelectedFile(null);
       }
     } catch (error) {
-      handleError("An error occurred during registration");
       console.error("Registration error:", error);
     } finally {
       setIsLoading(false);

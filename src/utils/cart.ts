@@ -40,7 +40,6 @@ export const addToCart = async (
     handleSuccess("Item added to cart successfully");
     return response.data;
   } catch (error) {
-    console.error("Error adding to cart:", error);
     throw error;
   }
 };
